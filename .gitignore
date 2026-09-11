@@ -1,0 +1,16 @@
+node_modules/
+.next/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Everything the app stores: photos, accounts and the session secret.
+data/
+
+# Local settings and keys.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+AGENTS.md
