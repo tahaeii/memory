@@ -1,0 +1,151 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { SelectableGrid, useInfiniteMedia, type MediaDto, type MediaPageDto } from '@/entities/media';
+import type { UserDto } from '@/entities/user';
+import {
+  DeletedItemActions,
+  DeletedSelectionBar,
+  deleteWording,
+  useMediaMutations,
+} from '@/features/manage-media';
+import { MediaViewer } from '@/features/media-viewer';
+import { formatCount, formatShortDate } from '@/shared/lib/format';
+import { useSelection } from '@/shared/lib/use-selection';
+import { Button } from '@/shared/ui/Button';
+import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
+import { EmptyState } from '@/shared/ui/EmptyState';
+import { Select } from '@/shared/ui/Input';
+import { Spinner } from '@/shared/ui/Spinner';
+
+interface DeletedLibraryProps {
+  initial: MediaPageDto;
+  /** Every staff account, to filter by who deleted. */
+  users: UserDto[];
+  /** Increase to make the list reload. */
+  version: number;
+  onChanged: () => void;
+}
+
+const caption = (item: MediaDto) =>
+  item.deletion ? item.deletion.by + ', ' + formatShortDate(item.deletion.at) : null;
+
+/**
+ * Super admin only: what admins deleted, newest deletion first, with who deleted it and when.
+ * Nobody else sees these items. Restore puts them back; deleting here removes them for good.
+ */
+export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLibraryProps) {
+  const [deletedBy, setDeletedBy] = useState('');
+  const filters = useMemo(() => ({ deleted: true, deletedBy: deletedBy || undefined }), [deletedBy]);
+  const list = useInfiniteMedia(initial, filters, version);
+  const selection = useSelection(list.items.map((item) => item.id));
+  const [active, setActive] = useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const mutations = useMediaMutations(onChanged);
+  const ids = selection.ids;
+  const wording = deleteWording('superadmin', ids.length);
+  const admins = users.filter((user) => user.role === 'admin');
+
+  return (
+    <div className='pb-24'>
+      <p className='text-muted mb-5 max-w-2xl text-sm'>
+        Photos and videos admins deleted. They are hidden from everyone, including the admin who deleted them,
+        until you restore them. Deleting them here removes them from the server for good.
+      </p>
+      <div className='mb-5 flex flex-wrap items-center gap-3'>
+        <Select
+          aria-label='Filter by admin'
+          containerClassName='w-full sm:w-52'
+          className='h-10'
+          value={deletedBy}
+          onChange={(e) => setDeletedBy(e.target.value)}>
+          <option value=''>Deleted by anyone</option>
+          {admins.map((user) => (
+            <option key={user.id} value={user.id}>
+              Deleted by {user.username}
+            </option>
+          ))}
+        </Select>
+        <span className='text-muted text-sm'>{formatCount(list.total)} items</span>
+        <div className='ml-auto flex gap-2'>
+          <Button variant='secondary' size='sm' onClick={selection.selectAll}>
+            Select loaded
+          </Button>
+        </div>
+      </div>
+
+      {list.items.length === 0 && !list.loading ? (
+        <EmptyState title='Nothing deleted'>
+          When an admin deletes a photo or a video, it waits here for you.
+        </EmptyState>
+      ) : (
+        <SelectableGrid
+          items={list.items}
+          selected={selection.selected}
+          onToggle={selection.toggle}
+          onOpen={setActive}
+          caption={caption}
+        />
+      )}
+
+      {list.hasMore && <div ref={list.sentinelRef} className='h-px' />}
+      {list.loading && (
+        <div className='text-primary flex justify-center py-6'>
+          <Spinner className='size-6' />
+        </div>
+      )}
+      {(list.error || mutations.error) && (
+        <p role='alert' className='text-danger py-4 text-center text-sm'>
+          {list.error ?? mutations.error}
+        </p>
+      )}
+
+      {ids.length > 0 && (
+        <DeletedSelectionBar
+          count={ids.length}
+          busy={mutations.busy}
+          onRestore={async () => {
+            if (await mutations.restore(ids)) selection.clear();
+          }}
+          onDelete={() => setConfirmDelete(true)}
+          onClear={selection.clear}
+        />
+      )}
+
+      <ConfirmDialog
+        open={confirmDelete}
+        title={wording.title}
+        confirmLabel={wording.confirm}
+        loading={mutations.busy}
+        onCancel={() => setConfirmDelete(false)}
+        onConfirm={async () => {
+          if (await mutations.remove(ids)) {
+            setConfirmDelete(false);
+            selection.clear();
+          }
+        }}>
+        {wording.body}
+      </ConfirmDialog>
+
+      {active !== null && (
+        <MediaViewer
+          items={list.items}
+          index={active}
+          hasMore={list.hasMore}
+          onIndexChange={setActive}
+          onNeedMore={() => void list.loadMore()}
+          onClose={() => setActive(null)}
+          actions={(item) => (
+            <DeletedItemActions
+              item={item}
+              onDone={() => {
+                setActive(null);
+                onChanged();
+              }}
+            />
+          )}
+        />
+      )}
+    </div>
+  );
+}
