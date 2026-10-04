@@ -1,0 +1,11 @@
+# Never send these to the Docker build: data/ holds every photo, the accounts and the session secret.
+data/
+.git/
+node_modules/
+.next/
+.env*
+*.pem
+*.key
+npm-debug.log*
+tsconfig.tsbuildinfo
+AGENTS.md
