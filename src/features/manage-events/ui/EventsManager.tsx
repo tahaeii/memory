@@ -85,7 +85,7 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
             maxLength={500}
             value={draft.description}
             onChange={(e) => setDraft({ ...draft, description: e.target.value })}
-            className='focus:border-primary-soft0 focus:ring-primary/15 border-line mt-1.5 w-full rounded-xl border px-4 py-3 text-sm transition outline-none focus:ring-4'
+            className='focus:border-primary focus:ring-primary/15 border-line mt-1.5 w-full rounded-xl border px-4 py-3 text-sm transition outline-none focus:ring-4'
           />
         </label>
         {error && (

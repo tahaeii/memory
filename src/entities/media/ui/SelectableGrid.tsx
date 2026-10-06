@@ -50,7 +50,7 @@ export function SelectableGrid({ items, selected, onToggle, onOpen, caption }: S
               className={cn(
                 'absolute top-2 left-2 grid size-6 place-items-center rounded-full border-2 transition',
                 isSelected
-                  ? 'border-primary-soft0 bg-primary-soft0 text-white'
+                  ? 'border-primary bg-primary text-on-primary'
                   : 'border-white/90 bg-slate-950/20 text-transparent opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
               )}>
               <Check className='size-3.5' strokeWidth={3} />
