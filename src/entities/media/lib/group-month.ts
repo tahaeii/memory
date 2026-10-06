@@ -1,7 +1,6 @@
-import { formatDay } from '@/shared/lib/format';
 import type { MediaDto } from '../model/types';
 
-export interface MediaGroup {
+interface MediaGroup {
   key: string;
   label: string;
   items: MediaDto[];
@@ -21,15 +20,6 @@ function groupBy(items: MediaDto[], keyOf: (item: MediaDto) => string, labelOf: 
 }
 
 const monthFormat = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-
-/** Groups a newest-first list by calendar day. */
-export function groupMediaByDay(items: MediaDto[]): MediaGroup[] {
-  return groupBy(
-    items,
-    (item) => item.takenAt.slice(0, 10),
-    (item) => formatDay(item.takenAt),
-  );
-}
 
 /** Groups a newest-first list by month ("September 2026"). */
 export function groupMediaByMonth(items: MediaDto[]): MediaGroup[] {
