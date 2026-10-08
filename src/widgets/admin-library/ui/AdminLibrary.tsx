@@ -41,9 +41,12 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
     () => ({ event: eventSlug || undefined, visibility: visibility || undefined, kind: kind || undefined }),
     [eventSlug, visibility, kind],
   );
-  const library = useInfiniteMedia(initial, filters, version);
-  const { replace } = library;
-  const selection = useSelection(library.items.map((item) => item.id));
+  const { items, total, hasMore, loading, error, loadMore, sentinelRef, replace } = useInfiniteMedia(
+    initial,
+    filters,
+    version,
+  );
+  const selection = useSelection(items.map((item) => item.id));
   const [active, setActive] = useState<number | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const mutations = useMediaMutations(onChanged);
@@ -51,7 +54,7 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
   const wording = deleteWording(role, ids.length);
 
   // Follow videos while the server converts them.
-  const converting = library.items
+  const converting = items
     .filter((item) => item.video?.status === 'processing')
     .map((item) => item.id)
     .join(',');
@@ -111,7 +114,7 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
             <option value='private'>Private only</option>
           </Select>
         )}
-        <span className='text-muted text-sm'>{formatCount(library.total)} items</span>
+        <span className='text-muted text-sm'>{formatCount(total)} items</span>
         <div className='ml-auto flex gap-2'>
           <Button variant='secondary' size='sm' onClick={selection.selectAll}>
             Select loaded
@@ -119,26 +122,26 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
         </div>
       </div>
 
-      {library.items.length === 0 && !library.loading ? (
+      {items.length === 0 && !loading ? (
         <EmptyState title='Nothing here'>Upload photos or videos, or change the filters.</EmptyState>
       ) : (
         <SelectableGrid
-          items={library.items}
+          items={items}
           selected={selection.selected}
           onToggle={selection.toggle}
           onOpen={setActive}
         />
       )}
 
-      {library.hasMore && <div ref={library.sentinelRef} className='h-px' />}
-      {library.loading && (
+      {hasMore && <div ref={sentinelRef} className='h-px' />}
+      {loading && (
         <div className='text-primary flex justify-center py-6'>
           <Spinner className='size-6' />
         </div>
       )}
-      {(library.error || mutations.error) && (
+      {(error || mutations.error) && (
         <p role='alert' className='text-danger py-4 text-center text-sm'>
-          {library.error ?? mutations.error}
+          {error ?? mutations.error}
         </p>
       )}
 
@@ -172,11 +175,11 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
 
       {active !== null && (
         <MediaViewer
-          items={library.items}
+          items={items}
           index={active}
-          hasMore={library.hasMore}
+          hasMore={hasMore}
           onIndexChange={setActive}
-          onNeedMore={() => void library.loadMore()}
+          onNeedMore={() => void loadMore()}
           onClose={() => setActive(null)}
           actions={(item) => (
             <MediaAdminActions

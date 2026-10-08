@@ -21,7 +21,8 @@ export function useInfiniteMedia(
   const [total, setTotal] = useState(initial?.total ?? 0);
   const [loading, setLoading] = useState(initial === null);
   const [error, setError] = useState<string | null>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
+  // A callback ref, so the observer is attached whenever the sentinel element mounts.
+  const [sentinel, setSentinel] = useState<HTMLDivElement | null>(null);
   const busy = useRef(false);
   const generation = useRef(0);
   // The filters the current list was loaded for. The first page comes from the server, so nothing is
@@ -99,17 +100,26 @@ export function useInfiniteMedia(
   }, [reload, loadedKey]);
 
   useEffect(() => {
-    const element = sentinelRef.current;
-    if (!element || !cursor) return;
+    if (!sentinel || !cursor) return;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) void loadMore();
       },
       { rootMargin: '900px' },
     );
-    observer.observe(element);
+    observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [cursor, loadMore]);
+  }, [sentinel, cursor, loadMore]);
 
-  return { items, total, hasMore: cursor !== null, loading, error, loadMore, reload, replace, sentinelRef };
+  return {
+    items,
+    total,
+    hasMore: cursor !== null,
+    loading,
+    error,
+    loadMore,
+    reload,
+    replace,
+    sentinelRef: setSentinel,
+  };
 }

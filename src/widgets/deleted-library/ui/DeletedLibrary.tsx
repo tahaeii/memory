@@ -37,8 +37,12 @@ const caption = (item: MediaDto) =>
 export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLibraryProps) {
   const [deletedBy, setDeletedBy] = useState('');
   const filters = useMemo(() => ({ deleted: true, deletedBy: deletedBy || undefined }), [deletedBy]);
-  const list = useInfiniteMedia(initial, filters, version);
-  const selection = useSelection(list.items.map((item) => item.id));
+  const { items, total, hasMore, loading, error, loadMore, sentinelRef } = useInfiniteMedia(
+    initial,
+    filters,
+    version,
+  );
+  const selection = useSelection(items.map((item) => item.id));
   const [active, setActive] = useState<number | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const mutations = useMediaMutations(onChanged);
@@ -66,7 +70,7 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
             </option>
           ))}
         </Select>
-        <span className='text-muted text-sm'>{formatCount(list.total)} items</span>
+        <span className='text-muted text-sm'>{formatCount(total)} items</span>
         <div className='ml-auto flex gap-2'>
           <Button variant='secondary' size='sm' onClick={selection.selectAll}>
             Select loaded
@@ -74,13 +78,13 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
         </div>
       </div>
 
-      {list.items.length === 0 && !list.loading ? (
+      {items.length === 0 && !loading ? (
         <EmptyState title='Nothing deleted'>
           When an admin deletes a photo or a video, it waits here for you.
         </EmptyState>
       ) : (
         <SelectableGrid
-          items={list.items}
+          items={items}
           selected={selection.selected}
           onToggle={selection.toggle}
           onOpen={setActive}
@@ -88,15 +92,15 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
         />
       )}
 
-      {list.hasMore && <div ref={list.sentinelRef} className='h-px' />}
-      {list.loading && (
+      {hasMore && <div ref={sentinelRef} className='h-px' />}
+      {loading && (
         <div className='text-primary flex justify-center py-6'>
           <Spinner className='size-6' />
         </div>
       )}
-      {(list.error || mutations.error) && (
+      {(error || mutations.error) && (
         <p role='alert' className='text-danger py-4 text-center text-sm'>
-          {list.error ?? mutations.error}
+          {error ?? mutations.error}
         </p>
       )}
 
@@ -129,11 +133,11 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
 
       {active !== null && (
         <MediaViewer
-          items={list.items}
+          items={items}
           index={active}
-          hasMore={list.hasMore}
+          hasMore={hasMore}
           onIndexChange={setActive}
-          onNeedMore={() => void list.loadMore()}
+          onNeedMore={() => void loadMore()}
           onClose={() => setActive(null)}
           actions={(item) => (
             <DeletedItemActions
