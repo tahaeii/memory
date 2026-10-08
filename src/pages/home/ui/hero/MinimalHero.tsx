@@ -8,7 +8,6 @@ export function MinimalHero({ site, stats }: HeroProps) {
       <Glow centered />
       <div aria-hidden className='pattern-grid absolute inset-x-0 top-0 -z-10 h-[640px]' />
       <Container className='py-20 text-center sm:py-28'>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={site.logoUrl}
           alt=''

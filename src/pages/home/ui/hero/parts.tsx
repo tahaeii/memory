@@ -34,7 +34,6 @@ export function Eyebrow({ site, tone = 'default' }: { site: SiteConfig; tone?: T
         'animate-fade-up inline-flex max-w-full items-center gap-2.5 rounded-full border py-1 pr-3.5 pl-1 text-[13px] font-medium backdrop-blur-md',
         inverted ? 'border-white/20 bg-white/10 text-white/90' : 'border-line bg-surface/70 text-muted',
       )}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={site.logoUrl} alt='' width={24} height={24} className='size-6 shrink-0 rounded-full object-contain' />
       <span className={cn('truncate font-semibold', inverted ? 'text-white' : 'text-fg')}>{site.organization}</span>
       <span aria-hidden className={cn('h-3.5 w-px', inverted ? 'bg-white/30' : 'bg-line-strong')} />

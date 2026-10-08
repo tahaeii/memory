@@ -290,7 +290,6 @@ export function BrandingForm() {
         <div className='border-line-soft bg-canvas rounded-2xl border p-5'>
           <p className='text-sm font-semibold'>Logo</p>
           <div className='border-line bg-surface mt-3 grid place-items-center rounded-xl border p-6'>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logoUrl} alt='Current logo' className='size-20 rounded-2xl object-contain' />
           </div>
           <input
