@@ -1,22 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-/** A set of selected ids that forgets ids no longer in `available` (e.g. after a reload). */
+/** A set of selected ids. Ids that are no longer in `available` (e.g. after a reload) drop out. */
 export function useSelection(available: readonly string[]) {
-  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set());
+  const [picked, setPicked] = useState<ReadonlySet<string>>(new Set());
   const key = available.join(',');
 
-  useEffect(() => {
+  const selected = useMemo(() => {
     const ids = new Set(key ? key.split(',') : []);
-    setSelected((previous) => {
-      const kept = [...previous].filter((id) => ids.has(id));
-      return kept.length === previous.size ? previous : new Set(kept);
-    });
-  }, [key]);
+    const kept = [...picked].filter((id) => ids.has(id));
+    return kept.length === picked.size ? picked : new Set(kept);
+  }, [key, picked]);
 
   const toggle = useCallback((id: string) => {
-    setSelected((previous) => {
+    setPicked((previous) => {
       const next = new Set(previous);
       if (next.has(id)) next.delete(id);
       else next.add(id);
@@ -28,7 +26,7 @@ export function useSelection(available: readonly string[]) {
     selected,
     ids: [...selected],
     toggle,
-    selectAll: () => setSelected(new Set(available)),
-    clear: () => setSelected(new Set()),
+    selectAll: () => setPicked(new Set(available)),
+    clear: () => setPicked(new Set()),
   };
 }

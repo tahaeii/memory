@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, type PointerEvent, type WheelEvent } from 'react';
+import { useCallback, useRef, useState, type PointerEvent, type WheelEvent } from 'react';
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 4;
@@ -17,10 +17,13 @@ export function useZoomPan(resetKey: string, onSwipe: (direction: 1 | -1) => voi
     setOffset({ x: 0, y: 0 });
   }, []);
 
-  // Start every photo un-zoomed.
-  useEffect(() => {
-    reset();
-  }, [resetKey, reset]);
+  // Start every photo un-zoomed (state is adjusted while rendering, not in an effect).
+  const [shownKey, setShownKey] = useState(resetKey);
+  if (shownKey !== resetKey) {
+    setShownKey(resetKey);
+    setScale(1);
+    setOffset({ x: 0, y: 0 });
+  }
 
   const zoomTo = useCallback((next: number) => {
     const value = Math.min(MAX_SCALE, Math.max(MIN_SCALE, next));
