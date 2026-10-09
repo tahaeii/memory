@@ -4,15 +4,15 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    background: var(--fc-canvas);
-    color: var(--fc-fg);
+    background: var(--canvas);
+    color: var(--fg);
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.2s ease;
   }
   ::selection {
-    background: color-mix(in srgb, var(--fc-primary) 28%, transparent);
+    background: color-mix(in srgb, var(--primary) 28%, transparent);
   }
   :focus-visible {
-    outline-color: var(--fc-primary);
+    outline-color: var(--primary);
   }
 }
