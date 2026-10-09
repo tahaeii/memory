@@ -1,0 +1,78 @@
+/*
+ * Design tokens, exported from Figma (Light.tokens.json / Dark.tokens.json).
+ * To rebrand for another organisation, change the values here: every component uses these names.
+ * The few values marked "derived" are not in the Figma file; they keep small text readable (WCAG AA).
+ */
+:root {
+  color-scheme: light;
+  --fc-canvas: #f4f6fb; /* BackGround Color 1 g */
+  --fc-surface: #ffffff; /* BackGround Color 2 w */
+  --fc-primary-soft: #ebf4ff; /* Primary BackGround */
+  --fc-primary-hover: #61a4ff; /* Primary Hovered */
+  --fc-primary: #3a8dff; /* Primary Default */
+  --fc-primary-pressed: #2964b5; /* Primary Pressed */
+  --fc-primary-strong: #183b6b; /* Primary Dakest */
+  --fc-secondary-soft: #eafaf1; /* Secondary BackGround */
+  --fc-secondary-hover: #58d68d; /* Secondary Hovered */
+  --fc-secondary: #2ecc71; /* Secondary Default */
+  --fc-secondary-pressed: #219150; /* Secondary Pressed */
+  --fc-secondary-strong: #13562f; /* Secondary Darkest */
+  --fc-success-soft: #d4f6ee; /* Success BackGround */
+  --fc-success: #12b28c; /* Success Default */
+  --fc-warning-soft: #fff2c9; /* Warning BackGround */
+  --fc-warning: #ff6f00; /* Warning Default */
+  --fc-danger-soft: #ffe3e3; /* Danger BackGround */
+  --fc-danger: #d22b2b; /* Danger Default */
+  --fc-disabled: #e9e9eb; /* Primary Text DeActive */
+  --fc-faint: #babcc0; /* Primary Text 100 */
+  --fc-fg: #1f2633; /* Primary Text 500 */
+  --fc-muted-soft: #d1d6dd; /* Secondary Text 100 */
+  --fc-muted: #6c7a91; /* Secondary Text Default */
+  --fc-line-soft: #f3f5f8; /* Borders Color Defualt */
+  --fc-line: #e6e9ef; /* Borders Color Hovered */
+  --fc-line-strong: #d9dee7; /* Borders Color Active */
+  /* derived */
+  --fc-link: #2964b5;
+  --fc-on-primary: #ffffff;
+  --fc-warning-fg: #9a4300;
+  --fc-success-fg: #0b7a60;
+  --fc-glass: rgb(255 255 255 / 0.78);
+  --fc-shadow: 0 1px 2px rgb(31 38 51 / 0.04), 0 10px 30px rgb(31 38 51 / 0.07);
+}
+
+.dark {
+  color-scheme: dark;
+  --fc-canvas: #0f1520;
+  --fc-surface: #1a2233;
+  --fc-primary-soft: #0a1628;
+  --fc-primary-hover: #4d9fff;
+  --fc-primary: #5aabff;
+  --fc-primary-pressed: #3a8dff;
+  --fc-primary-strong: #a8ccff;
+  --fc-secondary-soft: #081a0f;
+  --fc-secondary-hover: #34d676;
+  --fc-secondary: #3de082;
+  --fc-secondary-pressed: #29a85c;
+  --fc-secondary-strong: #7eeaaa;
+  --fc-success-soft: #0a2018;
+  --fc-success: #14d4a8;
+  --fc-warning-soft: #1a1500;
+  --fc-warning: #ff8c2a;
+  --fc-danger-soft: #200a0a;
+  --fc-danger: #e84545;
+  --fc-disabled: #2e3545;
+  --fc-faint: #4a5568;
+  --fc-fg: #e8edf5;
+  --fc-muted-soft: #3a4560;
+  --fc-muted: #a4b5d2;
+  --fc-line-soft: #1e2738;
+  --fc-line: #2a3550;
+  --fc-line-strong: #354260;
+  /* derived */
+  --fc-link: #5aabff;
+  --fc-on-primary: #0f1520;
+  --fc-warning-fg: #ff8c2a;
+  --fc-success-fg: #14d4a8;
+  --fc-glass: rgb(15 21 32 / 0.72);
+  --fc-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px rgb(0 0 0 / 0.35);
+}

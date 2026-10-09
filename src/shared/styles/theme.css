@@ -1,0 +1,42 @@
+/* Dark mode follows the `dark` class on <html> (set from the theme cookie, see app/layout.tsx). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Maps the design tokens to Tailwind utilities (bg-canvas, text-muted, border-line…). */
+@theme inline {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Sora Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: var(--fc-canvas);
+  --color-surface: var(--fc-surface);
+  --color-subtle: var(--fc-line-soft);
+  --color-fg: var(--fc-fg);
+  --color-muted: var(--fc-muted);
+  --color-muted-soft: var(--fc-muted-soft);
+  --color-faint: var(--fc-faint);
+  --color-disabled: var(--fc-disabled);
+  --color-line-soft: var(--fc-line-soft);
+  --color-line: var(--fc-line);
+  --color-line-strong: var(--fc-line-strong);
+  --color-link: var(--fc-link);
+  --color-on-primary: var(--fc-on-primary);
+  --color-primary: var(--fc-primary);
+  --color-primary-hover: var(--fc-primary-hover);
+  --color-primary-pressed: var(--fc-primary-pressed);
+  --color-primary-strong: var(--fc-primary-strong);
+  --color-primary-soft: var(--fc-primary-soft);
+  --color-secondary: var(--fc-secondary);
+  --color-secondary-hover: var(--fc-secondary-hover);
+  --color-secondary-pressed: var(--fc-secondary-pressed);
+  --color-secondary-strong: var(--fc-secondary-strong);
+  --color-secondary-soft: var(--fc-secondary-soft);
+  --color-success: var(--fc-success);
+  --color-success-soft: var(--fc-success-soft);
+  --color-success-fg: var(--fc-success-fg);
+  --color-warning: var(--fc-warning);
+  --color-warning-soft: var(--fc-warning-soft);
+  --color-warning-fg: var(--fc-warning-fg);
+  --color-danger: var(--fc-danger);
+  --color-danger-soft: var(--fc-danger-soft);
+  --color-glass: var(--fc-glass);
+  --shadow-card: var(--fc-shadow);
+}
