@@ -1,0 +1,48 @@
+/*
+ * Type tokens. Source Serif 4 sets titles the way a printed photo book would; Instrument Sans does
+ * the interface. Vazirmatn sits behind both, so names written in Persian or Arabic script are set in
+ * a matching face instead of a system fallback (its files load only when such text is on the page).
+ */
+@theme {
+  --font-sans:
+    'Instrument Sans Variable', 'Vazirmatn Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-display: 'Source Serif 4 Variable', 'Vazirmatn Variable', ui-serif, Georgia, serif;
+}
+
+/* The home page title: fills the measure on a phone and stops growing on wide screens. */
+@utility type-hero {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 1.6rem + 4.4vw, 4.75rem);
+  font-weight: 480;
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+
+/* Page titles: Gallery, Events, an event's name. */
+@utility type-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.55rem + 2vw, 3rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+/* Section titles inside a page. */
+@utility type-section {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.016em;
+}
+
+/* Card, panel and dialog headings: the interface face, a little tighter. */
+@utility type-heading {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}

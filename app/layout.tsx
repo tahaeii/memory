@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { cookies } from 'next/headers';
-import '@fontsource-variable/inter';
-import '@fontsource-variable/sora';
+import '@fontsource-variable/instrument-sans';
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/vazirmatn';
 import { AppProviders } from '@/app/providers';
 import { getServerSession } from '@/shared/api/server-session';
 import { getSiteConfig } from '@/shared/config/site.server';
