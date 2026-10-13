@@ -10,5 +10,5 @@ export function parseTheme(value: string | undefined): Theme {
   return value === 'light' || value === 'dark' ? value : DEFAULT_THEME;
 }
 
-/** Browser bar colour per theme (BackGround Color 1 g). */
-export const THEME_COLOR: Record<Theme, string> = { light: '#f4f6fb', dark: '#0f1520' };
+/** Browser bar colour per theme: the canvas token of each. */
+export const THEME_COLOR: Record<Theme, string> = { light: '#f5f6f8', dark: '#0d0f12' };

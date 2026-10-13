@@ -1,76 +1,118 @@
 /*
- * Design tokens, exported from Figma (Light.tokens.json / Dark.tokens.json).
- * To rebrand for another organisation, change the values here: every component uses these names.
- * The few values marked "derived" are not in the Figma file; they keep small text readable (WCAG AA).
+ * Colour tokens. Components never use raw colours: they use the Tailwind names mapped at the
+ * bottom of this file (bg-surface, text-muted, border-line…), so both themes and every
+ * organisation's brand colours reach the whole interface from here.
+ *
+ * The primary and secondary scales below are what src/shared/lib/brand-theme generates for the
+ * built-in colours (#2f5bd0 and #0e8a83). An organisation's own colours, set in
+ * Dashboard › Branding, override them at runtime.
  */
 :root {
   color-scheme: light;
-  --canvas: #f4f6fb; /* BackGround Color 1 g */
-  --surface: #ffffff; /* BackGround Color 2 w */
-  --primary-soft: #ebf4ff; /* Primary BackGround */
-  --primary-hover: #61a4ff; /* Primary Hovered */
-  --primary: #3a8dff; /* Primary Default */
-  --primary-pressed: #2964b5; /* Primary Pressed */
-  --primary-strong: #183b6b; /* Primary Dakest */
-  --secondary-soft: #eafaf1; /* Secondary BackGround */
-  --secondary-hover: #58d68d; /* Secondary Hovered */
-  --secondary: #2ecc71; /* Secondary Default */
-  --secondary-pressed: #219150; /* Secondary Pressed */
-  --secondary-strong: #13562f; /* Secondary Darkest */
-  --success-soft: #d4f6ee; /* Success BackGround */
-  --success: #12b28c; /* Success Default */
-  --warning-soft: #fff2c9; /* Warning BackGround */
-  --warning: #ff6f00; /* Warning Default */
-  --danger-soft: #ffe3e3; /* Danger BackGround */
-  --danger: #d22b2b; /* Danger Default */
-  --disabled: #e9e9eb; /* Primary Text DeActive */
-  --faint: #babcc0; /* Primary Text 100 */
-  --fg: #1f2633; /* Primary Text 500 */
-  --muted-soft: #d1d6dd; /* Secondary Text 100 */
-  --muted: #6c7a91; /* Secondary Text Default */
-  --line-soft: #f3f5f8; /* Borders Color Defualt */
-  --line: #e6e9ef; /* Borders Color Hovered */
-  --line-strong: #d9dee7; /* Borders Color Active */
-  /* derived */
-  --link: #2964b5;
+
+  /* Surfaces, from the page background up */
+  --canvas: #f5f6f8;
+  --surface: #ffffff;
+  --subtle: #eef0f3;
+  --glass: rgb(255 255 255 / 0.82);
+  --scrim: rgb(13 15 18 / 0.5);
+
+  /* Text */
+  --fg: #15181d;
+  --muted: #5a6370;
+  --faint: #9aa2ae;
+
+  /* Hairlines */
+  --line-soft: #eceef2;
+  --line: #e0e4ea;
+  --line-strong: #cdd2da;
+
+  /* Brand: primary */
+  --primary: #2f5bd0;
+  --primary-hover: #3b69df;
+  --primary-pressed: #1d45b8;
+  --primary-soft: #edf3ff;
   --on-primary: #ffffff;
-  --warning-fg: #9a4300;
-  --success-fg: #0b7a60;
-  --glass: rgb(255 255 255 / 0.78);
+  --link: #2f5bd0;
+
+  /* Brand: secondary */
+  --secondary: #0e8a83;
+  --secondary-soft: #d8f8f4;
+  --secondary-strong: #00635e;
+
+  /* Status */
+  --success: #1a8a5f;
+  --success-soft: #dcf3e8;
+  --success-fg: #126c49;
+  --warning-soft: #fdf0d5;
+  --warning-fg: #8a4b06;
+  --danger: #c93030;
+  --danger-soft: #fde8e6;
 }
 
 .dark {
   color-scheme: dark;
-  --canvas: #0f1520;
-  --surface: #1a2233;
-  --primary-soft: #0a1628;
-  --primary-hover: #4d9fff;
-  --primary: #5aabff;
-  --primary-pressed: #3a8dff;
-  --primary-strong: #a8ccff;
-  --secondary-soft: #081a0f;
-  --secondary-hover: #34d676;
-  --secondary: #3de082;
-  --secondary-pressed: #29a85c;
-  --secondary-strong: #7eeaaa;
-  --success-soft: #0a2018;
-  --success: #14d4a8;
-  --warning-soft: #1a1500;
-  --warning: #ff8c2a;
-  --danger-soft: #200a0a;
-  --danger: #e84545;
-  --disabled: #2e3545;
-  --faint: #4a5568;
-  --fg: #e8edf5;
-  --muted-soft: #3a4560;
-  --muted: #a4b5d2;
-  --line-soft: #1e2738;
-  --line: #2a3550;
-  --line-strong: #354260;
-  /* derived */
-  --link: #5aabff;
-  --on-primary: #0f1520;
-  --warning-fg: #ff8c2a;
-  --success-fg: #14d4a8;
-  --glass: rgb(15 21 32 / 0.72);
+
+  --canvas: #0d0f12;
+  --surface: #15181c;
+  --subtle: #1d2126;
+  --glass: rgb(13 15 18 / 0.78);
+  --scrim: rgb(0 0 0 / 0.62);
+
+  --fg: #eceef1;
+  --muted: #9aa3b0;
+  --faint: #5d6570;
+
+  --line-soft: #1f2328;
+  --line: #292e35;
+  --line-strong: #383e47;
+
+  --primary: #81a8ff;
+  --primary-hover: #6b98ff;
+  --primary-pressed: #6490f7;
+  --primary-soft: #141f38;
+  --on-primary: #14171c;
+  --link: #8bafff;
+
+  --secondary: #57bfb7;
+  --secondary-soft: #052825;
+  --secondary-strong: #6bd2ca;
+
+  --success: #3ecf8e;
+  --success-soft: #10271d;
+  --success-fg: #5fd9a4;
+  --warning-soft: #2a1f0c;
+  --warning-fg: #f0a94b;
+  --danger: #f26b63;
+  --danger-soft: #2c1513;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-glass: var(--glass);
+  --color-scrim: var(--scrim);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line-soft: var(--line-soft);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-pressed: var(--primary-pressed);
+  --color-primary-soft: var(--primary-soft);
+  --color-on-primary: var(--on-primary);
+  --color-link: var(--link);
+  --color-secondary: var(--secondary);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-secondary-strong: var(--secondary-strong);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-success-fg: var(--success-fg);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-fg: var(--warning-fg);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
 }

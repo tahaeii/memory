@@ -2,7 +2,6 @@
 @import './tokens/typography.css';
 @import './tokens/shape.css';
 @import './tokens/motion.css';
-@import './theme.css';
 @import './animations.css';
 @import './base.css';
 @import './utilities.css';

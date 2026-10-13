@@ -30,7 +30,7 @@ function StylePreview({ style }: { style: HeroStyle }) {
     <>
       <span className={cn(bar, 'bg-fg h-1.5 w-4/5')} />
       <span className={cn(bar, 'bg-primary h-1.5 w-3/5')} />
-      <span className={cn(bar, 'bg-muted-soft h-1 w-full')} />
+      <span className={cn(bar, 'bg-line-strong h-1 w-full')} />
     </>
   );
   const frame = 'relative block h-20 overflow-hidden rounded-lg';
@@ -95,7 +95,7 @@ function StylePreview({ style }: { style: HeroStyle }) {
             <span className={cn(bar, 'bg-primary/60 h-2.5 w-6')} />
             <span className={cn(bar, 'bg-primary h-2 w-16')} />
           </span>
-          <span className={cn(bar, 'bg-muted-soft h-1 w-1/2')} />
+          <span className={cn(bar, 'bg-line-strong h-1 w-1/2')} />
         </span>
       );
     case 'minimal':
@@ -328,7 +328,7 @@ export function BrandingForm() {
 
         <div className='border-line-soft bg-canvas flex gap-3 rounded-2xl border p-5 text-sm'>
           {site.friendsEnabled ? (
-            <LockOpen className='text-secondary-pressed mt-0.5 size-4 shrink-0' />
+            <LockOpen className='text-secondary-strong mt-0.5 size-4 shrink-0' />
           ) : (
             <Lock className='text-muted mt-0.5 size-4 shrink-0' />
           )}
