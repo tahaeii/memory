@@ -7,7 +7,6 @@
     background: var(--canvas);
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.2s ease;
   }
   ::selection {
     background: color-mix(in srgb, var(--primary) 28%, transparent);

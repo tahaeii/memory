@@ -47,7 +47,7 @@ export function FilmstripHero({ site, stats, photos }: HeroProps) {
       </Container>
       <div
         aria-hidden
-        className='animate-fade-up space-y-4 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]'
+        className='animate-enter space-y-4 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]'
         style={{ animationDelay: '300ms' }}>
         <Strip photos={photos.slice(0, half)} direction='left' />
         <Strip photos={photos.slice(half)} direction='right' />

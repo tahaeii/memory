@@ -54,7 +54,7 @@ export function FilterMenu({ label, options }: { label: string; options: FilterO
       {open && (
         <ul
           id={listId}
-          className='animate-pop border-line bg-surface shadow-card absolute top-full left-0 z-30 mt-2 max-h-80 w-64 overflow-y-auto rounded-2xl border p-1.5 shadow-2xl'>
+          className='animate-pop-in border-line bg-surface shadow-card absolute top-full left-0 z-30 mt-2 max-h-80 w-64 overflow-y-auto rounded-2xl border p-1.5 shadow-2xl'>
           {options.map((option) => (
             <li key={option.key}>
               <Link

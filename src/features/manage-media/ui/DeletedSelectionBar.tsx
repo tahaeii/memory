@@ -14,7 +14,7 @@ interface DeletedSelectionBarProps {
 /** Floating toolbar for items selected in the super admin's "Deleted" list. */
 export function DeletedSelectionBar({ count, busy, onRestore, onDelete, onClear }: DeletedSelectionBarProps) {
   return (
-    <div className='animate-pop border-line bg-glass fixed inset-x-3 bottom-4 z-30 mx-auto flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-2xl border p-2 pl-4 shadow-2xl shadow-black/20 backdrop-blur-xl'>
+    <div className='animate-rise-in border-line bg-glass fixed inset-x-3 bottom-4 z-30 mx-auto flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-2xl border p-2 pl-4 shadow-2xl shadow-black/20 backdrop-blur-xl'>
       <span className='text-fg text-sm font-medium'>{count} selected</span>
       <Button size='sm' variant='secondary' disabled={busy} onClick={onRestore}>
         <RotateCcw className='size-4' /> Restore

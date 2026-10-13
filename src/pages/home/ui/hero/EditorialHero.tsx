@@ -8,7 +8,7 @@ function Inline({ photo, delay }: { photo: MediaDto; delay: number }) {
   return (
     <span
       aria-hidden
-      className='animate-pop bg-subtle ring-line relative mx-[0.12em] hidden h-[0.82em] w-[1.7em] -translate-y-[0.06em] overflow-hidden rounded-full bg-cover align-middle ring-1 sm:inline-block'
+      className='animate-pop-in bg-subtle ring-line relative mx-[0.12em] hidden h-[0.82em] w-[1.7em] -translate-y-[0.06em] overflow-hidden rounded-full bg-cover align-middle ring-1 sm:inline-block'
       style={{ backgroundImage: 'url(' + photo.placeholder + ')', animationDelay: delay + 'ms' }}>
       <MediaImage item={photo} sizes='160px' priority />
     </span>

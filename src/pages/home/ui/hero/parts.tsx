@@ -31,7 +31,7 @@ export function Eyebrow({ site, tone = 'default' }: { site: SiteConfig; tone?: T
   return (
     <p
       className={cn(
-        'animate-fade-up inline-flex max-w-full items-center gap-2.5 rounded-full border py-1 pr-3.5 pl-1 text-[13px] font-medium backdrop-blur-md',
+        'animate-enter inline-flex max-w-full items-center gap-2.5 rounded-full border py-1 pr-3.5 pl-1 text-[13px] font-medium backdrop-blur-md',
         inverted ? 'border-white/20 bg-white/10 text-white/90' : 'border-line bg-surface/70 text-muted',
       )}>
       <img src={site.logoUrl} alt='' width={24} height={24} className='size-6 shrink-0 rounded-full object-contain' />
@@ -43,7 +43,7 @@ export function Eyebrow({ site, tone = 'default' }: { site: SiteConfig; tone?: T
 }
 
 export const headlineStyles =
-  'animate-fade-up font-display mt-7 text-[2.6rem] leading-[1.04] font-semibold tracking-[-0.035em] text-balance sm:text-[3.4rem] xl:text-[4rem]';
+  'animate-enter font-display mt-7 text-[2.6rem] leading-[1.04] font-semibold tracking-[-0.035em] text-balance sm:text-[3.4rem] xl:text-[4rem]';
 
 /** "Every moment, in {name}." */
 export function Headline({ site, tone = 'default', className }: { site: SiteConfig; tone?: Tone; className?: string }) {
@@ -60,7 +60,7 @@ export function Lede({ children, tone = 'default', align = 'start' }: { children
   return (
     <p
       className={cn(
-        'animate-fade-up mt-6 max-w-xl text-lg leading-relaxed text-pretty',
+        'animate-enter mt-6 max-w-xl text-lg leading-relaxed text-pretty',
         tone === 'inverted' ? 'text-white/80' : 'text-muted',
         align === 'center' && 'mx-auto',
       )}
@@ -75,7 +75,7 @@ export function Actions({ tone = 'default', align = 'start' }: { tone?: Tone; al
   const inverted = tone === 'inverted';
   return (
     <div
-      className={cn('animate-fade-up mt-9 flex flex-wrap gap-3', align === 'center' && 'justify-center')}
+      className={cn('animate-enter mt-9 flex flex-wrap gap-3', align === 'center' && 'justify-center')}
       style={{ animationDelay: '240ms' }}>
       <Link
         href='/gallery'
@@ -104,7 +104,7 @@ export function Stats({ stats, tone = 'default', align = 'start' }: { stats: Her
   const inverted = tone === 'inverted';
   return (
     <dl
-      className={cn('animate-fade-up mt-12 flex flex-wrap gap-y-6', align === 'center' && 'justify-center')}
+      className={cn('animate-enter mt-12 flex flex-wrap gap-y-6', align === 'center' && 'justify-center')}
       style={{ animationDelay: '320ms' }}>
       {stats.map((stat, index) => (
         <div

@@ -17,7 +17,7 @@ export function AuthShell({ icon, title, subtitle, children }: AuthShellProps) {
         className='bg-primary/20 absolute top-10 left-1/2 -z-10 size-105 -translate-x-1/2 rounded-full blur-[120px]'
       />
       <div className='mx-auto max-w-md px-4 py-16 sm:py-24'>
-        <div className='animate-fade-up border-line bg-surface shadow-card rounded-3xl border p-8'>
+        <div className='animate-enter border-line bg-surface shadow-card rounded-3xl border p-8'>
           <span className='bg-primary-soft text-link grid size-12 place-items-center rounded-2xl'>
             {icon}
           </span>

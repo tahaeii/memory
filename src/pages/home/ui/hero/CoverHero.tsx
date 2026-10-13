@@ -32,7 +32,7 @@ export function CoverHero({ site, stats, photos, featured }: HeroProps) {
           {featured && (
             <Link
               href={'/events/' + featured.slug}
-              className='animate-fade-up group inline-flex max-w-sm items-center gap-4 rounded-2xl border border-white/15 bg-white/10 p-3 pr-4 backdrop-blur-xl transition hover:bg-white/15'
+              className='animate-enter group inline-flex max-w-sm items-center gap-4 rounded-2xl border border-white/15 bg-white/10 p-3 pr-4 backdrop-blur-xl transition hover:bg-white/15'
               style={{ animationDelay: '400ms' }}>
               <span className='min-w-0'>
                 <span className='block text-xs font-medium tracking-[0.08em] text-white/65 uppercase'>

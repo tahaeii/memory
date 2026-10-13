@@ -19,7 +19,7 @@ function Tile({ photo, index }: { photo: MediaDto; index: number }) {
     <Link
       href={photo.event ? '/events/' + photo.event.slug : '/gallery'}
       className={cn(
-        'group animate-fade-up bg-subtle ring-line-soft relative block overflow-hidden rounded-3xl bg-cover ring-1',
+        'group animate-enter bg-subtle ring-line-soft relative block overflow-hidden rounded-3xl bg-cover ring-1',
         CELLS[index],
       )}
       style={{ backgroundImage: 'url(' + photo.placeholder + ')', animationDelay: 150 + index * 90 + 'ms' }}>

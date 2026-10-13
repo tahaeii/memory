@@ -1,30 +1,80 @@
+/*
+ * Keyframes and the `animate-*` utilities built on them. Durations and curves come from
+ * tokens/motion.css. Things that open and close pair an "in" with an "out" animation, chosen by
+ * `data-state` (see shared/lib/use-presence).
+ */
 @theme {
-  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-fade-in: fade-in 0.3s ease-out both;
-  --animate-pop: pop 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in var(--duration-slow) var(--ease-out) both;
+  --animate-fade-out: fade-out var(--duration-base) var(--ease-in) both;
+  --animate-pop-in: pop-in var(--duration-base) var(--ease-out) both;
+  --animate-pop-out: pop-out var(--duration-fast) var(--ease-in) both;
+  --animate-rise-in: rise-in var(--duration-slow) var(--ease-out) both;
+  --animate-rise-out: rise-out var(--duration-base) var(--ease-in) both;
+  --animate-zoom-in: zoom-in var(--duration-slow) var(--ease-out) both;
+  --animate-enter: enter 0.7s var(--ease-out) both;
+  --animate-check: check var(--duration-base) var(--ease-spring) both;
+
+  /* Home page styles */
   --animate-wall-up: wall-up 90s linear infinite;
   --animate-wall-down: wall-down 90s linear infinite;
-  --animate-ken-burns: ken-burns 24s ease-out both;
   --animate-marquee-left: marquee-left 80s linear infinite;
-  --animate-grow: grow 7s linear both;
   --animate-marquee-right: marquee-right 80s linear infinite;
+  --animate-ken-burns: ken-burns 24s ease-out both;
+  --animate-grow: grow 7s linear both;
 
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
   @keyframes fade-in {
     from {
       opacity: 0;
     }
+  }
+  @keyframes fade-out {
     to {
-      opacity: 1;
+      opacity: 0;
+    }
+  }
+  /* Menus, popovers and dialogs: grow a little from where they are anchored. */
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.97);
+    }
+  }
+  @keyframes pop-out {
+    to {
+      opacity: 0;
+      transform: translateY(-2px) scale(0.985);
+    }
+  }
+  /* Bars and sheets that come up from the bottom edge. */
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+  @keyframes rise-out {
+    to {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  /* A photo opening in the viewer. */
+  @keyframes zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.975);
+    }
+  }
+  /* The one staged entrance: the opening of the home page. */
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  @keyframes check {
+    from {
+      transform: scale(0.4);
     }
   }
   /* The photo wall: each column holds its photos twice and moves by exactly one copy. */
@@ -61,14 +111,6 @@
       transform: translate3d(0, 0, 0);
     }
   }
-  @keyframes grow {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
-  }
   @keyframes ken-burns {
     from {
       transform: scale(1.08);
@@ -77,14 +119,12 @@
       transform: scale(1);
     }
   }
-  @keyframes pop {
+  @keyframes grow {
     from {
-      opacity: 0;
-      transform: translateY(8px) scale(0.97);
+      transform: scaleX(0);
     }
     to {
-      opacity: 1;
-      transform: none;
+      transform: scaleX(1);
     }
   }
 }

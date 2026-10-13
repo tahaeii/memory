@@ -35,7 +35,7 @@ export function Modal({ open, title, onClose, children, size = 'sm' }: ModalProp
         if (event.target === ref.current) onClose();
       }}
       className={cn(
-        'border-line bg-surface text-fg open:animate-pop m-auto rounded-2xl border p-6 shadow-2xl backdrop:bg-slate-950/60 backdrop:backdrop-blur-sm',
+        'border-line bg-surface text-fg open:animate-pop-in m-auto rounded-2xl border p-6 shadow-2xl backdrop:bg-slate-950/60 backdrop:backdrop-blur-sm',
         size === 'md' ? 'w-[min(94vw,32rem)]' : 'w-[min(92vw,26rem)]',
       )}>
       <h2 className='font-display text-lg font-semibold'>{title}</h2>

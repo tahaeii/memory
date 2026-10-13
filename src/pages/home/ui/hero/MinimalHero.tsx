@@ -13,9 +13,9 @@ export function MinimalHero({ site, stats }: HeroProps) {
           alt=''
           width={72}
           height={72}
-          className='animate-fade-up border-line bg-surface shadow-card mx-auto size-[72px] rounded-[22px] border object-contain p-2'
+          className='animate-enter border-line bg-surface shadow-card mx-auto size-[72px] rounded-[22px] border object-contain p-2'
         />
-        <p className='animate-fade-up text-muted mt-6 text-sm font-medium tracking-[0.14em] uppercase'>
+        <p className='animate-enter text-muted mt-6 text-sm font-medium tracking-[0.14em] uppercase'>
           {site.organization} · {site.tagline}
         </p>
         <Headline site={site} className='mx-auto mt-5 max-w-4xl' />
