@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import { ShieldCheck } from 'lucide-react';
 import { AdminLoginForm } from '@/features/admin-login';
 import { isStaffRole } from '@/entities/session';
 import { loadSetupState } from '@/entities/user/server';
@@ -10,10 +9,7 @@ export async function AdminLoginPage() {
   if ((await loadSetupState()) === 'pending') redirect('/setup');
   if (isStaffRole((await getServerSession()).role)) redirect('/admin');
   return (
-    <AuthShell
-      icon={<ShieldCheck className='size-6' />}
-      title='Admin sign-in'
-      subtitle='For admins who upload and organise the photos and videos.'>
+    <AuthShell title='Admin sign-in' subtitle='For admins who upload and organise the photos and videos.'>
       <AdminLoginForm />
     </AuthShell>
   );

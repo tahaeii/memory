@@ -20,7 +20,7 @@ export function EventCard({ event }: { event: EventDto }) {
             className='transition-[transform,opacity] duration-700 group-hover:scale-105'
           />
         ) : (
-          <div className='pattern-grid text-primary absolute inset-0 grid place-items-center'>
+          <div className='text-faint absolute inset-0 grid place-items-center'>
             <Images className='size-8' />
           </div>
         )}
@@ -53,7 +53,7 @@ export function EventPoster({ event }: { event: EventDto }) {
           className='transition-[transform,opacity] duration-700 group-hover:scale-105'
         />
       ) : (
-        <div className='pattern-grid text-primary absolute inset-0 grid place-items-center'>
+        <div className='text-faint absolute inset-0 grid place-items-center'>
           <Images className='size-8' />
         </div>
       )}

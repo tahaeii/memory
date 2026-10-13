@@ -1,0 +1,45 @@
+/*
+ * Quiet backdrops for areas that hold no photos yet. All of them come from photography rather
+ * than from decoration: halftone dots, the contour lines of a landscape, a viewfinder's corner
+ * marks. Each draws in `currentColor`, so its tone is set with a text colour utility.
+ */
+@layer components {
+  /* Print dots that thin out towards the bottom right. */
+  .pattern-halftone {
+    background-image: radial-gradient(circle, currentColor 1px, transparent 1.25px);
+    background-size: 14px 14px;
+    mask-image: linear-gradient(135deg, #000 0%, rgb(0 0 0 / 0.35) 38%, transparent 72%);
+  }
+
+  /* The same dots, densest in the middle of the top edge. */
+  .pattern-halftone-top {
+    background-image: radial-gradient(circle, currentColor 1px, transparent 1.25px);
+    background-size: 14px 14px;
+    mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, #000 0%, rgb(0 0 0 / 0.3) 45%, transparent 75%);
+  }
+
+  /* Contour lines of a hillside, drawn once and tinted here. */
+  .pattern-contour {
+    background-color: currentColor;
+    mask-image: url('/patterns/contour.svg');
+    mask-size: cover;
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
+
+  /* Four corner marks, like the frame lines in a viewfinder. */
+  .frame-marks {
+    --mark: 18px;
+    --stroke: 1.5px;
+    background:
+      linear-gradient(currentColor 0 0) top left / var(--mark) var(--stroke),
+      linear-gradient(currentColor 0 0) top left / var(--stroke) var(--mark),
+      linear-gradient(currentColor 0 0) top right / var(--mark) var(--stroke),
+      linear-gradient(currentColor 0 0) top right / var(--stroke) var(--mark),
+      linear-gradient(currentColor 0 0) bottom left / var(--mark) var(--stroke),
+      linear-gradient(currentColor 0 0) bottom left / var(--stroke) var(--mark),
+      linear-gradient(currentColor 0 0) bottom right / var(--mark) var(--stroke),
+      linear-gradient(currentColor 0 0) bottom right / var(--stroke) var(--mark);
+    background-repeat: no-repeat;
+  }
+}

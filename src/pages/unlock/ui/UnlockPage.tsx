@@ -1,5 +1,4 @@
 import { notFound, redirect } from 'next/navigation';
-import { Lock } from 'lucide-react';
 import { UnlockForm } from '@/features/unlock-private';
 import { getServerSession } from '@/shared/api/server-session';
 import { getSiteConfig } from '@/shared/config/site.server';
@@ -14,7 +13,6 @@ export async function UnlockPage({ searchParams }: { searchParams: SearchParams 
 
   return (
     <AuthShell
-      icon={<Lock className='size-6' />}
       title='Private photos'
       subtitle='Enter the passcode you received to see the behind-the-scenes photos and videos.'>
       <UnlockForm next={next} />

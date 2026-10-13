@@ -1,7 +1,9 @@
+/* Tokens first, then everything that is built from them. */
 @import './tokens/colors.css';
 @import './tokens/typography.css';
 @import './tokens/shape.css';
 @import './tokens/motion.css';
-@import './animations.css';
 @import './base.css';
+@import './animations.css';
+@import './patterns.css';
 @import './utilities.css';

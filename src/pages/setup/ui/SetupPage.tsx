@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import { KeyRound } from 'lucide-react';
 import { loadSetupState } from '@/entities/user/server';
 import { SetupForm } from '@/features/initial-setup';
 import { getSiteConfig } from '@/shared/config/site.server';
@@ -11,7 +10,6 @@ export async function SetupPage() {
   const site = await getSiteConfig();
   return (
     <AuthShell
-      icon={<KeyRound className='size-6' />}
       title='Set up your archive'
       subtitle='Name it and create the super admin account, which manages the other admins and everything else.'>
       <SetupForm
