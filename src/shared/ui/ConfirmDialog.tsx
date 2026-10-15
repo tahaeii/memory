@@ -28,7 +28,7 @@ export function ConfirmDialog({
     <Modal open={open} title={title} onClose={onCancel}>
       {children && <div className='text-muted mt-2 text-sm leading-relaxed'>{children}</div>}
       <div className='mt-6 flex justify-end gap-2'>
-        <Button variant='ghost' onClick={onCancel}>
+        <Button variant='ghost' onClick={onCancel} disabled={loading}>
           Cancel
         </Button>
         <Button variant='danger' loading={loading} onClick={onConfirm}>
