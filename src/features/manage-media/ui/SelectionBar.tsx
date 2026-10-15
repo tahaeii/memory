@@ -4,7 +4,7 @@ import { Trash2 } from 'lucide-react';
 import type { EventDto } from '@/entities/event';
 import type { Visibility } from '@/entities/media';
 import { Button } from '@/shared/ui/Button';
-import { Select } from '@/shared/ui/Input';
+import { Select } from '@/shared/ui/select';
 
 interface SelectionBarProps {
   count: number;
@@ -17,6 +17,9 @@ interface SelectionBarProps {
   onDelete: () => void;
   onClear: () => void;
 }
+
+/** Option value that takes the selected items out of their event. */
+const NO_EVENT = 'none';
 
 /** Floating toolbar shown while items are selected in the admin library. */
 export function SelectionBar({
@@ -43,22 +46,18 @@ export function SelectionBar({
         </>
       )}
       <Select
-        aria-label='Move to event'
-        containerClassName='w-44'
-        className='h-9 text-sm'
+        label='Move to event'
+        size='sm'
+        className='w-44'
         disabled={busy}
         value=''
-        onChange={(event) => {
-          if (event.target.value) onMove(event.target.value === 'none' ? null : event.target.value);
-        }}>
-        <option value=''>Move to event…</option>
-        <option value='none'>No event</option>
-        {events.map((event) => (
-          <option key={event.id} value={event.id}>
-            {event.title}
-          </option>
-        ))}
-      </Select>
+        placeholder='Move to event…'
+        options={[
+          { value: NO_EVENT, label: 'No event' },
+          ...events.map((event) => ({ value: event.id, label: event.title })),
+        ]}
+        onChange={(eventId) => onMove(eventId === NO_EVENT ? null : eventId)}
+      />
       <Button size='sm' variant='danger' disabled={busy} onClick={onDelete}>
         <Trash2 className='size-4' /> Delete
       </Button>

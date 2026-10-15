@@ -18,7 +18,7 @@ import { useSelection } from '@/shared/lib/use-selection';
 import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { EmptyState } from '@/shared/ui/EmptyState';
-import { Select } from '@/shared/ui/Input';
+import { Select, type SelectOption } from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/Spinner';
 
 interface AdminLibraryProps {
@@ -30,6 +30,18 @@ interface AdminLibraryProps {
 }
 
 const STATUS_POLL_MS = 3000;
+
+const KIND_OPTIONS: Array<SelectOption<'' | MediaKind>> = [
+  { value: '', label: 'Photos and videos' },
+  { value: 'photo', label: 'Photos only' },
+  { value: 'video', label: 'Videos only' },
+];
+
+const VISIBILITY_OPTIONS: Array<SelectOption<'' | Visibility>> = [
+  { value: '', label: 'Public and private' },
+  { value: 'public', label: 'Public only' },
+  { value: 'private', label: 'Private only' },
+];
 
 /** Every item in a square grid with multi-select, bulk actions and the viewer. */
 export function AdminLibrary({ initial, events, version, onChanged }: AdminLibraryProps) {
@@ -80,39 +92,33 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
     <div className='pb-24'>
       <div className='mb-5 flex flex-wrap items-center gap-3'>
         <Select
-          aria-label='Filter by event'
-          containerClassName='w-full sm:w-52'
-          className='h-10'
+          label='Filter by event'
+          size='sm'
+          className='w-full sm:w-52'
           value={eventSlug}
-          onChange={(e) => setEventSlug(e.target.value)}>
-          <option value=''>All events</option>
-          {events.map((event) => (
-            <option key={event.id} value={event.slug}>
-              {event.title}
-            </option>
-          ))}
-        </Select>
+          onChange={setEventSlug}
+          options={[
+            { value: '', label: 'All events' },
+            ...events.map((event) => ({ value: event.slug, label: event.title })),
+          ]}
+        />
         <Select
-          aria-label='Filter by type'
-          containerClassName='w-full sm:w-44'
-          className='h-10'
+          label='Filter by type'
+          size='sm'
+          className='w-full sm:w-44'
           value={kind}
-          onChange={(e) => setKind(e.target.value as '' | MediaKind)}>
-          <option value=''>Photos + videos</option>
-          <option value='photo'>Photos only</option>
-          <option value='video'>Videos only</option>
-        </Select>
+          onChange={setKind}
+          options={KIND_OPTIONS}
+        />
         {privateAccess && (
           <Select
-            aria-label='Filter by access'
-            containerClassName='w-full sm:w-44'
-            className='h-10'
+            label='Filter by access'
+            size='sm'
+            className='w-full sm:w-44'
             value={visibility}
-            onChange={(e) => setVisibility(e.target.value as '' | Visibility)}>
-            <option value=''>Public + private</option>
-            <option value='public'>Public only</option>
-            <option value='private'>Private only</option>
-          </Select>
+            onChange={setVisibility}
+            options={VISIBILITY_OPTIONS}
+          />
         )}
         <span className='text-muted text-sm'>{formatCount(total)} items</span>
         <div className='ml-auto flex gap-2'>

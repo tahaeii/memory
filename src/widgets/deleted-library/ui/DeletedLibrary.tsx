@@ -15,7 +15,7 @@ import { useSelection } from '@/shared/lib/use-selection';
 import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { EmptyState } from '@/shared/ui/EmptyState';
-import { Select } from '@/shared/ui/Input';
+import { Select } from '@/shared/ui/select';
 import { Spinner } from '@/shared/ui/Spinner';
 
 interface DeletedLibraryProps {
@@ -58,18 +58,16 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
       </p>
       <div className='mb-5 flex flex-wrap items-center gap-3'>
         <Select
-          aria-label='Filter by admin'
-          containerClassName='w-full sm:w-52'
-          className='h-10'
+          label='Filter by admin'
+          size='sm'
+          className='w-full sm:w-56'
           value={deletedBy}
-          onChange={(e) => setDeletedBy(e.target.value)}>
-          <option value=''>Deleted by anyone</option>
-          {admins.map((user) => (
-            <option key={user.id} value={user.id}>
-              Deleted by {user.username}
-            </option>
-          ))}
-        </Select>
+          onChange={setDeletedBy}
+          options={[
+            { value: '', label: 'Deleted by anyone' },
+            ...admins.map((user) => ({ value: user.id, label: 'Deleted by ' + user.username })),
+          ]}
+        />
         <span className='text-muted text-sm'>{formatCount(total)} items</span>
         <div className='ml-auto flex gap-2'>
           <Button variant='secondary' size='sm' onClick={selection.selectAll}>

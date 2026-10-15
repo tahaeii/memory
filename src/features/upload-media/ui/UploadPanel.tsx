@@ -8,7 +8,8 @@ import { useSite } from '@/shared/config/site-context';
 import { cn } from '@/shared/lib/cn';
 import { formatBytes } from '@/shared/lib/format';
 import { Button } from '@/shared/ui/Button';
-import { Select } from '@/shared/ui/Input';
+import { Field } from '@/shared/ui/Field';
+import { Select } from '@/shared/ui/select';
 import { useUploadQueue } from '../model/use-upload-queue';
 
 interface UploadPanelProps {
@@ -96,20 +97,17 @@ export function UploadPanel({ events, privateAccess, onFinished }: UploadPanelPr
             <p className='text-muted mt-1.5 text-sm'>Everyone. Your account adds public items only.</p>
           )}
         </fieldset>
-        <label className='block text-sm font-semibold'>
-          Add to event
+        <Field label='Add to event' as='group'>
           <Select
-            className='mt-2 font-normal'
+            label='Add to event'
             value={eventId}
-            onChange={(event) => setEventId(event.target.value)}>
-            <option value=''>No event</option>
-            {events.map((event) => (
-              <option key={event.id} value={event.id}>
-                {event.title}
-              </option>
-            ))}
-          </Select>
-        </label>
+            onChange={setEventId}
+            options={[
+              { value: '', label: 'No event' },
+              ...events.map((event) => ({ value: event.id, label: event.title })),
+            ]}
+          />
+        </Field>
         <p className='border-line text-muted border-t pt-4 text-xs leading-relaxed'>
           Originals are kept untouched. Location data is removed from the web copies.
         </p>
