@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { MediaImage, type MediaDto } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 import { Container } from '@/shared/ui/Container';
-import { Actions, Eyebrow, Glow, Headline, Lede, Stats, ratioOf, type HeroProps } from './parts';
+import { Backdrop } from '@/shared/ui/Backdrop';
+import { Actions, Colophon, Headline, Lede, Organization, Tagline, ratioOf, type HeroProps } from './parts';
 
 function Strip({ photos, direction }: { photos: MediaDto[]; direction: 'left' | 'right' }) {
   return (
@@ -18,8 +19,11 @@ function Strip({ photos, direction }: { photos: MediaDto[]; direction: 'left' | 
             key={photo.id + '-' + index}
             href='/gallery'
             tabIndex={-1}
-            className='group bg-subtle ring-line-soft relative block h-44 shrink-0 overflow-hidden rounded-2xl bg-cover ring-1 sm:h-56'
-            style={{ aspectRatio: String(ratioOf(photo, 0.75, 1.6)), backgroundImage: 'url(' + photo.placeholder + ')' }}>
+            className='group bg-subtle ring-line-soft relative block h-44 shrink-0 overflow-hidden rounded-lg bg-cover ring-1 sm:h-56'
+            style={{
+              aspectRatio: String(ratioOf(photo, 0.75, 1.6)),
+              backgroundImage: 'url(' + photo.placeholder + ')',
+            }}>
             <MediaImage
               item={photo}
               sizes='(min-width: 640px) 360px, 280px'
@@ -34,14 +38,15 @@ function Strip({ photos, direction }: { photos: MediaDto[]; direction: 'left' | 
 }
 
 /** Centred text over two rows of photos that drift sideways in opposite directions. */
-export function FilmstripHero({ site, stats, photos }: HeroProps) {
+export function FilmstripHero({ site, summary, photos }: HeroProps) {
   const half = Math.ceil(photos.length / 2);
   return (
     <section className='border-line-soft relative isolate overflow-hidden border-b pb-16'>
-      <Glow centered />
+      <Backdrop />
       <Container className='pt-16 pb-14 text-center sm:pt-24'>
-        <Eyebrow site={site} />
-        <Headline site={site} />
+        <Organization site={site} />
+        <Headline site={site} className='mx-auto max-w-4xl' />
+        <Tagline site={site} />
         <Lede align='center'>{site.description}</Lede>
         <Actions align='center' />
       </Container>
@@ -53,7 +58,7 @@ export function FilmstripHero({ site, stats, photos }: HeroProps) {
         <Strip photos={photos.slice(half)} direction='right' />
       </div>
       <Container>
-        <Stats stats={stats} align='center' />
+        <Colophon align='center'>{summary}</Colophon>
       </Container>
     </section>
   );

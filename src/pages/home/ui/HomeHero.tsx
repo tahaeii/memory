@@ -8,8 +8,6 @@ import type { HeroProps } from './hero/parts';
 import { SlideshowHero } from './hero/SlideshowHero';
 import { WallHero } from './hero/WallHero';
 
-export type { HeroStat } from './hero/parts';
-
 /** How many recent photos each style needs to look right; with fewer, the minimal style is shown. */
 const NEEDS: Record<HeroStyle, number> = {
   wall: 6,

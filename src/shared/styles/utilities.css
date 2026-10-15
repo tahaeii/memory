@@ -7,3 +7,23 @@
     display: none;
   }
 }
+
+/*
+ * A text link whose underline draws in from the left under the pointer and leaves to the right.
+ * Also reacts when a parent with the `group` class is hovered.
+ */
+@utility link-underline {
+  background-image: linear-gradient(currentColor 0 0);
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  padding-bottom: 2px;
+  transition: background-size var(--duration-slow) var(--ease-out);
+
+  &:hover,
+  &:focus-visible,
+  :where(.group):hover & {
+    background-position: 0% 100%;
+    background-size: 100% 1.5px;
+  }
+}

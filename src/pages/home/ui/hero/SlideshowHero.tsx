@@ -6,12 +6,12 @@ import { MediaImage } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 import { formatShortDate } from '@/shared/lib/format';
 import { Container } from '@/shared/ui/Container';
-import { Actions, Eyebrow, Headline, Lede, Stats, type HeroProps } from './parts';
+import { HeroText, type HeroProps } from './parts';
 
 const SECONDS = 7;
 
 /** Recent photos one after another across the whole width, each slowly settling into place. */
-export function SlideshowHero({ site, stats, photos }: HeroProps) {
+export function SlideshowHero({ site, summary, photos }: HeroProps) {
   const slides = photos.slice(0, 6);
   const [active, setActive] = useState(0);
 
@@ -25,7 +25,7 @@ export function SlideshowHero({ site, stats, photos }: HeroProps) {
 
   const current = slides[active];
   return (
-    <section className='relative isolate -mt-16 overflow-hidden bg-[#0b1018] text-white'>
+    <section className='relative isolate -mt-16 overflow-hidden bg-black text-white'>
       <div aria-hidden className='absolute inset-0 -z-10'>
         {slides.map((photo, index) => (
           <div
@@ -40,24 +40,22 @@ export function SlideshowHero({ site, stats, photos }: HeroProps) {
             </div>
           </div>
         ))}
-        <div className='absolute inset-0 bg-gradient-to-r from-[#0b1018]/90 via-[#0b1018]/55 to-transparent' />
-        <div className='absolute inset-0 bg-gradient-to-t from-[#0b1018] via-transparent to-[#0b1018]/50' />
+        <div className='absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent' />
+        <div className='absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/45' />
       </div>
 
       <Container className='flex min-h-[min(92vh,820px)] flex-col justify-end pt-32 pb-12'>
         <div className='max-w-2xl'>
-          <Eyebrow site={site} tone='inverted' />
-          <Headline site={site} tone='inverted' />
-          <Lede tone='inverted'>{site.description}</Lede>
-          <Actions tone='inverted' />
-          <Stats stats={stats} tone='inverted' />
+          <HeroText site={site} summary={summary} tone='inverted' />
         </div>
 
         <div className='mt-12 flex flex-wrap items-end justify-between gap-6 border-t border-white/15 pt-5'>
           {current?.event ? (
             <Link href={'/events/' + current.event.slug} className='group min-w-0 text-sm'>
               <span className='block text-white/60'>{formatShortDate(current.takenAt)}</span>
-              <span className='block truncate font-semibold group-hover:underline'>{current.event.title}</span>
+              <span className='block truncate font-semibold group-hover:underline'>
+                {current.event.title}
+              </span>
             </Link>
           ) : (
             <span className='text-sm text-white/60'>{current ? formatShortDate(current.takenAt) : ''}</span>

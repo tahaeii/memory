@@ -1,90 +1,103 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { ArrowRight } from 'lucide-react';
 import type { EventDto } from '@/entities/event';
 import type { MediaDto } from '@/entities/media';
 import type { SiteConfig } from '@/shared/config/site';
 import { cn } from '@/shared/lib/cn';
 import { buttonStyles } from '@/shared/ui/Button';
 
-export interface HeroStat {
-  label: string;
-  value: string;
-}
-
 /** What every hero style receives. */
 export interface HeroProps {
   site: SiteConfig;
-  stats: HeroStat[];
+  /** One sentence about what the archive holds; empty while it holds nothing. */
+  summary: string;
   /** Recent photos, newest first. */
   photos: MediaDto[];
   /** The newest event with a cover. */
   featured: EventDto | null;
 }
 
+/** `inverted` is for text that sits on a photo. */
 type Tone = 'default' | 'inverted';
 type Align = 'start' | 'center';
 
-/** Logo, organisation and tagline in one pill. */
-export function Eyebrow({ site, tone = 'default' }: { site: SiteConfig; tone?: Tone }) {
-  const inverted = tone === 'inverted';
+interface PartProps {
+  tone?: Tone;
+  align?: Align;
+}
+
+/** Delay of each line of the opening sequence, in the order the lines appear. */
+const STAGGER_MS = 70;
+const delay = (step: number) => ({ animationDelay: step * STAGGER_MS + 'ms' });
+
+/** Who the archive belongs to, above its name. */
+export function Organization({ site, tone = 'default' }: { site: SiteConfig } & PartProps) {
+  if (!site.organization) return null;
   return (
     <p
       className={cn(
-        'animate-enter inline-flex max-w-full items-center gap-2.5 rounded-full border py-1 pr-3.5 pl-1 text-[13px] font-medium backdrop-blur-md',
-        inverted ? 'border-white/20 bg-white/10 text-white/90' : 'border-line bg-surface/70 text-muted',
-      )}>
-      <img src={site.logoUrl} alt='' width={24} height={24} className='size-6 shrink-0 rounded-full object-contain' />
-      <span className={cn('truncate font-semibold', inverted ? 'text-white' : 'text-fg')}>{site.organization}</span>
-      <span aria-hidden className={cn('h-3.5 w-px', inverted ? 'bg-white/30' : 'bg-line-strong')} />
-      <span className='truncate'>{site.tagline}</span>
+        'animate-enter text-[15px] font-medium',
+        tone === 'inverted' ? 'text-white/75' : 'text-muted',
+      )}
+      style={delay(0)}>
+      {site.organization}
     </p>
   );
 }
 
-export const headlineStyles =
-  'animate-enter font-display mt-7 text-[2.6rem] leading-[1.04] font-semibold tracking-[-0.035em] text-balance sm:text-[3.4rem] xl:text-[4rem]';
-
-/** "Every moment, in {name}." */
-export function Headline({ site, tone = 'default', className }: { site: SiteConfig; tone?: Tone; className?: string }) {
+/** The archive's name, set like the title of a photo book. */
+export function Headline({ site, className }: { site: SiteConfig; className?: string }) {
   return (
-    <h1 className={cn(headlineStyles, className)} style={{ animationDelay: '80ms' }}>
-      Every moment,
-      <br />
-      <span className={tone === 'inverted' ? 'text-white/70' : 'text-primary'}>in {site.name}.</span>
+    <h1 className={cn('animate-enter type-hero mt-4', className)} style={delay(1)}>
+      {site.name}
     </h1>
   );
 }
 
-export function Lede({ children, tone = 'default', align = 'start' }: { children: ReactNode; tone?: Tone; align?: Align }) {
+/** The tagline as a subtitle under the name. */
+export function Tagline({ site, tone = 'default' }: { site: SiteConfig } & PartProps) {
+  if (!site.tagline) return null;
   return (
     <p
       className={cn(
-        'animate-enter mt-6 max-w-xl text-lg leading-relaxed text-pretty',
+        'animate-enter font-display mt-4 text-xl leading-snug sm:text-2xl',
+        tone === 'inverted' ? 'text-white/85' : 'text-muted',
+      )}
+      style={delay(2)}>
+      {site.tagline}
+    </p>
+  );
+}
+
+export function Lede({ children, tone = 'default', align = 'start' }: { children: ReactNode } & PartProps) {
+  return (
+    <p
+      className={cn(
+        'animate-enter mt-6 max-w-xl text-[17px] leading-relaxed text-pretty',
         tone === 'inverted' ? 'text-white/80' : 'text-muted',
         align === 'center' && 'mx-auto',
       )}
-      style={{ animationDelay: '160ms' }}>
+      style={delay(3)}>
       {children}
     </p>
   );
 }
 
 /** "Browse the gallery" and "View events". */
-export function Actions({ tone = 'default', align = 'start' }: { tone?: Tone; align?: Align }) {
+export function Actions({ tone = 'default', align = 'start' }: PartProps) {
   const inverted = tone === 'inverted';
   return (
     <div
-      className={cn('animate-enter mt-9 flex flex-wrap gap-3', align === 'center' && 'justify-center')}
-      style={{ animationDelay: '240ms' }}>
+      className={cn('animate-enter mt-8 flex flex-wrap gap-3', align === 'center' && 'justify-center')}
+      style={delay(4)}>
       <Link
         href='/gallery'
         className={buttonStyles(
           'primary',
           'lg',
-          inverted ? 'bg-white text-[#0f1520] shadow-none hover:bg-white/90 active:bg-white/80' : undefined,
+          inverted ? 'bg-white text-black shadow-none hover:bg-white/90 active:bg-white/80' : undefined,
         )}>
-        Browse the gallery <ArrowRight className='size-4' />
+        Browse the gallery
       </Link>
       <Link
         href='/events'
@@ -99,45 +112,37 @@ export function Actions({ tone = 'default', align = 'start' }: { tone?: Tone; al
   );
 }
 
-/** Library numbers with thin dividers. */
-export function Stats({ stats, tone = 'default', align = 'start' }: { stats: HeroStat[]; tone?: Tone; align?: Align }) {
-  const inverted = tone === 'inverted';
+/** What the archive holds, as one quiet sentence. */
+export function Colophon({ children, tone = 'default', align = 'start' }: { children: string } & PartProps) {
+  if (!children) return null;
   return (
-    <dl
-      className={cn('animate-enter mt-12 flex flex-wrap gap-y-6', align === 'center' && 'justify-center')}
-      style={{ animationDelay: '320ms' }}>
-      {stats.map((stat, index) => (
-        <div
-          key={stat.label}
-          className={cn(
-            'flex flex-col-reverse gap-2 px-7 sm:px-9',
-            align === 'start' && index === 0 && 'pl-0 sm:pl-0',
-            index > 0 && 'border-l',
-            inverted ? 'border-white/20' : 'border-line',
-          )}>
-          <dt className={cn('text-xs font-medium tracking-[0.08em] uppercase', inverted ? 'text-white/70' : 'text-muted')}>
-            {stat.label}
-          </dt>
-          <dd className='font-display text-[28px] leading-none font-semibold tracking-tight tabular-nums'>{stat.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <p
+      className={cn(
+        'animate-enter mt-8 text-sm tabular-nums',
+        tone === 'inverted' ? 'text-white/70' : 'text-muted',
+        align === 'center' && 'text-center',
+      )}
+      style={delay(5)}>
+      {children}
+    </p>
   );
 }
 
-/** The quiet backdrop of the light styles: a soft brand glow from the top. */
-export function Glow({ centered = false }: { centered?: boolean }) {
+/** Everything a hero says, in order. Styles that arrange the lines differently use the parts above. */
+export function HeroText({ site, summary, tone, align }: Pick<HeroProps, 'site' | 'summary'> & PartProps) {
   return (
-    <div aria-hidden className='absolute inset-0 -z-10'>
-      <div className='from-primary/[0.09] absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b to-transparent' />
-      <div
-        className={cn(
-          'bg-primary/10 absolute -top-48 size-[560px] rounded-full blur-[160px]',
-          centered ? 'left-1/2 -translate-x-1/2' : 'left-[12%]',
-        )}
-      />
-      <div className='via-primary/30 absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent to-transparent' />
-    </div>
+    <>
+      <Organization site={site} tone={tone} />
+      <Headline site={site} className={align === 'center' ? 'mx-auto max-w-4xl' : undefined} />
+      <Tagline site={site} tone={tone} />
+      <Lede tone={tone} align={align}>
+        {site.description}
+      </Lede>
+      <Actions tone={tone} align={align} />
+      <Colophon tone={tone} align={align}>
+        {summary}
+      </Colophon>
+    </>
   );
 }
 
