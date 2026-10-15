@@ -32,17 +32,20 @@
       opacity: 0;
     }
   }
-  /* Menus, popovers and dialogs: grow a little from where they are anchored. */
+  /*
+   * Menus, popovers and dialogs: grow a little from where they are anchored. A panel that opens
+   * upwards sets --pop-from to a positive length so it still moves away from its button.
+   */
   @keyframes pop-in {
     from {
       opacity: 0;
-      transform: translateY(-4px) scale(0.97);
+      transform: translateY(var(--pop-from, -4px)) scale(0.97);
     }
   }
   @keyframes pop-out {
     to {
       opacity: 0;
-      transform: translateY(-2px) scale(0.985);
+      transform: translateY(calc(var(--pop-from, -4px) / 2)) scale(0.985);
     }
   }
   /* Bars and sheets that come up from the bottom edge. */
