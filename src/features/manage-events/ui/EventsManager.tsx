@@ -6,6 +6,8 @@ import type { EventDto, EventInput } from '@/entities/event';
 import { formatMediaCount, formatShortDate } from '@/shared/lib/format';
 import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
+import { DatePicker } from '@/shared/ui/date-picker';
+import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { createEvent, deleteEvent, updateEvent } from '../api/event-api';
 
@@ -68,16 +70,13 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
             onChange={(e) => setDraft({ ...draft, title: e.target.value })}
           />
         </label>
-        <label className='text-fg block text-sm font-medium'>
-          Date
-          <Input
-            className='mt-1.5'
-            type='date'
-            required
+        <Field label='Date' as='group'>
+          <DatePicker
+            label='Event date'
             value={draft.date}
-            onChange={(e) => setDraft({ ...draft, date: e.target.value })}
+            onChange={(date) => setDraft({ ...draft, date })}
           />
-        </label>
+        </Field>
         <label className='text-fg block text-sm font-medium'>
           Description <span className='text-muted font-normal'>(optional)</span>
           <textarea
@@ -94,7 +93,7 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
           </p>
         )}
         <div className='flex gap-2'>
-          <Button type='submit' loading={busy}>
+          <Button type='submit' loading={busy} disabled={!draft.date}>
             {editingId ? 'Save changes' : 'Create event'}
           </Button>
           {editingId && (
