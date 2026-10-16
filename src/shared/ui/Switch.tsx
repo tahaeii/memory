@@ -18,14 +18,14 @@ export function Switch({ checked, onChange, label, disabled }: SwitchProps) {
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={cn(
-        'focus-visible:outline-primary relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50',
+        'group focus-visible:outline-primary relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50',
         checked ? 'bg-primary' : 'bg-line-strong',
       )}>
       <span
         aria-hidden
         className={cn(
-          'bg-surface size-5 rounded-full shadow-sm transition-transform',
-          checked ? 'translate-x-5.5' : 'translate-x-0.5',
+          'ease-spring size-5 rounded-full bg-white shadow-sm transition-[translate,width] duration-300 group-active:w-6',
+          checked ? 'translate-x-5.5 group-active:translate-x-4.5' : 'translate-x-0.5',
         )}
       />
     </button>

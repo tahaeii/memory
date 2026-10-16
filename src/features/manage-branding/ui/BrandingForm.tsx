@@ -14,9 +14,17 @@ import { Notice } from '@/shared/ui/Notice';
 
 const STYLES: Array<{ value: HeroStyle; title: string; hint: string }> = [
   { value: 'wall', title: 'Photo wall', hint: 'Text beside slowly moving columns of recent photos.' },
-  { value: 'filmstrip', title: 'Filmstrip', hint: 'Centred text above two rows of photos drifting sideways.' },
+  {
+    value: 'filmstrip',
+    title: 'Filmstrip',
+    hint: 'Centred text above two rows of photos drifting sideways.',
+  },
   { value: 'mosaic', title: 'Mosaic', hint: 'Text beside an editorial grid of five recent photos.' },
-  { value: 'slideshow', title: 'Slideshow', hint: 'Recent photos one after another, across the whole width.' },
+  {
+    value: 'slideshow',
+    title: 'Slideshow',
+    hint: 'Recent photos one after another, across the whole width.',
+  },
   { value: 'cover', title: 'Cover photo', hint: "The latest event's cover across the whole width." },
   { value: 'editorial', title: 'Editorial', hint: 'A large headline with small photos set into the words.' },
   { value: 'minimal', title: 'Minimal', hint: 'Logo and words only, no photos.' },
@@ -59,14 +67,18 @@ function StylePreview({ style }: { style: HeroStyle }) {
           <span className={cn(bar, 'bg-fg h-1.5 w-1/2')} />
           <span className={cn(bar, 'bg-primary h-1.5 w-1/3')} />
           <span className='mt-1.5 flex gap-1'>
-            {['bg-primary/50', 'bg-secondary/50', 'bg-primary/40', 'bg-secondary/40', 'bg-primary/50'].map((tone, index) => (
-              <span key={index} className={cn('block h-5 w-7 rounded', tone)} />
-            ))}
+            {['bg-primary/50', 'bg-secondary/50', 'bg-primary/40', 'bg-secondary/40', 'bg-primary/50'].map(
+              (tone, index) => (
+                <span key={index} className={cn('block h-5 w-7 rounded', tone)} />
+              ),
+            )}
           </span>
           <span className='-ml-6 flex gap-1'>
-            {['bg-secondary/50', 'bg-primary/40', 'bg-secondary/40', 'bg-primary/50', 'bg-secondary/50'].map((tone, index) => (
-              <span key={index} className={cn('block h-5 w-7 rounded', tone)} />
-            ))}
+            {['bg-secondary/50', 'bg-primary/40', 'bg-secondary/40', 'bg-primary/50', 'bg-secondary/50'].map(
+              (tone, index) => (
+                <span key={index} className={cn('block h-5 w-7 rounded', tone)} />
+              ),
+            )}
           </span>
         </span>
       );
@@ -85,7 +97,9 @@ function StylePreview({ style }: { style: HeroStyle }) {
       );
     case 'editorial':
       return (
-        <span aria-hidden className={cn(frame, 'bg-canvas flex flex-col items-center justify-center gap-1.5')}>
+        <span
+          aria-hidden
+          className={cn(frame, 'bg-canvas flex flex-col items-center justify-center gap-1.5')}>
           <span className='flex items-center gap-1'>
             <span className={cn(bar, 'bg-fg h-2 w-8')} />
             <span className={cn(bar, 'bg-secondary/60 h-2.5 w-6')} />
@@ -100,7 +114,9 @@ function StylePreview({ style }: { style: HeroStyle }) {
       );
     case 'minimal':
       return (
-        <span aria-hidden className={cn(frame, 'bg-canvas flex flex-col items-center justify-center gap-1.5')}>
+        <span
+          aria-hidden
+          className={cn(frame, 'bg-canvas flex flex-col items-center justify-center gap-1.5')}>
           <span className='bg-primary block size-4 rounded' />
           <span className={cn(bar, 'bg-fg h-1.5 w-1/2')} />
           <span className={cn(bar, 'bg-primary h-1.5 w-1/3')} />
@@ -188,7 +204,10 @@ export function BrandingForm() {
     setPending('logo');
     setMessage(null);
     try {
-      applied(await apiFetch<BrandingDto>('/branding/logo', { method: 'DELETE' }), 'Back to the default logo.');
+      applied(
+        await apiFetch<BrandingDto>('/branding/logo', { method: 'DELETE' }),
+        'Back to the default logo.',
+      );
     } catch (caught) {
       failed(caught);
     } finally {
@@ -244,7 +263,8 @@ export function BrandingForm() {
         <fieldset>
           <legend className='text-sm font-semibold'>Home page</legend>
           <p className='text-muted mt-1 text-xs'>
-            Photo styles need a few public photos; with too few, the minimal style is shown until there are more.
+            Photo styles need a few public photos; with too few, the minimal style is shown until there are
+            more.
           </p>
           <div className='mt-3 grid gap-3 sm:grid-cols-2 2xl:grid-cols-3'>
             {STYLES.map((style) => {
@@ -254,7 +274,9 @@ export function BrandingForm() {
                   key={style.value}
                   className={cn(
                     'relative rounded-2xl border p-3 transition',
-                    selected ? 'border-primary bg-primary-soft ring-primary/20 ring-4' : 'border-line hover:border-line-strong',
+                    selected
+                      ? 'border-primary bg-primary-soft ring-primary/20 ring-4'
+                      : 'border-line hover:border-line-strong',
                   )}>
                   <button
                     type='button'
@@ -309,7 +331,11 @@ export function BrandingForm() {
               <ImageUp className='size-4' /> Upload logo
             </Button>
             {customLogo && (
-              <Button variant='ghost' size='sm' onClick={() => void removeLogo()} aria-label='Use the default logo'>
+              <Button
+                variant='ghost'
+                size='sm'
+                onClick={() => void removeLogo()}
+                aria-label='Use the default logo'>
                 <Trash2 className='size-4' />
               </Button>
             )}

@@ -202,7 +202,7 @@ export function VideoPlayer({
             type='button'
             onClick={togglePlay}
             aria-label='Play'
-            className='bg-white/15 hover:bg-white/25 backdrop-blur-md absolute grid size-16 place-items-center rounded-full text-white shadow-xl transition hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white'>
+            className='absolute grid size-16 place-items-center rounded-full bg-white/15 text-white shadow-xl backdrop-blur-md transition hover:scale-105 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white'>
             <Play className='ml-1 size-7' fill='currentColor' />
           </button>
         )
@@ -220,10 +220,7 @@ export function VideoPlayer({
               className='absolute inset-y-0 left-0 bg-white/35'
               style={{ width: percent(buffered, duration) }}
             />
-            <div
-              className='bg-white absolute inset-y-0 left-0'
-              style={{ width: percent(time, duration) }}
-            />
+            <div className='absolute inset-y-0 left-0 bg-white' style={{ width: percent(time, duration) }} />
           </div>
           <span
             aria-hidden
