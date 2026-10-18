@@ -52,10 +52,6 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
 
   return (
     <div className='pb-24'>
-      <p className='text-muted mb-5 max-w-2xl text-sm'>
-        Photos and videos admins deleted. They are hidden from everyone, including the admin who deleted them,
-        until you restore them. Deleting them here removes them from the server for good.
-      </p>
       <div className='mb-5 flex flex-wrap items-center gap-3'>
         <Select
           label='Filter by admin'

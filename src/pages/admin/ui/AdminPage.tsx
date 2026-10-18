@@ -23,7 +23,7 @@ export async function AdminPage() {
     isSuperAdmin ? loadMediaPage({ limit: 60, deleted: true }) : Promise.resolve(null),
   ]);
   return (
-    <Container className='py-10'>
+    <Container className='py-8 sm:py-10'>
       <AdminDashboard
         account={account}
         summary={summary}
