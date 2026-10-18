@@ -1,6 +1,7 @@
 'use client';
 
 import type { PasscodeStatusDto, UserDto } from '@/entities/user';
+import { useStoredFlag } from '@/shared/lib/use-stored-flag';
 
 interface Reminder {
   id: string;
@@ -17,8 +18,18 @@ function remindersFor(account: UserDto, passcode: PasscodeStatusDto | null): Rem
   return reminders;
 }
 
-/** The reminders to show for the signed-in account. */
+/**
+ * The reminders to show, and a way to close them. Closing is remembered in this browser per
+ * account; a reminder that was not there when the notice was closed brings it back.
+ */
 export function useReminders(account: UserDto, passcode: PasscodeStatusDto | null) {
   const reminders = remindersFor(account, passcode);
-  return { reminders, visible: reminders.length > 0 };
+  const signature = reminders.map((reminder) => reminder.id).join('+');
+  const [dismissed, setDismissed] = useStoredFlag('reminders-dismissed:' + account.id);
+
+  return {
+    reminders,
+    visible: reminders.length > 0 && dismissed !== signature,
+    dismiss: () => setDismissed(signature),
+  };
 }
