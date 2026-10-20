@@ -5,6 +5,7 @@ import { Eye, EyeOff, Trash2 } from 'lucide-react';
 import type { MediaDto } from '@/entities/media';
 import { useSession } from '@/entities/session';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
+import { IconButton } from '@/shared/ui/IconButton';
 import { deleteWording } from '../lib/delete-wording';
 import { useMediaMutations } from '../model/use-media-mutations';
 
@@ -13,9 +14,6 @@ interface MediaAdminActionsProps {
   onUpdated: () => void;
   onDeleted: () => void;
 }
-
-const button =
-  'grid size-10 place-items-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white disabled:opacity-40';
 
 /** Visibility toggle and delete for one item, shown inside the viewer for staff. */
 export function MediaAdminActions({ item, onUpdated, onDeleted }: MediaAdminActionsProps) {
@@ -29,23 +27,16 @@ export function MediaAdminActions({ item, onUpdated, onDeleted }: MediaAdminActi
   return (
     <>
       {privateAccess && (
-        <button
-          type='button'
-          className={button}
+        <IconButton
+          label={isPrivate ? 'Private. Make it public' : 'Public. Make it private'}
           disabled={updates.busy}
-          onClick={() => void updates.update([item.id], { visibility: isPrivate ? 'public' : 'private' })}
-          aria-label={isPrivate ? 'Make public' : 'Make private'}
-          title={isPrivate ? 'Private - click to make public' : 'Public - click to make private'}>
+          onClick={() => void updates.update([item.id], { visibility: isPrivate ? 'public' : 'private' })}>
           {isPrivate ? <EyeOff className='size-5' /> : <Eye className='size-5' />}
-        </button>
+        </IconButton>
       )}
-      <button
-        type='button'
-        className={button}
-        onClick={() => setConfirming(true)}
-        aria-label={'Delete ' + item.kind}>
+      <IconButton label={'Delete ' + item.kind} onClick={() => setConfirming(true)}>
         <Trash2 className='size-5' />
-      </button>
+      </IconButton>
       <ConfirmDialog
         open={confirming}
         title={wording.title}

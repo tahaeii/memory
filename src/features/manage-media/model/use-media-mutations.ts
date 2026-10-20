@@ -1,37 +1,24 @@
 'use client';
 
-import { useCallback, useState } from 'react';
 import type { BulkMediaPatch } from '@/entities/media';
+import { useAsyncAction } from '@/shared/lib/use-async-action';
 import { deleteMedia, restoreMedia, updateMedia } from '../api/media-mutations';
 
-/** Bulk update/delete/restore with a shared busy + error state. `onDone` runs after every success. */
+/** Bulk update, delete and restore with a shared busy and error state. `onDone` runs after every success. */
 export function useMediaMutations(onDone: () => void) {
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { busy, error, run } = useAsyncAction();
 
-  const run = useCallback(
-    async (task: () => Promise<unknown>): Promise<boolean> => {
-      setBusy(true);
-      setError(null);
-      try {
-        await task();
-        onDone();
-        return true;
-      } catch (caught) {
-        setError(caught instanceof Error ? caught.message : 'Something went wrong.');
-        return false;
-      } finally {
-        setBusy(false);
-      }
-    },
-    [onDone],
-  );
+  const then = async (task: () => Promise<unknown>): Promise<boolean> => {
+    const ok = await run(task);
+    if (ok) onDone();
+    return ok;
+  };
 
   return {
     busy,
     error,
-    update: (ids: string[], patch: BulkMediaPatch) => run(() => updateMedia(ids, patch)),
-    remove: (ids: string[]) => run(() => deleteMedia(ids)),
-    restore: (ids: string[]) => run(() => restoreMedia(ids)),
+    update: (ids: string[], patch: BulkMediaPatch) => then(() => updateMedia(ids, patch)),
+    remove: (ids: string[]) => then(() => deleteMedia(ids)),
+    restore: (ids: string[]) => then(() => restoreMedia(ids)),
   };
 }
