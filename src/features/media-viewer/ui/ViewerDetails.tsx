@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { Globe, Lock, X } from 'lucide-react';
 import type { MediaDto } from '@/entities/media';
 import { isStaffRole, useSession } from '@/entities/session';
-import { formatDay, formatShortDate, formatTime } from '@/shared/lib/format';
+import { cn } from '@/shared/lib/cn';
+import { IconButton } from '@/shared/ui/IconButton';
+import { describeMedia, type DetailRow } from '../lib/details';
 
 interface ViewerDetailsProps {
   item: MediaDto;
@@ -13,47 +16,70 @@ interface ViewerDetailsProps {
   onNavigate: () => void;
 }
 
-/** Facts about the current item. Access and file details are for staff only. */
-export function ViewerDetails({ item, open, onNavigate }: ViewerDetailsProps) {
+function Value({ row, onNavigate }: { row: DetailRow; onNavigate: () => void }) {
+  if (row.href)
+    return (
+      <Link href={row.href} onClick={onNavigate} className='link-underline text-link'>
+        {row.value}
+      </Link>
+    );
+  if (row.tone) {
+    const Icon = row.tone === 'private' ? Lock : Globe;
+    return (
+      <span
+        className={cn(
+          'inline-flex items-center gap-1.5',
+          row.tone === 'private' ? 'text-warning-fg' : 'text-success-fg',
+        )}>
+        <Icon aria-hidden className='size-3.5' />
+        {row.value}
+      </span>
+    );
+  }
+  return <>{row.value}</>;
+}
+
+/**
+ * Facts about the current item. On a phone it is a sheet that slides up over the bottom of the
+ * photo; from tablet width it is a column that opens beside the photo, which makes room for it.
+ * It stays mounted while closed so both directions animate.
+ */
+export function ViewerDetails({ item, open, onClose, onNavigate }: ViewerDetailsProps) {
   const { role } = useSession();
-  if (!open) return null;
-  const rows = [
-    { label: 'Taken', value: formatDay(item.takenAt) + ', ' + formatTime(item.takenAt) },
-    { label: item.kind === 'video' ? 'Video' : 'Photo', value: item.width + ' × ' + item.height },
-    ...(isStaffRole(role)
-      ? [
-          { label: 'Access', value: item.visibility === 'private' ? 'Private' : 'Public' },
-          { label: 'File', value: item.name },
-        ]
-      : []),
-    ...(item.deletion
-      ? [{ label: 'Deleted', value: 'by ' + item.deletion.by + ' on ' + formatShortDate(item.deletion.at) }]
-      : []),
-  ];
+  const rows = describeMedia(item, isStaffRole(role));
   return (
-    <aside className='border-line bg-surface absolute inset-x-0 bottom-0 z-10 max-h-[55%] overflow-y-auto border-t px-5 py-4 md:static md:max-h-none md:w-80 md:shrink-0 md:border-t-0 md:border-l'>
-      <h2 className='type-heading'>Details</h2>
-      <dl className='mt-3'>
-        {item.event && (
-          <div className='border-line-soft flex justify-between gap-4 border-t py-3 text-sm'>
-            <dt className='text-muted shrink-0'>Event</dt>
-            <dd className='min-w-0 text-right font-medium'>
-              <Link
-                href={'/events/' + item.event.slug}
-                onClick={onNavigate}
-                className='text-link hover:underline'>
-                {item.event.title}
-              </Link>
-            </dd>
-          </div>
-        )}
-        {rows.map((row) => (
-          <div key={row.label} className='border-line-soft flex justify-between gap-4 border-t py-3 text-sm'>
-            <dt className='text-muted shrink-0'>{row.label}</dt>
-            <dd className='min-w-0 text-right font-medium break-all'>{row.value}</dd>
-          </div>
-        ))}
-      </dl>
+    <aside
+      aria-label='Details'
+      inert={!open}
+      className={cn(
+        'bg-surface z-20 shrink-0 transition-[translate,width,border-color] duration-300 ease-out',
+        'max-md:shadow-overlay max-md:border-line max-md:absolute max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[75%] max-md:overflow-y-auto max-md:overscroll-contain max-md:rounded-t-2xl max-md:border-t',
+        'md:overflow-hidden md:border-l',
+        open
+          ? 'md:border-line max-md:translate-y-0 md:w-[21rem]'
+          : 'max-md:translate-y-full md:w-0 md:border-transparent',
+      )}>
+      <div className='px-5 pt-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:h-full md:w-[21rem] md:overflow-y-auto md:pt-4'>
+        <span aria-hidden className='bg-line-strong mx-auto mb-2 block h-1 w-9 rounded-full md:hidden' />
+        <div className='flex items-center justify-between'>
+          <h2 className='type-heading'>Details</h2>
+          <IconButton label='Close details' size='sm' onClick={onClose} className='-mr-1.5'>
+            <X className='size-4' />
+          </IconButton>
+        </div>
+        <dl className='mt-2'>
+          {rows.map((row) => (
+            <div
+              key={row.label}
+              className='border-line-soft grid grid-cols-[5.5rem_1fr] gap-3 border-t py-3 text-sm'>
+              <dt className='text-muted'>{row.label}</dt>
+              <dd className='min-w-0 font-medium [overflow-wrap:anywhere]'>
+                <Value row={row} onNavigate={onNavigate} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </aside>
   );
 }
