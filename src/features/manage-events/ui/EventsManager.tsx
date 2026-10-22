@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import type { EventDto, EventInput } from '@/entities/event';
 import { formatMediaCount, formatShortDate } from '@/shared/lib/format';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { DatePicker } from '@/shared/ui/date-picker';
@@ -34,7 +35,7 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
       onChanged();
       return true;
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
       return false;
     } finally {
       setBusy(false);
@@ -59,17 +60,15 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
     <div className='grid items-start gap-6 lg:grid-cols-[minmax(0,22rem)_1fr]'>
       <form onSubmit={submit} className='border-line bg-surface h-fit space-y-4 rounded-3xl border p-5'>
         <h3 className='text-fg font-medium'>{editingId ? 'Edit event' : 'New event'}</h3>
-        <label className='text-fg block text-sm font-medium'>
-          Title
+        <Field label='Title'>
           <Input
-            className='mt-1.5'
             required
             minLength={2}
             maxLength={80}
             value={draft.title}
             onChange={(e) => setDraft({ ...draft, title: e.target.value })}
           />
-        </label>
+        </Field>
         <Field label='Date' as='group'>
           <DatePicker
             label='Event date'

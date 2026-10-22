@@ -3,7 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/shared/api/http';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
+import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { Notice } from '@/shared/ui/Notice';
 
@@ -37,7 +39,7 @@ export function ChangePasswordForm() {
       setSaved(true);
       router.refresh();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
     } finally {
       setPending(false);
     }
@@ -45,20 +47,16 @@ export function ChangePasswordForm() {
 
   return (
     <form onSubmit={submit} className='space-y-4'>
-      <label className='text-fg block text-sm font-medium'>
-        Current password
+      <Field label='Current password'>
         <Input
-          className='mt-1.5'
           type='password'
           autoComplete='current-password'
           value={current}
           onChange={(event) => setCurrent(event.target.value)}
         />
-      </label>
-      <label className='text-fg block text-sm font-medium'>
-        New password
+      </Field>
+      <Field label='New password'>
         <Input
-          className='mt-1.5'
           type='password'
           autoComplete='new-password'
           minLength={8}
@@ -66,17 +64,15 @@ export function ChangePasswordForm() {
           value={next}
           onChange={(event) => setNext(event.target.value)}
         />
-      </label>
-      <label className='text-fg block text-sm font-medium'>
-        Repeat the new password
+      </Field>
+      <Field label='Repeat the new password'>
         <Input
-          className='mt-1.5'
           type='password'
           autoComplete='new-password'
           value={repeat}
           onChange={(event) => setRepeat(event.target.value)}
         />
-      </label>
+      </Field>
       {error && <Notice tone='error'>{error}</Notice>}
       {saved && <Notice tone='success'>Password changed. Your other devices were signed out.</Notice>}
       <Button type='submit' loading={pending} disabled={!current || next.length < 8 || !repeat}>

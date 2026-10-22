@@ -3,7 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/shared/api/http';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
+import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { Notice } from '@/shared/ui/Notice';
 
@@ -57,17 +59,16 @@ export function SetupForm({ friendsEnabled, defaultName, defaultOrganization }: 
       router.replace('/admin');
       router.refresh();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
       setPending(false);
     }
   }
 
   return (
     <form onSubmit={submit} className='space-y-4'>
-      <label className='text-fg block text-sm font-medium'>
-        Setup code
+      <Field label='Setup code'>
         <Input
-          className='mt-1.5 uppercase'
+          className='uppercase'
           autoComplete='off'
           spellCheck={false}
           placeholder='XXXX-XXXX-XXXX'
@@ -77,46 +78,34 @@ export function SetupForm({ friendsEnabled, defaultName, defaultOrganization }: 
         <span className='text-muted mt-1.5 block font-normal'>
           Printed in the server log, on the line that starts with [setup].
         </span>
-      </label>
+      </Field>
       <div className='grid gap-4 sm:grid-cols-2'>
-        <label className='text-fg block text-sm font-medium'>
-          Archive name
+        <Field label='Archive name'>
+          <Input maxLength={60} value={siteName} onChange={(event) => setSiteName(event.target.value)} />
+        </Field>
+        <Field label='Organisation'>
           <Input
-            className='mt-1.5'
-            maxLength={60}
-            value={siteName}
-            onChange={(event) => setSiteName(event.target.value)}
-          />
-        </label>
-        <label className='text-fg block text-sm font-medium'>
-          Organisation
-          <Input
-            className='mt-1.5'
             maxLength={80}
             value={organization}
             onChange={(event) => setOrganization(event.target.value)}
           />
-        </label>
+        </Field>
       </div>
       <p className='text-muted -mt-1 text-sm'>
         Shown in the header and on the home page. The logo and texts can be changed later in Dashboard ›
         Branding.
       </p>
-      <label className='text-fg block text-sm font-medium'>
-        Super admin username
+      <Field label='Super admin username'>
         <Input
-          className='mt-1.5'
           autoComplete='username'
           spellCheck={false}
           maxLength={32}
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
-      </label>
-      <label className='text-fg block text-sm font-medium'>
-        Password
+      </Field>
+      <Field label='Password'>
         <Input
-          className='mt-1.5'
           type='password'
           autoComplete='new-password'
           minLength={8}
@@ -124,22 +113,18 @@ export function SetupForm({ friendsEnabled, defaultName, defaultOrganization }: 
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-      </label>
-      <label className='text-fg block text-sm font-medium'>
-        Repeat the password
+      </Field>
+      <Field label='Repeat the password'>
         <Input
-          className='mt-1.5'
           type='password'
           autoComplete='new-password'
           value={repeat}
           onChange={(event) => setRepeat(event.target.value)}
         />
-      </label>
+      </Field>
       {friendsEnabled && (
-        <label className='text-fg block text-sm font-medium'>
-          Friends passcode
+        <Field label='Friends passcode'>
           <Input
-            className='mt-1.5'
             type='password'
             autoComplete='off'
             minLength={6}
@@ -150,7 +135,7 @@ export function SetupForm({ friendsEnabled, defaultName, defaultOrganization }: 
           <span className='text-muted mt-1.5 block font-normal'>
             Friends of the team enter this to see private photos and videos. You can change it later.
           </span>
-        </label>
+        </Field>
       )}
       {error && <Notice tone='error'>{error}</Notice>}
       <Button type='submit' className='w-full' loading={pending} disabled={!complete}>

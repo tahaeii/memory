@@ -3,7 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/shared/lib/cn';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
+import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { unlockPrivate } from '../api/unlock';
 
@@ -31,7 +33,7 @@ export function UnlockForm({ next, layout = 'stacked' }: UnlockFormProps) {
       router.replace(next);
       router.refresh();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
       setPending(false);
     }
   }
@@ -39,18 +41,16 @@ export function UnlockForm({ next, layout = 'stacked' }: UnlockFormProps) {
   return (
     <form onSubmit={submit} className='space-y-3'>
       <div className={cn(inline ? 'flex flex-wrap items-end gap-2.5' : 'space-y-4')}>
-        <label className={cn('text-muted block text-sm font-semibold', inline && 'min-w-52 flex-1')}>
-          Passcode
+        <Field label='Passcode' className={inline ? 'min-w-52 flex-1' : undefined}>
           <Input
-            className='mt-1.5 h-12'
+            className='h-12'
             type='password'
             autoComplete='off'
             autoFocus={!inline}
             value={passcode}
             onChange={(event) => setPasscode(event.target.value)}
-            placeholder='xxxx-xxxx-xxxx'
           />
-        </label>
+        </Field>
         <Button
           type='submit'
           size='lg'

@@ -6,6 +6,7 @@ import { roleLabel } from '@/entities/session';
 import type { UpdateUserInput, UserDto } from '@/entities/user';
 import { cn } from '@/shared/lib/cn';
 import { formatShortDate } from '@/shared/lib/format';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
 import { Modal } from '@/shared/ui/Modal';
 import { Notice } from '@/shared/ui/Notice';
@@ -33,7 +34,7 @@ export function UsersManager({ users, onChanged }: UsersManagerProps) {
       onChanged();
       return true;
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
       return false;
     } finally {
       setBusyId(null);
@@ -46,12 +47,12 @@ export function UsersManager({ users, onChanged }: UsersManagerProps) {
 
       <div className='space-y-3'>
         {error && <Notice tone='error'>{error}</Notice>}
-        <ul className='divide-line-soft border-line bg-surface divide-y overflow-hidden rounded-3xl border'>
+        <ul className='divide-line-soft border-line bg-surface divide-y overflow-hidden rounded-xl border'>
           {users.map((user) => {
             const isSuper = user.role === 'superadmin';
             const busy = busyId === user.id;
             return (
-              <li key={user.id} className='flex flex-wrap items-center gap-x-4 gap-y-3 px-5 py-4'>
+              <li key={user.id} className='flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:px-5'>
                 <span
                   aria-hidden
                   className={cn(

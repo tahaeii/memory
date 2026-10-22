@@ -3,7 +3,9 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiFetch } from '@/shared/api/http';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
+import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 
 export function AdminLoginForm() {
@@ -22,33 +24,29 @@ export function AdminLoginForm() {
       router.replace('/admin');
       router.refresh();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
       setPending(false);
     }
   }
 
   return (
     <form onSubmit={submit} className='space-y-4'>
-      <label className='text-fg block text-sm font-medium'>
-        Username
+      <Field label='Username'>
         <Input
-          className='mt-1.5'
           autoComplete='username'
           autoFocus
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
-      </label>
-      <label className='text-fg block text-sm font-medium'>
-        Password
+      </Field>
+      <Field label='Password'>
         <Input
-          className='mt-1.5'
           type='password'
           autoComplete='current-password'
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-      </label>
+      </Field>
       {error && (
         <p role='alert' className='text-danger text-sm'>
           {error}

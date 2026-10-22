@@ -1,6 +1,8 @@
 'use client';
 
 import { RefreshCw } from 'lucide-react';
+import { Field } from '@/shared/ui/Field';
+import { IconButton } from '@/shared/ui/IconButton';
 import { Input } from '@/shared/ui/Input';
 import { generatePassword } from '../lib/generate-password';
 
@@ -16,9 +18,8 @@ interface PasswordFieldProps {
  */
 export function PasswordField({ label, value, onChange }: PasswordFieldProps) {
   return (
-    <label className='text-fg block text-sm font-medium'>
-      {label}
-      <span className='mt-1.5 flex gap-2'>
+    <Field label={label}>
+      <span className='flex gap-2'>
         <Input
           type='text'
           autoComplete='off'
@@ -28,15 +29,13 @@ export function PasswordField({ label, value, onChange }: PasswordFieldProps) {
           value={value}
           onChange={(event) => onChange(event.target.value)}
         />
-        <button
-          type='button'
+        <IconButton
+          label='Generate a password'
           onClick={() => onChange(generatePassword())}
-          className='hover:border-primary hover:text-link focus-visible:outline-primary border-line text-muted grid size-11 shrink-0 place-items-center rounded-xl border transition focus-visible:outline-2'
-          aria-label='Generate a password'
-          title='Generate a password'>
+          className='border-line-strong size-11 border'>
           <RefreshCw className='size-4' />
-        </button>
+        </IconButton>
       </span>
-    </label>
+    </Field>
   );
 }

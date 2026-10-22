@@ -7,6 +7,7 @@ import { BRANDING_LIMITS, type BrandingDto, type HeroStyle } from '@contracts/br
 import { apiFetch } from '@/shared/api/http';
 import { useSite } from '@/shared/config/site-context';
 import { cn } from '@/shared/lib/cn';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
 import { Input, Textarea } from '@/shared/ui/Input';
 import { Logo } from '@/shared/ui/Logo';
@@ -162,7 +163,7 @@ export function BrandingForm() {
   }
 
   function failed(caught: unknown) {
-    setMessage({ tone: 'error', text: caught instanceof Error ? caught.message : 'Something went wrong.' });
+    setMessage({ tone: 'error', text: messageOf(caught) });
   }
 
   async function save(event: FormEvent<HTMLFormElement>) {

@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { messageOf } from '@/shared/lib/error-message';
 import { Button } from '@/shared/ui/Button';
+import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { Notice } from '@/shared/ui/Notice';
 import { Switch } from '@/shared/ui/Switch';
@@ -30,19 +32,17 @@ export function CreateUserForm({ onCreated }: { onCreated: () => void }) {
       setPrivateAccess(false);
       onCreated();
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Something went wrong.');
+      setError(messageOf(caught));
     } finally {
       setPending(false);
     }
   }
 
   return (
-    <form onSubmit={submit} className='border-line bg-surface h-fit space-y-4 rounded-3xl border p-5'>
-      <h3 className='text-fg font-medium'>New admin</h3>
-      <label className='text-fg block text-sm font-medium'>
-        Username
+    <form onSubmit={submit} className='border-line bg-surface h-fit space-y-4 rounded-xl border p-4 sm:p-5'>
+      <h3 className='type-heading'>New admin</h3>
+      <Field label='Username'>
         <Input
-          className='mt-1.5'
           autoComplete='off'
           spellCheck={false}
           maxLength={32}
@@ -50,7 +50,7 @@ export function CreateUserForm({ onCreated }: { onCreated: () => void }) {
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
-      </label>
+      </Field>
       <PasswordField label='Starting password' value={password} onChange={setPassword} />
       <div className='flex items-start justify-between gap-4'>
         <div className='text-sm'>
