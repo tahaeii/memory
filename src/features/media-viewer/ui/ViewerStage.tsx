@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { MediaDto } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 import { formatDay } from '@/shared/lib/format';
-import { VideoPlayer } from '@/shared/ui/VideoPlayer';
+import { VideoPlayer } from '@/shared/ui/video-player';
 import { useSwipe } from '../model/use-swipe';
 import type { useZoomPan } from '../model/use-zoom-pan';
 import { VideoPending } from './VideoPending';
