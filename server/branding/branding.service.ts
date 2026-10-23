@@ -18,7 +18,13 @@ export const MAX_LOGO_BYTES = 5 * 1024 * 1024;
 const LOGO_FORMATS = new Set(['png', 'jpeg', 'webp', 'avif', 'gif', 'tiff']);
 
 const env = (name: string): string | undefined => process.env[name]?.trim() || undefined;
-const pick = (...values: Array<string | undefined>): string => values.find((value) => value && value.trim()) ?? '';
+const pick = (...values: Array<string | undefined>): string =>
+  values.find((value) => value && value.trim()) ?? '';
+
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
+/** The first value that is a `#rrggbb` colour. Anything else (a typo in .env, an edited file) is skipped. */
+const pickColor = (...values: Array<string | undefined>): string | null =>
+  values.find((value) => value && HEX_COLOR.test(value))?.toLowerCase() ?? null;
 
 /**
  * The branding visitors see: what the super admin set in the dashboard, else the SITE_* environment
@@ -32,6 +38,10 @@ export async function getBranding(): Promise<BrandingDto> {
     tagline: pick(saved.tagline, env('SITE_TAGLINE'), DEFAULT_BRANDING.tagline),
     description: pick(saved.description, env('SITE_DESCRIPTION'), DEFAULT_BRANDING.description),
     heroStyle: isHeroStyle(saved.heroStyle) ? saved.heroStyle : DEFAULT_BRANDING.heroStyle,
+    colors: {
+      primary: pickColor(saved.primaryColor, env('BRAND_PRIMARY_COLOR')),
+      secondary: pickColor(saved.secondaryColor, env('BRAND_SECONDARY_COLOR')),
+    },
     logoUrl: saved.logoUpdatedAt
       ? '/api/branding/logo?v=' + Date.parse(saved.logoUpdatedAt).toString(36)
       : DEFAULT_LOGO_URL,
@@ -40,7 +50,7 @@ export async function getBranding(): Promise<BrandingDto> {
   };
 }
 
-/** Saves the texts and the home page style. Empty texts go back to the defaults. */
+/** Saves the texts, the colours and the home page style. Empty texts and colours go back to the defaults. */
 export async function updateBranding(input: BrandingInput): Promise<BrandingDto> {
   await updateBrandingRecord((branding) => {
     branding.name = input.name.trim() || undefined;
@@ -48,6 +58,8 @@ export async function updateBranding(input: BrandingInput): Promise<BrandingDto>
     branding.tagline = input.tagline.trim() || undefined;
     branding.description = input.description.trim() || undefined;
     branding.heroStyle = input.heroStyle;
+    branding.primaryColor = input.colors.primary ?? undefined;
+    branding.secondaryColor = input.colors.secondary ?? undefined;
   });
   return getBranding();
 }

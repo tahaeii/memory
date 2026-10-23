@@ -38,6 +38,7 @@ export interface BrandingDto {
   /** Text under the home page heading. */
   description: string;
   heroStyle: HeroStyle;
+  colors: BrandColors;
   /** Logo address: the uploaded logo, or the bundled default. */
   logoUrl: string;
   /** True when an admin uploaded a logo. */
@@ -53,6 +54,7 @@ export interface BrandingInput {
   tagline: string;
   description: string;
   heroStyle: HeroStyle;
+  colors: BrandColors;
 }
 
 export const DEFAULT_LOGO_URL = '/icon.svg';

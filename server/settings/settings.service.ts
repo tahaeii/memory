@@ -14,6 +14,9 @@ export interface BrandingRecord {
   tagline?: string;
   description?: string;
   heroStyle?: HeroStyle;
+  /** Brand colours as `#rrggbb`; unset keeps the BRAND_* variables or the built-in colours. */
+  primaryColor?: string;
+  secondaryColor?: string;
   /** Set while an uploaded logo exists (also busts browser caches). */
   logoUpdatedAt?: string | null;
 }
