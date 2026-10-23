@@ -1,6 +1,15 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { contrastRatio, hexToOklch, isHexColor, oklchToHex, readableOn } from './index';
+import {
+  contrastRatio,
+  hexToHsv,
+  hexToOklch,
+  hsvToHex,
+  isHexColor,
+  oklchToHex,
+  parseHexInput,
+  readableOn,
+} from './index';
 
 test('accepts only six-digit hex colours', () => {
   assert.equal(isHexColor('#2f5bd0'), true);
@@ -42,4 +51,20 @@ test('picks readable text for a background', () => {
   assert.equal(readableOn('#0b1f3a'), '#ffffff');
   assert.equal(readableOn('#ffd400'), '#14171c');
   assert.equal(readableOn('#2f5bd0'), '#ffffff');
+});
+
+test('converts hex to HSV and back', () => {
+  for (const hex of ['#000000', '#ffffff', '#2f5bd0', '#e4002b', '#ffd400', '#0e8a83', '#808080']) {
+    assert.equal(hsvToHex(hexToHsv(hex)), hex);
+  }
+  assert.deepEqual(hexToHsv('#ff0000'), { h: 0, s: 1, v: 1 });
+  assert.equal(hsvToHex({ h: 240, s: 1, v: 1 }), '#0000ff');
+});
+
+test('reads hex colours the way people type them', () => {
+  assert.equal(parseHexInput('#2F5BD0'), '#2f5bd0');
+  assert.equal(parseHexInput(' 2f5bd0 '), '#2f5bd0');
+  assert.equal(parseHexInput('#fa0'), '#ffaa00');
+  assert.equal(parseHexInput('#2f5b'), null);
+  assert.equal(parseHexInput('blue'), null);
 });
