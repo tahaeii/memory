@@ -1,10 +1,31 @@
 /** How the home page opens (chosen in Dashboard › Branding). */
-export const HERO_STYLES = ['wall', 'cover', 'filmstrip', 'mosaic', 'slideshow', 'editorial', 'minimal'] as const;
+export const HERO_STYLES = [
+  'wall',
+  'cover',
+  'filmstrip',
+  'mosaic',
+  'slideshow',
+  'editorial',
+  'minimal',
+] as const;
 export type HeroStyle = (typeof HERO_STYLES)[number];
 
 export function isHeroStyle(value: unknown): value is HeroStyle {
   return typeof value === 'string' && (HERO_STYLES as readonly string[]).includes(value);
 }
+
+/**
+ * The organisation's own colours as `#rrggbb`. `null` keeps the built-in colour. Every shade the
+ * interface needs is derived from these two (see src/shared/lib/brand-theme).
+ */
+export interface BrandColors {
+  /** Buttons, links, selected states and focus rings. */
+  primary: string | null;
+  /** Badges and small highlights. */
+  secondary: string | null;
+}
+
+export const NO_BRAND_COLORS: BrandColors = { primary: null, secondary: null };
 
 /** Everything that identifies the organisation running this copy of the app. */
 export interface BrandingDto {
