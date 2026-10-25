@@ -6,8 +6,12 @@
  * The primary and secondary scales below are what src/shared/lib/brand-theme generates for the
  * built-in colours (#2f5bd0 and #0e8a83). An organisation's own colours, set in
  * Dashboard › Branding, override them at runtime.
+ *
+ * The `light` and `dark` classes also work on any element, which then shows its contents in that
+ * theme whatever the page uses (the theme previews in Dashboard › Branding do this).
  */
-:root {
+:root,
+.light {
   color-scheme: light;
 
   /* Surfaces, from the page background up */
