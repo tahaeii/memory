@@ -30,3 +30,11 @@ export function brandThemeCss(colors: BrandColors): string {
   const dark = declarations(brandThemeVars(colors, 'dark'));
   return light ? 'html:root{' + light + '}html.dark{' + dark + '}' : '';
 }
+
+/** What the generator changes so a primary colour stays usable; the branding form explains it. */
+export function describePrimary(hex: string): { darkLabels: boolean; lighterInDark: boolean } {
+  return {
+    darkLabels: primaryScale(hex, 'light')['--on-primary'] !== '#ffffff',
+    lighterInDark: primaryScale(hex, 'dark')['--primary'] !== hex.toLowerCase(),
+  };
+}

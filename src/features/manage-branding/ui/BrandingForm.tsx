@@ -7,11 +7,12 @@ import { Button } from '@/shared/ui/Button';
 import { Logo } from '@/shared/ui/Logo';
 import { Notice } from '@/shared/ui/Notice';
 import { useBrandingForm } from '../model/use-branding-form';
+import { BrandColorFields } from './BrandColorFields';
 import { HeroStylePicker } from './HeroStylePicker';
 import { IdentityFields } from './IdentityFields';
 import { LogoCard } from './LogoCard';
 
-/** Super admin: the name, the texts, the logo and the home page style of this installation. */
+/** Super admin: the name, the texts, the colours, the logo and the home page style of this installation. */
 export function BrandingForm() {
   const site = useSite();
   const form = useBrandingForm();
@@ -26,6 +27,7 @@ export function BrandingForm() {
     <div className='grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]'>
       <form onSubmit={submit} className='space-y-8'>
         <IdentityFields values={draft} onChange={change} />
+        <BrandColorFields value={draft.colors} onChange={(colors) => change('colors', colors)} />
         <HeroStylePicker value={draft.heroStyle} onChange={(style) => change('heroStyle', style)} />
 
         <div className='space-y-3'>

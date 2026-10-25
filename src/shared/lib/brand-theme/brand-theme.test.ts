@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { contrastRatio, isHexColor } from '../color';
 import { NO_BRAND_COLORS } from '@contracts/branding';
-import { brandThemeCss, brandThemeVars } from './index';
+import { brandThemeCss, brandThemeVars, describePrimary } from './index';
 
 /** Navy, signal red, yellow, mid grey, mint: brand colours that stress the generator in different ways. */
 const BRANDS = ['#0b1f3a', '#e4002b', '#ffd400', '#808080', '#7be0c3', '#2f5bd0'];
@@ -47,4 +47,9 @@ test('writes one rule per theme', () => {
   const css = brandThemeCss({ primary: '#e4002b', secondary: null });
   assert.match(css, /^html:root\{--primary:#e4002b;.*\}html\.dark\{--primary:#[0-9a-f]{6};.*\}$/);
   assert.ok(!css.includes('--secondary'));
+});
+
+test('says what it changed about a primary colour', () => {
+  assert.deepEqual(describePrimary('#0b1f3a'), { darkLabels: false, lighterInDark: true });
+  assert.deepEqual(describePrimary('#ffd400'), { darkLabels: true, lighterInDark: false });
 });
