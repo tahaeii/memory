@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { useSite } from '@/shared/config/site-context';
 import { Backdrop } from './Backdrop';
+import { LogoMark } from './Logo';
 
 interface AuthShellProps {
   title: string;
@@ -17,7 +18,7 @@ export function AuthShell({ title, subtitle, children }: AuthShellProps) {
     <section className='relative isolate'>
       <Backdrop className='h-[32rem]' />
       <div className='mx-auto w-full max-w-md px-4 py-12 sm:py-20'>
-        <img src={site.logoUrl} alt='' width={44} height={44} className='size-11 rounded-xl object-contain' />
+        <LogoMark src={site.logoUrl} className='size-11 rounded-xl' />
         <h1 className='type-title mt-6'>{title}</h1>
         <p className='text-muted mt-2 text-pretty'>{subtitle}</p>
         <div className='border-line bg-surface shadow-raised mt-8 rounded-2xl border p-5 sm:p-7'>

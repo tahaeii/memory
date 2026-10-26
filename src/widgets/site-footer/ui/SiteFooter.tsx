@@ -8,7 +8,11 @@ export async function SiteFooter() {
   return (
     <footer className='border-line-soft mt-24 border-t'>
       <Container className='text-muted flex flex-col items-start justify-between gap-4 py-8 text-sm sm:flex-row sm:items-center'>
-        <Logo name={site.name} src={site.logoUrl} className='[&>img]:size-6 [&>span]:text-sm' />
+        <Logo
+          name={site.name}
+          src={site.logoUrl}
+          className='[&>:first-child]:size-6 [&>:first-child]:rounded-md [&>span]:text-sm'
+        />
         <p>
           © {new Date().getFullYear()} {site.organization.replace(/\.$/, '')}. All photos belong to the
           company.

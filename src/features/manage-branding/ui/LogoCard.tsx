@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { ImageUp, Trash2 } from 'lucide-react';
 import { Button } from '@/shared/ui/Button';
 import { IconButton } from '@/shared/ui/IconButton';
+import { LogoMark } from '@/shared/ui/Logo';
 
 interface LogoCardProps {
   logoUrl: string;
@@ -21,7 +22,7 @@ export function LogoCard({ logoUrl, custom, busy, onUpload, onRemove }: LogoCard
     <div className='border-line-soft bg-canvas rounded-xl border p-4 sm:p-5'>
       <p className='text-sm font-semibold'>Logo</p>
       <div className='border-line bg-surface mt-3 grid place-items-center rounded-lg border p-6'>
-        <img src={logoUrl} alt='Current logo' className='size-20 rounded-xl object-contain' />
+        <LogoMark src={logoUrl} alt='Current logo' className='size-20 rounded-2xl' />
       </div>
       <input
         ref={fileRef}
