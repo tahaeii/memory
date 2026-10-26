@@ -12,8 +12,9 @@ import { buttonStyles } from '@/shared/ui/Button';
 import { Container } from '@/shared/ui/Container';
 import { Logo } from '@/shared/ui/Logo';
 
+/** On the narrowest phones the logo is the way home, which leaves room for the other two. */
 const links = [
-  { href: '/', label: 'Home', exact: true },
+  { href: '/', label: 'Home', exact: true, wideOnly: true },
   { href: '/gallery', label: 'Gallery', exact: false },
   { href: '/events', label: 'Events', exact: false },
 ];
@@ -39,7 +40,8 @@ export function SiteHeader() {
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'relative flex h-16 items-center text-sm transition-colors',
+                    'relative h-16 items-center text-sm transition-colors',
+                    'wideOnly' in link ? 'hidden min-[26rem]:flex' : 'flex',
                     active ? 'text-fg font-semibold' : 'text-muted hover:text-fg font-medium',
                   )}>
                   {link.label}
