@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { EventDto } from '@/entities/event';
 import {
-  fetchMediaStatus,
+  LoadState,
   SelectableGrid,
   useInfiniteMedia,
+  useVideoStatus,
   type MediaKind,
   type MediaPageDto,
   type Visibility,
@@ -19,7 +20,6 @@ import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { EmptyState } from '@/shared/ui/EmptyState';
 import { Select, type SelectOption } from '@/shared/ui/select';
-import { Spinner } from '@/shared/ui/Spinner';
 
 interface AdminLibraryProps {
   initial: MediaPageDto;
@@ -28,8 +28,6 @@ interface AdminLibraryProps {
   version: number;
   onChanged: () => void;
 }
-
-const STATUS_POLL_MS = 3000;
 
 const KIND_OPTIONS: Array<SelectOption<'' | MediaKind>> = [
   { value: '', label: 'Photos and videos' },
@@ -65,28 +63,7 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
   const ids = selection.ids;
   const wording = deleteWording(role, ids.length);
 
-  // Follow videos while the server converts them.
-  const converting = items
-    .filter((item) => item.video?.status === 'processing')
-    .map((item) => item.id)
-    .join(',');
-  useEffect(() => {
-    if (!converting) return;
-    const pending = converting.split(',');
-    let inFlight = false;
-    const timer = setInterval(async () => {
-      if (inFlight) return;
-      inFlight = true;
-      try {
-        replace((await fetchMediaStatus(pending)).items);
-      } catch {
-        // Try again on the next tick.
-      } finally {
-        inFlight = false;
-      }
-    }, STATUS_POLL_MS);
-    return () => clearInterval(timer);
-  }, [converting, replace]);
+  useVideoStatus(items, replace);
 
   return (
     <div className='pb-24'>
@@ -139,17 +116,12 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
         />
       )}
 
-      {hasMore && <div ref={sentinelRef} className='h-px' />}
-      {loading && (
-        <div className='text-primary flex justify-center py-6'>
-          <Spinner className='size-6' />
-        </div>
-      )}
-      {(error || mutations.error) && (
-        <p role='alert' className='text-danger py-4 text-center text-sm'>
-          {error ?? mutations.error}
-        </p>
-      )}
+      <LoadState
+        sentinelRef={sentinelRef}
+        hasMore={hasMore}
+        loading={loading}
+        error={error ?? mutations.error}
+      />
 
       {ids.length > 0 && (
         <SelectionBar
