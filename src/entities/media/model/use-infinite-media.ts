@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { messageOf } from '@/shared/lib/error-message';
 import { fetchMediaPage } from '../api/media-api';
 import type { MediaDto, MediaFilters, MediaPageDto } from './types';
 
@@ -51,8 +52,7 @@ export function useInfiniteMedia(
       setCursor(page.nextCursor);
       setTotal(page.total);
     } catch (caught) {
-      if (current === generation.current)
-        setError(caught instanceof Error ? caught.message : 'Could not load the library.');
+      if (current === generation.current) setError(messageOf(caught, 'Could not load the library.'));
     } finally {
       if (current === generation.current) setLoading(false);
     }
@@ -79,7 +79,7 @@ export function useInfiniteMedia(
       setItems((previous) => [...previous, ...page.items]);
       setCursor(page.nextCursor);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Could not load more.');
+      setError(messageOf(caught, 'Could not load more.'));
     } finally {
       busy.current = false;
       if (current === generation.current) setLoading(false);
