@@ -1,7 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { SelectableGrid, useInfiniteMedia, type MediaDto, type MediaPageDto } from '@/entities/media';
+import {
+  LoadState,
+  SelectableGrid,
+  useInfiniteMedia,
+  type MediaDto,
+  type MediaPageDto,
+} from '@/entities/media';
 import type { UserDto } from '@/entities/user';
 import {
   DeletedItemActions,
@@ -16,7 +22,6 @@ import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { EmptyState } from '@/shared/ui/EmptyState';
 import { Select } from '@/shared/ui/select';
-import { Spinner } from '@/shared/ui/Spinner';
 
 interface DeletedLibraryProps {
   initial: MediaPageDto;
@@ -86,17 +91,12 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
         />
       )}
 
-      {hasMore && <div ref={sentinelRef} className='h-px' />}
-      {loading && (
-        <div className='text-primary flex justify-center py-6'>
-          <Spinner className='size-6' />
-        </div>
-      )}
-      {(error || mutations.error) && (
-        <p role='alert' className='text-danger py-4 text-center text-sm'>
-          {error ?? mutations.error}
-        </p>
-      )}
+      <LoadState
+        sentinelRef={sentinelRef}
+        hasMore={hasMore}
+        loading={loading}
+        error={error ?? mutations.error}
+      />
 
       {ids.length > 0 && (
         <DeletedSelectionBar
