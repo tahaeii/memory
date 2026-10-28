@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { MediaKind } from '@/entities/media';
+import { messageOf } from '@/shared/lib/error-message';
 import { uploadMedia, type UploadOptions } from '../api/upload-media';
 
 export interface UploadItem {
@@ -61,10 +62,7 @@ export function useUploadQueue(options: UploadOptions, onFinished: () => void) {
             const stored = await uploadMedia(item.file, settings, (progress) => patch(item.id, { progress }));
             patch(item.id, { status: 'done', progress: 1, kind: stored.kind });
           } catch (caught) {
-            patch(item.id, {
-              status: 'error',
-              error: caught instanceof Error ? caught.message : 'Upload failed.',
-            });
+            patch(item.id, { status: 'error', error: messageOf(caught, 'Upload failed.') });
           }
         }
       };
