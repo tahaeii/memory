@@ -40,14 +40,21 @@ export function SiteHeader() {
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'relative h-16 items-center text-sm transition-colors',
+                    'group relative h-16 items-center text-sm transition-colors',
                     'wideOnly' in link ? 'hidden min-[26rem]:flex' : 'flex',
                     active ? 'text-fg font-semibold' : 'text-muted hover:text-fg font-medium',
                   )}>
                   {link.label}
-                  {active && (
-                    <span aria-hidden className='bg-primary absolute inset-x-0 bottom-0 h-0.5 rounded-full' />
-                  )}
+                  {/* The marker under the current page; other links preview it under the pointer. */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      'bg-primary absolute inset-x-0 bottom-0 h-0.5 origin-left rounded-full transition-[scale,opacity] duration-300 ease-out',
+                      active
+                        ? 'scale-x-100'
+                        : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-40',
+                    )}
+                  />
                 </Link>
               );
             })}
