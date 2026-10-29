@@ -58,7 +58,7 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
 
   return (
     <div className='grid items-start gap-6 lg:grid-cols-[minmax(0,22rem)_1fr]'>
-      <form onSubmit={submit} className='border-line bg-surface h-fit space-y-4 rounded-3xl border p-5'>
+      <form onSubmit={submit} className='border-line bg-surface h-fit space-y-4 rounded-xl border p-4 sm:p-5'>
         <h3 className='text-fg font-medium'>{editingId ? 'Edit event' : 'New event'}</h3>
         <Field label='Title'>
           <Input
@@ -108,7 +108,7 @@ export function EventsManager({ events, onChanged }: EventsManagerProps) {
         </div>
       </form>
 
-      <ul className='divide-line-soft border-line bg-surface divide-y overflow-hidden rounded-3xl border'>
+      <ul className='divide-line-soft border-line bg-surface divide-y overflow-hidden rounded-xl border'>
         {events.length === 0 && (
           <li className='text-muted px-5 py-10 text-center text-sm'>No events yet. Create the first one.</li>
         )}
