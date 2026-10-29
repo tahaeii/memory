@@ -32,9 +32,45 @@ function applyTheme(theme: Theme): void {
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
-/** The current colour theme (null until hydrated) and a function that switches it. */
+/** Where on the screen the switch was pressed, in viewport pixels. */
+interface Point {
+  x: number;
+  y: number;
+}
+
+/**
+ * Switches the theme with motion. Browsers with view transitions let the new theme spread in a
+ * circle from `origin`; the others cross-fade the colours. The rules are in styles/animations.css.
+ */
+function switchTheme(theme: Theme, origin: Point): void {
+  const root = document.documentElement;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return applyTheme(theme);
+
+  if (typeof document.startViewTransition !== 'function') {
+    root.dataset.themeSwitch = 'fade';
+    applyTheme(theme);
+    window.setTimeout(() => delete root.dataset.themeSwitch, 400);
+    return;
+  }
+
+  const radius = Math.hypot(
+    Math.max(origin.x, window.innerWidth - origin.x),
+    Math.max(origin.y, window.innerHeight - origin.y),
+  );
+  root.style.setProperty('--reveal-x', origin.x + 'px');
+  root.style.setProperty('--reveal-y', origin.y + 'px');
+  root.style.setProperty('--reveal-radius', radius + 'px');
+  root.dataset.themeSwitch = 'reveal';
+  const done = () => delete root.dataset.themeSwitch;
+  document.startViewTransition(() => applyTheme(theme)).finished.then(done, done);
+}
+
+/** The current colour theme (null until hydrated) and a function that switches it from a point on screen. */
 export function useTheme() {
   const theme = useSyncExternalStore<Theme | null>(subscribe, readTheme, () => null);
-  const toggle = useCallback(() => applyTheme(readTheme() === 'dark' ? 'light' : 'dark'), []);
+  const toggle = useCallback(
+    (origin: Point) => switchTheme(readTheme() === 'dark' ? 'light' : 'dark', origin),
+    [],
+  );
   return { theme, toggle };
 }
