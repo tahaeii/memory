@@ -1,0 +1,18 @@
+# Starts Memory on http://localhost:3000 and keeps every photo, video and account in a named volume.
+#   docker compose up -d
+#   docker compose logs memory | grep '\[setup\]'    # the code for the first start
+services:
+  memory:
+    build: .
+    restart: unless-stopped
+    ports:
+      # Only this machine may reach the app; put nginx, Caddy or Traefik in front for HTTPS.
+      - '127.0.0.1:3000:3000'
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - memory-data:/app/data
+
+volumes:
+  memory-data:
