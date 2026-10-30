@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const config: NextConfig = {
-  // The Dockerfile sets NEXT_OUTPUT=standalone to get a tiny production image.
+  // NEXT_OUTPUT=standalone builds a self-contained server folder (.next/standalone) for small images.
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   poweredByHeader: false,
   // Native binaries and WebAssembly builds are loaded from node_modules at runtime, never bundled.
