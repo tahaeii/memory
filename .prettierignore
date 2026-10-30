@@ -1,9 +1,4 @@
-dist/
 node_modules/
 .next/
-.husky
-.cache
-.gitlab-ci.yml
+data/
 next-env.d.ts
-next.config.ts
-src/shared/icons/icon-index.ts
