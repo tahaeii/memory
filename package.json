@@ -1,6 +1,8 @@
 {
   "name": "memory",
   "version": "0.9.0",
+  "description": "A private photo and video archive an organisation runs on its own server.",
+  "license": "MIT",
   "private": true,
   "engines": {
     "node": ">=20.9.0"
