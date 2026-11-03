@@ -3,6 +3,7 @@
 @import './tokens/typography.css';
 @import './tokens/shape.css';
 @import './tokens/motion.css';
+@import './tokens/layout.css';
 @import './base.css';
 @import './animations.css';
 @import './patterns.css';

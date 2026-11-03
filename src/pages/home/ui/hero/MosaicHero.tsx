@@ -47,11 +47,11 @@ export function MosaicHero({ site, summary, photos }: HeroProps) {
   return (
     <section className='border-line-soft relative isolate overflow-hidden border-b'>
       <Backdrop />
-      <Container className='grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:py-24'>
+      <Container className='lg:min-h-hero grid items-center gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]'>
         <div className='max-w-2xl'>
           <HeroText site={site} summary={summary} />
         </div>
-        <div className='grid h-[440px] grid-cols-3 grid-rows-3 gap-3 sm:h-[560px] sm:gap-4'>
+        <div className='grid h-[clamp(20rem,62svh,36rem)] grid-cols-3 grid-rows-3 gap-3 sm:gap-4'>
           {photos.slice(0, 5).map((photo, index) => (
             <Tile key={photo.id} photo={photo} index={index} />
           ))}

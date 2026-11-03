@@ -19,7 +19,7 @@ function Strip({ photos, direction }: { photos: MediaDto[]; direction: 'left' | 
             key={photo.id + '-' + index}
             href='/gallery'
             tabIndex={-1}
-            className='group bg-subtle ring-line-soft relative block h-44 shrink-0 overflow-hidden rounded-lg bg-cover ring-1 sm:h-56'
+            className='group bg-subtle ring-line-soft relative block h-[clamp(8rem,19svh,14rem)] shrink-0 overflow-hidden rounded-lg bg-cover ring-1'
             style={{
               aspectRatio: String(ratioOf(photo, 0.75, 1.6)),
               backgroundImage: 'url(' + photo.placeholder + ')',
@@ -41,9 +41,9 @@ function Strip({ photos, direction }: { photos: MediaDto[]; direction: 'left' | 
 export function FilmstripHero({ site, summary, photos }: HeroProps) {
   const half = Math.ceil(photos.length / 2);
   return (
-    <section className='border-line-soft relative isolate overflow-hidden border-b pb-16'>
+    <section className='border-line-soft min-h-hero relative isolate flex flex-col justify-center overflow-hidden border-b py-12'>
       <Backdrop />
-      <Container className='pt-16 pb-14 text-center sm:pt-24'>
+      <Container className='pb-[clamp(2rem,6svh,3.5rem)] text-center'>
         <Organization site={site} />
         <Headline site={site} className='mx-auto max-w-4xl' />
         <Tagline site={site} />

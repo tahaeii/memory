@@ -1,0 +1,32 @@
+/*
+ * Layout tokens. Heights follow the visitor's screen. `svh` is the height with the browser's bars
+ * showing, so nothing jumps when they slide away on a phone.
+ */
+:root {
+  --header-height: 4rem;
+  /* The first screen under the header, kept sensible in very short and very tall windows. */
+  --hero-height: clamp(30rem, calc(100svh - var(--header-height)), 58rem);
+  /* A page that is one centred block: sign-in, unlock, not found. Leaves room for the footer line. */
+  --page-height: calc(100svh - var(--header-height) - 5rem);
+  /* The space between the sections of a page. */
+  --section-gap: clamp(3rem, 8svh, 6rem);
+}
+
+@utility h-header {
+  height: var(--header-height);
+}
+@utility min-h-hero {
+  min-height: var(--hero-height);
+}
+@utility h-hero {
+  height: var(--hero-height);
+}
+@utility min-h-page {
+  min-height: var(--page-height);
+}
+@utility pt-section {
+  padding-top: var(--section-gap);
+}
+@utility pb-section {
+  padding-bottom: var(--section-gap);
+}
