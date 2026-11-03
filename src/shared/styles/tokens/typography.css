@@ -1,48 +1,46 @@
 /*
- * Type tokens. Source Serif 4 sets titles the way a printed photo book would; Instrument Sans does
- * the interface. Vazirmatn sits behind both, so names written in Persian or Arabic script are set in
- * a matching face instead of a system fallback (its files load only when such text is on the page).
+ * Type tokens. Geist sets the whole interface; titles are the same face, heavier and tighter. It is
+ * loaded through next/font (see app/layout.tsx), which preloads it and matches the fallback's
+ * metrics, so text does not move when the font arrives. Vazirmatn sits behind it, so names written
+ * in Persian or Arabic script get a matching face (its files load only when such text is on the page).
  */
-@theme {
+@theme inline {
   --font-sans:
-    'Instrument Sans Variable', 'Vazirmatn Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    var(--font-geist-sans), 'Vazirmatn Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
     sans-serif;
-  --font-display: 'Source Serif 4 Variable', 'Vazirmatn Variable', ui-serif, Georgia, serif;
+  --font-display: var(--font-sans);
 }
 
 /* The home page title: fills the measure on a phone and stops growing on wide screens. */
 @utility type-hero {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 1.6rem + 4.4vw, 4.75rem);
-  font-weight: 480;
+  font-size: clamp(2.5rem, 1.55rem + 4.4vw, 4.5rem);
+  font-weight: 650;
   line-height: 1.02;
-  letter-spacing: -0.028em;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 
 /* Page titles: Gallery, Events, an event's name. */
 @utility type-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 1.55rem + 2vw, 3rem);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.022em;
+  font-size: clamp(1.875rem, 1.5rem + 1.7vw, 2.75rem);
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
 /* Section titles inside a page. */
 @utility type-section {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
-  font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.016em;
+  font-size: clamp(1.375rem, 1.25rem + 0.55vw, 1.625rem);
+  font-weight: 620;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
-/* Card, panel and dialog headings: the interface face, a little tighter. */
+/* Card, panel and dialog headings. */
 @utility type-heading {
   font-size: 1.0625rem;
   font-weight: 600;
   line-height: 1.35;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }

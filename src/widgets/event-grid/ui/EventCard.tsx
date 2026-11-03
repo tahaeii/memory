@@ -63,7 +63,7 @@ export function EventPoster({ event }: { event: EventDto }) {
       />
       <span className='absolute inset-x-5 bottom-5 text-white transition-[translate] duration-300 ease-out group-hover:-translate-y-1'>
         <span className='block text-xs font-medium text-white/75'>{formatShortDate(event.date)}</span>
-        <span className='font-display mt-1 block text-lg leading-snug font-semibold'>{event.title}</span>
+        <span className='mt-1 block text-lg leading-snug font-semibold tracking-tight'>{event.title}</span>
         <span className='mt-3 inline-flex h-6 items-center rounded-full bg-white/15 px-2.5 text-xs font-medium backdrop-blur-md'>
           {formatMediaCount(event.photoCount, event.videoCount)}
         </span>

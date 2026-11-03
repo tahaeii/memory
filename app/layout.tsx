@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { cookies } from 'next/headers';
-import '@fontsource-variable/instrument-sans';
-import '@fontsource-variable/source-serif-4/opsz.css';
+import { GeistSans } from 'geist/font/sans';
 import '@fontsource-variable/vazirmatn';
 import { AppProviders } from '@/app/providers';
 import { getServerSession } from '@/shared/api/server-session';
 import { getSiteConfig } from '@/shared/config/site.server';
 import { brandThemeCss } from '@/shared/lib/brand-theme';
+import { cn } from '@/shared/lib/cn';
 import { parseTheme, THEME_COLOR, THEME_COOKIE } from '@/shared/lib/theme';
 import { SiteFooter } from '@/widgets/site-footer';
 import { SiteHeader } from '@/widgets/site-header';
@@ -36,7 +36,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const site = await getSiteConfig();
   const brandCss = brandThemeCss(site.colors);
   return (
-    <html lang='en' className={theme === 'dark' ? 'dark' : undefined} style={{ colorScheme: theme }}>
+    <html
+      lang='en'
+      className={cn(GeistSans.variable, theme === 'dark' && 'dark')}
+      style={{ colorScheme: theme }}>
       {/* The organisation's colours: generated hex values only, see shared/lib/brand-theme. */}
       <head>
         {brandCss ? <style id='brand-theme' dangerouslySetInnerHTML={{ __html: brandCss }} /> : null}

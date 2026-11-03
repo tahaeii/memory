@@ -29,9 +29,7 @@ export async function EventDetailPage({ params }: { params: Promise<{ slug: stri
             className='text-muted hover:text-fg inline-flex items-center gap-1.5 text-sm font-medium transition'>
             <ArrowLeft className='size-4' /> All events
           </Link>
-          <h1 className='font-display mt-6 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl'>
-            {event.title}
-          </h1>
+          <h1 className='type-title mt-6 max-w-3xl'>{event.title}</h1>
           <p className='text-muted mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm'>
             <span className='inline-flex items-center gap-1.5'>
               <CalendarDays className='size-4' />

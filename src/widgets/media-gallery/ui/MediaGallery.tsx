@@ -73,7 +73,7 @@ export function MediaGallery({
               className='border-line-soft flex flex-col gap-4 border-t py-7 first:border-t-0 first:pt-0 md:flex-row md:gap-8'>
               <div className='md:sticky md:top-24 md:w-36 md:shrink-0 md:self-start'>
                 <h2 className='flex items-baseline gap-2 md:block'>
-                  <span className='font-display block text-2xl leading-tight font-semibold tracking-tight md:text-[28px]'>
+                  <span className='block text-2xl leading-tight font-semibold tracking-tight md:text-[28px]'>
                     {month}
                   </span>
                   <span className='text-muted block text-sm font-medium md:mt-1'>{year}</span>

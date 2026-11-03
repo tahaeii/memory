@@ -46,7 +46,7 @@ export function Tagline({ site }: { site: SiteConfig }) {
   if (!site.tagline) return null;
   return (
     <p
-      className='animate-enter font-display text-muted mt-4 text-xl leading-snug sm:text-2xl'
+      className='animate-enter text-muted mt-4 text-xl leading-snug tracking-tight sm:text-2xl'
       style={delay(2)}>
       {site.tagline}
     </p>

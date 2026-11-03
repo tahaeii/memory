@@ -32,7 +32,7 @@ export async function GalleryPage({ searchParams }: { searchParams: SearchParams
 
   return (
     <Container className='py-10 sm:py-12'>
-      <h1 className='font-display text-4xl font-bold tracking-tight sm:text-5xl'>Gallery</h1>
+      <h1 className='type-title'>Gallery</h1>
       <p className='text-muted mt-2'>{describe(page.total, filters, summary.videoCount > 0)}</p>
       <div className='mt-7'>
         <GalleryFilters
