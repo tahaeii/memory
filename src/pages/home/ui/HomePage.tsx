@@ -10,7 +10,6 @@ import { EventPoster } from '@/widgets/event-grid';
 import { MediaGallery } from '@/widgets/media-gallery';
 import { describeArchive } from '../lib/describe-archive';
 import { HomeHero } from './HomeHero';
-import { FeaturedEvent } from './sections/FeaturedEvent';
 import { PreviewBanner } from './sections/PreviewBanner';
 import { PrivateInvite } from './sections/PrivateInvite';
 import { SectionHead } from './sections/SectionHead';
@@ -25,7 +24,6 @@ export async function HomePage({ searchParams }: { searchParams: SearchParams })
     loadEvents(),
     searchParams,
   ]);
-  const featured = events.find((event) => event.cover) ?? null;
   // Staff can try a style before saving it: /?hero=filmstrip (opened from Dashboard › Branding).
   const requested = firstParam(query.hero);
   const preview = isStaffRole(session.role) && isHeroStyle(requested) ? requested : null;
@@ -39,15 +37,7 @@ export async function HomePage({ searchParams }: { searchParams: SearchParams })
         site={site}
         summary={describeArchive(summary, events.length)}
         photos={wall.items}
-        featured={featured}
       />
-
-      {/* The cover style already shows the latest event. */}
-      {heroStyle !== 'cover' && featured?.cover && (
-        <Container className='pt-12 sm:pt-16'>
-          <FeaturedEvent event={featured} cover={featured.cover} />
-        </Container>
-      )}
 
       {page.items.length > 0 && (
         <Container className='pt-14 sm:pt-20'>

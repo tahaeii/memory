@@ -1,13 +1,5 @@
 /** How the home page opens (chosen in Dashboard › Branding). */
-export const HERO_STYLES = [
-  'wall',
-  'cover',
-  'filmstrip',
-  'mosaic',
-  'slideshow',
-  'editorial',
-  'minimal',
-] as const;
+export const HERO_STYLES = ['minimal', 'wall', 'filmstrip', 'mosaic'] as const;
 export type HeroStyle = (typeof HERO_STYLES)[number];
 
 export function isHeroStyle(value: unknown): value is HeroStyle {
@@ -65,7 +57,7 @@ export const DEFAULT_BRANDING = {
   tagline: 'Photo and video archive',
   description:
     'Celebrations, gatherings and everyday life at the company, organised by date and event and kept in one place.',
-  heroStyle: 'wall' as HeroStyle,
+  heroStyle: 'minimal' as HeroStyle,
 };
 
 export const BRANDING_LIMITS = { name: 60, organization: 80, tagline: 120, description: 300 } as const;

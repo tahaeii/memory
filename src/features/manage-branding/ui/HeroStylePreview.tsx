@@ -14,24 +14,6 @@ export function HeroStylePreview({ style }: { style: HeroStyle }) {
   );
   const frame = 'relative block h-20 overflow-hidden rounded-lg';
   switch (style) {
-    case 'cover':
-    case 'slideshow':
-      return (
-        <span aria-hidden className={cn(frame, 'bg-gradient-to-br from-slate-500 to-slate-800')}>
-          <span className='absolute inset-0 bg-gradient-to-r from-slate-950/80 to-transparent' />
-          <span className='absolute bottom-3 left-3 flex w-1/2 flex-col gap-1'>
-            <span className={cn(bar, 'h-1.5 w-full bg-white')} />
-            <span className={cn(bar, 'h-1.5 w-2/3 bg-white/70')} />
-          </span>
-          {style === 'slideshow' && (
-            <span className='absolute right-3 bottom-3 flex gap-1'>
-              <span className={cn(bar, 'h-0.5 w-4 bg-white')} />
-              <span className={cn(bar, 'h-0.5 w-4 bg-white/40')} />
-              <span className={cn(bar, 'h-0.5 w-4 bg-white/40')} />
-            </span>
-          )}
-        </span>
-      );
     case 'filmstrip':
       return (
         <span aria-hidden className={cn(frame, 'bg-canvas flex flex-col items-center gap-1 pt-2.5')}>
@@ -64,23 +46,6 @@ export function HeroStylePreview({ style }: { style: HeroStyle }) {
             <span className='bg-secondary/40 rounded' />
             <span className='bg-primary/30 col-span-2 rounded' />
           </span>
-        </span>
-      );
-    case 'editorial':
-      return (
-        <span
-          aria-hidden
-          className={cn(frame, 'bg-canvas flex flex-col items-center justify-center gap-1.5')}>
-          <span className='flex items-center gap-1'>
-            <span className={cn(bar, 'bg-fg h-2 w-8')} />
-            <span className={cn(bar, 'bg-secondary/60 h-2.5 w-6')} />
-            <span className={cn(bar, 'bg-fg h-2 w-12')} />
-          </span>
-          <span className='flex items-center gap-1'>
-            <span className={cn(bar, 'bg-primary/60 h-2.5 w-6')} />
-            <span className={cn(bar, 'bg-primary h-2 w-16')} />
-          </span>
-          <span className={cn(bar, 'bg-line-strong h-1 w-1/2')} />
         </span>
       );
     case 'minimal':
