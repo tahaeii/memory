@@ -41,6 +41,11 @@ export function BrandColorFields({ value, onChange }: BrandColorFieldsProps) {
       <div className='mt-4'>
         <BrandPreview colors={value} />
       </div>
+      {primary?.darkerInLight && (
+        <p className='text-muted mt-3 text-xs text-pretty'>
+          Your primary colour is light, so the light theme uses a darker shade of it to stay visible.
+        </p>
+      )}
       {primary?.lighterInDark && (
         <p className='text-muted mt-3 text-xs text-pretty'>
           Your primary colour is dark, so the dark theme uses a lighter shade of it.
