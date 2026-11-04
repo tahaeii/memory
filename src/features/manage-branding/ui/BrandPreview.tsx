@@ -17,7 +17,7 @@ function ThemeSample({ colors, mode }: { colors: BrandColors; mode: Mode }) {
           <span className={cn(pill, 'bg-primary text-on-primary transition-colors')}>Upload</span>
           <span className={cn(pill, 'bg-primary-soft text-link transition-colors')}>Preview</span>
           <span className='bg-primary relative ml-auto h-5 w-9 rounded-full transition-colors'>
-            <span className='absolute top-0.5 right-0.5 size-4 rounded-full bg-white' />
+            <span className='bg-on-primary absolute top-0.5 right-0.5 size-4 rounded-full transition-colors' />
           </span>
         </div>
         <div className='flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px]'>
