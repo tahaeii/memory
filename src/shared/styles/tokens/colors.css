@@ -39,6 +39,10 @@
   --on-primary: #ffffff;
   --link: #2f5bd0;
 
+  /* The bundled logo: the light theme's primary, in both themes */
+  --logo: #2f5bd0;
+  --on-logo: #ffffff;
+
   /* Brand: secondary */
   --secondary: #0e8a83;
   --secondary-soft: #d8f8f4;
@@ -109,6 +113,8 @@
   --color-primary-soft: var(--primary-soft);
   --color-on-primary: var(--on-primary);
   --color-link: var(--link);
+  --color-logo: var(--logo);
+  --color-on-logo: var(--on-logo);
   --color-secondary: var(--secondary);
   --color-secondary-soft: var(--secondary-soft);
   --color-secondary-strong: var(--secondary-strong);

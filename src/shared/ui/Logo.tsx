@@ -11,7 +11,8 @@ interface LogoMarkProps {
 
 /**
  * The logo on its own. An uploaded logo is shown as it is. The bundled mark (two stacked prints,
- * the same drawing as app/icon.svg) is drawn here instead, in the organisation's primary colour.
+ * the same drawing as app/icon.svg) is drawn here instead, in the organisation's primary colour. It
+ * uses the logo tokens, which do not change with the theme, so the mark stays white in the dark.
  */
 export function LogoMark({ src, className, alt = '' }: LogoMarkProps) {
   if (src !== DEFAULT_LOGO_URL) {
@@ -24,7 +25,10 @@ export function LogoMark({ src, className, alt = '' }: LogoMarkProps) {
       role={alt ? 'img' : undefined}
       aria-label={alt || undefined}
       aria-hidden={alt ? undefined : true}
-      className={cn('bg-primary text-on-primary shrink-0 transition-colors', className)}>
+      className={cn(
+        'bg-logo text-on-logo shrink-0 ring-1 ring-black/5 transition-colors dark:ring-white/10',
+        className,
+      )}>
       <rect
         x='6.5'
         y='10.5'
@@ -37,8 +41,8 @@ export function LogoMark({ src, className, alt = '' }: LogoMarkProps) {
         strokeWidth='1.8'
       />
       <rect x='10.5' y='7.5' width='14' height='14' rx='2.5' fill='currentColor' />
-      <path d='M13 18.5L16.2 14.8L18.6 17.4L20 16L22.5 18.5H13Z' className='fill-primary' />
-      <circle cx='20.6' cy='11.6' r='1.4' className='fill-primary' />
+      <path d='M13 18.5L16.2 14.8L18.6 17.4L20 16L22.5 18.5H13Z' className='fill-logo' />
+      <circle cx='20.6' cy='11.6' r='1.4' className='fill-logo' />
     </svg>
   );
 }
@@ -48,7 +52,7 @@ export function Logo({ name, src, className }: { name: string; src: string; clas
   return (
     <span className={cn('inline-flex min-w-0 items-center gap-2.5', className)}>
       <LogoMark src={src} className='size-8 rounded-lg' />
-      <span className='font-display text-fg truncate text-[17px] font-semibold tracking-tight'>{name}</span>
+      <span className='text-fg truncate text-[16px] font-semibold tracking-tight'>{name}</span>
     </span>
   );
 }
