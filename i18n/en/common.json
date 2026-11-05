@@ -1,0 +1,14 @@
+{
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "dismiss": "Dismiss",
+    "delete": "Delete",
+    "back": "Back"
+  },
+  "errors": {
+    "generic": "Something went wrong.",
+    "requestFailed": "The request failed."
+  }
+}

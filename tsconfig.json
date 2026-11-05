@@ -17,7 +17,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@server/*": ["./server/*"],
-      "@contracts/*": ["./contracts/*"]
+      "@contracts/*": ["./contracts/*"],
+      "@i18n": ["./i18n/index.ts"],
+      "@i18n/*": ["./i18n/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],

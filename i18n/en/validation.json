@@ -1,0 +1,48 @@
+{
+  "username": {
+    "required": "Enter a username.",
+    "pattern": "Use 3 to 32 characters: lowercase letters, digits, dots, dashes or underscores."
+  },
+  "password": {
+    "required": "Enter your password.",
+    "currentRequired": "Enter your current password.",
+    "min": "Use at least {min} characters.",
+    "max": "Use at most {max} characters.",
+    "repeatRequired": "Type the password once more.",
+    "mismatch": "The two passwords are not the same."
+  },
+  "passcode": {
+    "required": "Enter the passcode.",
+    "chooseRequired": "Choose a passcode for friends of the team.",
+    "min": "Use at least {min} characters.",
+    "max": "Use at most {max} characters.",
+    "repeatRequired": "Type the passcode once more.",
+    "mismatch": "The two passcodes are not the same."
+  },
+  "setupCode": {
+    "required": "Enter the setup code from the server log."
+  },
+  "siteName": {
+    "required": "Give the archive a name.",
+    "max": "Use at most {max} characters."
+  },
+  "organization": {
+    "max": "Use at most {max} characters."
+  },
+  "branding": {
+    "max": "Use at most {max} characters.",
+    "controlCharacters": "Remove the control characters.",
+    "color": "Write colours as #rrggbb, for example #2f5bd0."
+  },
+  "event": {
+    "titleMin": "Give the event a title of at least {min} characters.",
+    "titleMax": "Use at most {max} characters for the title.",
+    "dateRequired": "Choose the date of the event.",
+    "dateInvalid": "That date does not exist.",
+    "descriptionMax": "Use at most {max} characters for the description."
+  },
+  "nothingToUpdate": "Nothing to update.",
+  "invalidId": "That id is not valid.",
+  "invalidRequest": "The request is not valid.",
+  "invalidJson": "The request body must be valid JSON."
+}
