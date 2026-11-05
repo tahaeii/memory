@@ -14,7 +14,7 @@ import {
 import { friendsEnabled } from '@server/config';
 import { HttpError } from '@server/lib/errors';
 import { verifyFriendsPasscode } from '@server/settings/settings.service';
-import { unlockSchema } from '@server/users/user.schemas';
+import { unlockSchema } from '@contracts/schemas/account';
 
 export const dynamic = 'force-dynamic';
 

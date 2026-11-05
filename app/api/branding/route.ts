@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import { brandingSchema } from '@server/branding/branding.schemas';
+import { brandingSchema } from '@contracts/schemas/branding';
 import { getBranding, updateBranding } from '@server/branding/branding.service';
 import { handle, json, readBody, requireSuperAdmin } from '@server/http/api';
 

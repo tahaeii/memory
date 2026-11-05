@@ -5,7 +5,7 @@ import { toSessionDto } from '@server/auth/viewer';
 import { assertSameOrigin, clientIp, handle, json, readBody, setSessionCookie } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
 import { completeSetup } from '@server/setup/setup.service';
-import { setupSchema } from '@server/users/user.schemas';
+import { setupSchema } from '@contracts/schemas/account';
 
 export const dynamic = 'force-dynamic';
 

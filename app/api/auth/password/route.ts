@@ -3,7 +3,7 @@ import { passwordLimiter } from '@server/auth/limiter';
 import { createStaffToken, SESSION_TTL_SECONDS } from '@server/auth/session';
 import { handle, json, readBody, requireStaff, setSessionCookie } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
-import { changePasswordSchema } from '@server/users/user.schemas';
+import { changePasswordSchema } from '@contracts/schemas/account';
 import { changeOwnPassword, toUserDto } from '@server/users/user.service';
 
 export const dynamic = 'force-dynamic';

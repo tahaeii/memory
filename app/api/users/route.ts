@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { handle, json, readBody, requireSuperAdmin } from '@server/http/api';
-import { createUserSchema } from '@server/users/user.schemas';
+import { createUserSchema } from '@contracts/schemas/account';
 import { createUser, listUsers } from '@server/users/user.service';
 
 export const dynamic = 'force-dynamic';

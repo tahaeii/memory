@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server';
-import { eventInputSchema } from '@server/events/event.schemas';
+import { eventInputSchema } from '@contracts/schemas/event';
 import { createEvent } from '@server/events/event.service';
 import { handle, json, readBody, requireStaff } from '@server/http/api';
 

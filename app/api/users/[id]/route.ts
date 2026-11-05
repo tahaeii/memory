@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { handle, json, readBody, requireSuperAdmin } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
 import { ID_PATTERN } from '@server/lib/ids';
-import { updateUserSchema } from '@server/users/user.schemas';
+import { updateUserSchema } from '@contracts/schemas/account';
 import { updateUser } from '@server/users/user.service';
 
 export const dynamic = 'force-dynamic';

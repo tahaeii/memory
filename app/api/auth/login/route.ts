@@ -4,7 +4,7 @@ import { createStaffToken, SESSION_TTL_SECONDS, viewerFromUser } from '@server/a
 import { toSessionDto } from '@server/auth/viewer';
 import { assertSameOrigin, clientIp, handle, json, readBody, setSessionCookie } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
-import { loginSchema } from '@server/users/user.schemas';
+import { loginSchema } from '@contracts/schemas/account';
 import { authenticate } from '@server/users/user.service';
 
 export const dynamic = 'force-dynamic';

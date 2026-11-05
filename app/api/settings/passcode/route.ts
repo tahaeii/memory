@@ -3,7 +3,7 @@ import { handle, json, readBody, requireStaff } from '@server/http/api';
 import { friendsEnabled } from '@server/config';
 import { HttpError } from '@server/lib/errors';
 import { setFriendsPasscode } from '@server/settings/settings.service';
-import { passcodeSchema } from '@server/users/user.schemas';
+import { passcodeSchema } from '@contracts/schemas/account';
 
 export const dynamic = 'force-dynamic';
 
