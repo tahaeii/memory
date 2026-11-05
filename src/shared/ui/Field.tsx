@@ -1,10 +1,15 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/shared/lib/cn';
+import { FieldError } from './FieldError';
 
 interface FieldProps {
   label: string;
   /** A short remark after the label, e.g. "optional". */
   hint?: string;
+  /** A line under the control that says what is expected. */
+  help?: ReactNode;
+  /** What is wrong with the value, from validation. */
+  error?: string;
   children: ReactNode;
   className?: string;
   /**
@@ -14,26 +19,25 @@ interface FieldProps {
   as?: 'label' | 'group';
 }
 
-/** A caption above a form control. */
-export function Field({ label, hint, children, className, as = 'label' }: FieldProps) {
-  const caption = (
-    <span className='mb-1.5 block text-sm font-semibold'>
-      {label}
-      {hint && <span className='text-muted font-normal'> ({hint})</span>}
-    </span>
+/** A caption above a form control, with optional help and a validation message below it. */
+export function Field({ label, hint, help, error, children, className, as = 'label' }: FieldProps) {
+  const content = (
+    <>
+      <span className='mb-1.5 block text-sm font-medium'>
+        {label}
+        {hint && <span className='text-muted font-normal'> ({hint})</span>}
+      </span>
+      {children}
+      {help && <span className='text-muted mt-1.5 block text-[13px] leading-snug font-normal'>{help}</span>}
+      <FieldError message={error} />
+    </>
   );
   if (as === 'group') {
     return (
       <div role='group' aria-label={label} className={cn('block', className)}>
-        {caption}
-        {children}
+        {content}
       </div>
     );
   }
-  return (
-    <label className={cn('block', className)}>
-      {caption}
-      {children}
-    </label>
-  );
+  return <label className={cn('block', className)}>{content}</label>;
 }
