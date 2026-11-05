@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import type { PasscodeStatusDto, UserDto } from '@/entities/user';
 import { ChangePasswordForm } from '@/features/change-password';
 import { FriendsPasscodeForm } from '@/features/friends-passcode';
@@ -15,24 +16,21 @@ export function SettingsSection({
   return (
     <div className='grid items-start gap-4 sm:gap-6 xl:grid-cols-2'>
       <Panel
-        title='Your password'
+        title={t('settings.password.title')}
         description={
-          (account.passwordChangedAt
-            ? 'Last changed on ' + formatShortDate(account.passwordChangedAt) + '.'
-            : 'You have not chosen your own password yet.') +
-          ' Changing it signs you out on every other device.'
+          account.passwordChangedAt
+            ? t('settings.password.changedOn', { date: formatShortDate(account.passwordChangedAt) })
+            : t('settings.password.neverChanged')
         }>
         <ChangePasswordForm />
       </Panel>
       {passcode && (
         <Panel
-          title='Friends passcode'
+          title={t('settings.passcode.title')}
           description={
-            'Friends enter this to see private photos and videos. ' +
-            (passcode.updatedAt
-              ? 'Last changed on ' + formatShortDate(passcode.updatedAt) + '.'
-              : 'It is still the initial passcode.') +
-            ' Changing it locks every friend out until they enter the new one.'
+            passcode.updatedAt
+              ? t('settings.passcode.changedOn', { date: formatShortDate(passcode.updatedAt) })
+              : t('settings.passcode.initial')
           }>
           <FriendsPasscodeForm />
         </Panel>

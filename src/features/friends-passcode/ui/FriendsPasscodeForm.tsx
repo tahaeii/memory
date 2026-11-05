@@ -1,73 +1,58 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { t } from '@i18n';
+import { ACCOUNT_LIMITS } from '@contracts/schemas/account';
 import { apiFetch } from '@/shared/api/http';
-import { messageOf } from '@/shared/lib/error-message';
+import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { Notice } from '@/shared/ui/Notice';
+import { passcodeFormSchema } from '../model/passcode-form';
 
 /** Sets the shared passcode friends use to unlock private items. */
 export function FriendsPasscodeForm() {
   const router = useRouter();
-  const [passcode, setPasscode] = useState('');
-  const [repeat, setRepeat] = useState('');
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSaved(false);
-    if (passcode.trim() !== repeat.trim()) {
-      setError('The passcodes do not match.');
-      return;
-    }
-    setPending(true);
-    setError(null);
-    try {
+  const form = useForm({
+    schema: passcodeFormSchema,
+    initial: { passcode: '', repeat: '' },
+    onSubmit: async ({ passcode }) => {
+      setSaved(false);
       await apiFetch('/settings/passcode', { method: 'PUT', json: { passcode } });
-      setPasscode('');
-      setRepeat('');
+      form.reset();
       setSaved(true);
       router.refresh();
-    } catch (caught) {
-      setError(messageOf(caught));
-    } finally {
-      setPending(false);
-    }
-  }
+    },
+  });
+  const { errors, field } = form;
 
   return (
-    <form onSubmit={submit} className='space-y-4'>
-      <Field label='New passcode'>
+    <form onSubmit={form.submit} noValidate className='space-y-4'>
+      <Field
+        label={t('settings.passcode.new')}
+        help={t('settings.passcode.newHelp', { min: ACCOUNT_LIMITS.passcodeMin })}
+        error={errors.passcode}>
         <Input
           type='password'
           autoComplete='off'
-          minLength={6}
-          maxLength={64}
-          value={passcode}
-          onChange={(event) => setPasscode(event.target.value)}
+          maxLength={ACCOUNT_LIMITS.passcodeMax}
+          {...field('passcode')}
         />
       </Field>
-      <Field label='Repeat the passcode'>
-        <Input
-          type='password'
-          autoComplete='off'
-          value={repeat}
-          onChange={(event) => setRepeat(event.target.value)}
-        />
+      <Field label={t('settings.passcode.repeat')} error={errors.repeat}>
+        <Input type='password' autoComplete='off' {...field('repeat')} />
       </Field>
-      {error && <Notice tone='error'>{error}</Notice>}
+      {form.error && <Notice tone='error'>{form.error}</Notice>}
       {saved && (
-        <Notice tone='success'>
-          Passcode changed. Friends were signed out and need the new passcode to see private items.
+        <Notice tone='success' onDismiss={() => setSaved(false)}>
+          {t('settings.passcode.saved')}
         </Notice>
       )}
-      <Button type='submit' loading={pending} disabled={passcode.trim().length < 6 || !repeat}>
-        Change passcode
+      <Button type='submit' loading={form.pending}>
+        {t('settings.passcode.submit')}
       </Button>
     </form>
   );

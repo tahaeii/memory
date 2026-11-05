@@ -1,1 +1,23 @@
-{}
+{
+  "password": {
+    "title": "Your password",
+    "changedOn": "Last changed on {date}. Changing it signs you out on every other device.",
+    "neverChanged": "You have not chosen your own password yet. Changing it signs you out on every other device.",
+    "current": "Current password",
+    "new": "New password",
+    "newHelp": "At least {min} characters.",
+    "repeat": "Repeat the new password",
+    "submit": "Change password",
+    "saved": "Password changed. Your other devices were signed out."
+  },
+  "passcode": {
+    "title": "Friends passcode",
+    "changedOn": "Friends enter this to see private photos and videos. Last changed on {date}. Changing it locks every friend out until they enter the new one.",
+    "initial": "Friends enter this to see private photos and videos. It is still the initial passcode. Changing it locks every friend out until they enter the new one.",
+    "new": "New passcode",
+    "newHelp": "At least {min} characters.",
+    "repeat": "Repeat the passcode",
+    "submit": "Change passcode",
+    "saved": "Passcode changed. Friends were signed out and need the new passcode to see private items."
+  }
+}
