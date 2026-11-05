@@ -1,13 +1,16 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiFetch } from '@/shared/api/http';
-import { messageOf } from '@/shared/lib/error-message';
+import { t } from '@i18n';
+import { ACCOUNT_LIMITS } from '@contracts/schemas/account';
+import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
 import { Notice } from '@/shared/ui/Notice';
+import { completeSetup } from '../api/setup-api';
+import { setupFormSchema } from '../model/setup-form';
 
 interface SetupFormProps {
   /** Ask for the friends passcode only when the friends area is switched on. */
@@ -19,127 +22,88 @@ interface SetupFormProps {
 /** First start: names the archive and creates the super admin (and the friends passcode) in one step. */
 export function SetupForm({ friendsEnabled, defaultName, defaultOrganization }: SetupFormProps) {
   const router = useRouter();
-  const [code, setCode] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeat, setRepeat] = useState('');
-  const [passcode, setPasscode] = useState('');
-  const [siteName, setSiteName] = useState(defaultName);
-  const [organization, setOrganization] = useState(defaultOrganization);
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const complete =
-    code.length > 0 &&
-    username.trim().length >= 3 &&
-    password.length >= 8 &&
-    repeat.length > 0 &&
-    siteName.trim().length > 0 &&
-    (!friendsEnabled || passcode.trim().length >= 6);
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (password !== repeat) {
-      setError('The passwords do not match.');
-      return;
-    }
-    setPending(true);
-    setError(null);
-    try {
-      await apiFetch('/setup', {
-        method: 'POST',
-        json: {
-          code,
-          username,
-          password,
-          siteName,
-          organization,
-          ...(friendsEnabled ? { passcode } : {}),
-        },
-      });
+  const schema = useMemo(() => setupFormSchema(friendsEnabled), [friendsEnabled]);
+  const form = useForm({
+    schema,
+    initial: {
+      code: '',
+      siteName: defaultName,
+      organization: defaultOrganization,
+      username: '',
+      password: '',
+      repeat: '',
+      passcode: '',
+    },
+    onSubmit: async ({ code, siteName, organization, username, password, passcode }) => {
+      const account = { code, siteName, organization, username, password };
+      await completeSetup(friendsEnabled ? { ...account, passcode } : account);
       router.replace('/admin');
       router.refresh();
-    } catch (caught) {
-      setError(messageOf(caught));
-      setPending(false);
-    }
-  }
+      return 'leaving';
+    },
+  });
+  const { errors, field } = form;
 
   return (
-    <form onSubmit={submit} className='space-y-4'>
-      <Field label='Setup code'>
+    <form onSubmit={form.submit} noValidate className='space-y-4'>
+      <Field label={t('setup.code.label')} help={t('setup.code.help')} error={errors.code}>
         <Input
           className='uppercase'
           autoComplete='off'
+          autoFocus
           spellCheck={false}
-          placeholder='XXXX-XXXX-XXXX'
-          value={code}
-          onChange={(event) => setCode(event.target.value)}
+          placeholder={t('setup.code.placeholder')}
+          {...field('code')}
         />
-        <span className='text-muted mt-1.5 block font-normal'>
-          Printed in the server log, on the line that starts with [setup].
-        </span>
       </Field>
       <div className='grid gap-4 sm:grid-cols-2'>
-        <Field label='Archive name'>
-          <Input maxLength={60} value={siteName} onChange={(event) => setSiteName(event.target.value)} />
+        <Field label={t('setup.siteName')} error={errors.siteName}>
+          <Input maxLength={ACCOUNT_LIMITS.siteNameMax} {...field('siteName')} />
         </Field>
-        <Field label='Organisation'>
-          <Input
-            maxLength={80}
-            value={organization}
-            onChange={(event) => setOrganization(event.target.value)}
-          />
+        <Field label={t('setup.organization')} error={errors.organization}>
+          <Input maxLength={ACCOUNT_LIMITS.organizationMax} {...field('organization')} />
         </Field>
       </div>
-      <p className='text-muted -mt-1 text-sm'>
-        Shown in the header and on the home page. The logo and texts can be changed later in Dashboard ›
-        Branding.
-      </p>
-      <Field label='Super admin username'>
+      <p className='text-muted -mt-1 text-[13px] leading-snug text-pretty'>{t('setup.namesHelp')}</p>
+      <Field label={t('setup.username.label')} help={t('setup.username.help')} error={errors.username}>
         <Input
           autoComplete='username'
+          autoCapitalize='none'
           spellCheck={false}
-          maxLength={32}
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          maxLength={ACCOUNT_LIMITS.usernameMax}
+          {...field('username')}
         />
       </Field>
-      <Field label='Password'>
+      <Field
+        label={t('setup.password.label')}
+        help={t('setup.password.help', { min: ACCOUNT_LIMITS.passwordMin })}
+        error={errors.password}>
         <Input
           type='password'
           autoComplete='new-password'
-          minLength={8}
-          maxLength={128}
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          maxLength={ACCOUNT_LIMITS.passwordMax}
+          {...field('password')}
         />
       </Field>
-      <Field label='Repeat the password'>
-        <Input
-          type='password'
-          autoComplete='new-password'
-          value={repeat}
-          onChange={(event) => setRepeat(event.target.value)}
-        />
+      <Field label={t('setup.repeat')} error={errors.repeat}>
+        <Input type='password' autoComplete='new-password' {...field('repeat')} />
       </Field>
       {friendsEnabled && (
-        <Field label='Friends passcode'>
+        <Field
+          label={t('setup.passcode.label')}
+          help={t('setup.passcode.help', { min: ACCOUNT_LIMITS.passcodeMin })}
+          error={errors.passcode}>
           <Input
             type='password'
             autoComplete='off'
-            minLength={6}
-            maxLength={64}
-            value={passcode}
-            onChange={(event) => setPasscode(event.target.value)}
+            maxLength={ACCOUNT_LIMITS.passcodeMax}
+            {...field('passcode')}
           />
-          <span className='text-muted mt-1.5 block font-normal'>
-            Friends of the team enter this to see private photos and videos. You can change it later.
-          </span>
         </Field>
       )}
-      {error && <Notice tone='error'>{error}</Notice>}
-      <Button type='submit' className='w-full' loading={pending} disabled={!complete}>
-        Create the super admin
+      {form.error && <Notice tone='error'>{form.error}</Notice>}
+      <Button type='submit' className='w-full' loading={form.pending}>
+        {t('setup.submit')}
       </Button>
     </form>
   );

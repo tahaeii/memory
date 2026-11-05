@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { t } from '@i18n';
 import { loadSetupState } from '@/entities/user/server';
 import { SetupForm } from '@/features/initial-setup';
 import { getSiteConfig } from '@/shared/config/site.server';
@@ -9,9 +10,7 @@ export async function SetupPage() {
   if ((await loadSetupState()) === 'complete') redirect('/admin/login');
   const site = await getSiteConfig();
   return (
-    <AuthShell
-      title='Set up your archive'
-      subtitle='Name it and create the super admin account, which manages the other admins and everything else.'>
+    <AuthShell title={t('setup.title')} subtitle={t('setup.subtitle')}>
       <SetupForm
         friendsEnabled={site.friendsEnabled}
         defaultName={site.name}

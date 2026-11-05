@@ -1,1 +1,27 @@
-{}
+{
+  "pageTitle": "Setup",
+  "title": "Set up your archive",
+  "subtitle": "Name it and create the super admin account, which manages the other admins and everything else.",
+  "code": {
+    "label": "Setup code",
+    "placeholder": "XXXX-XXXX-XXXX",
+    "help": "Printed in the server log, on the line that starts with [setup]."
+  },
+  "siteName": "Archive name",
+  "organization": "Organisation",
+  "namesHelp": "Shown in the header and on the home page. The logo, texts and colours can be changed later in Dashboard › Branding.",
+  "username": {
+    "label": "Super admin username",
+    "help": "3 to 32 characters: lowercase letters, digits, dots, dashes or underscores."
+  },
+  "password": {
+    "label": "Password",
+    "help": "At least {min} characters."
+  },
+  "repeat": "Repeat the password",
+  "passcode": {
+    "label": "Friends passcode",
+    "help": "At least {min} characters. Friends of the team enter it to see private photos and videos. You can change it later."
+  },
+  "submit": "Create the super admin"
+}
