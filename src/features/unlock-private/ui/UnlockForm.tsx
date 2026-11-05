@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { t } from '@i18n';
+import { unlockSchema } from '@contracts/schemas/account';
 import { cn } from '@/shared/lib/cn';
-import { messageOf } from '@/shared/lib/error-message';
+import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
+import { FieldError } from '@/shared/ui/FieldError';
 import { Input } from '@/shared/ui/Input';
 import { unlockPrivate } from '../api/unlock';
 
@@ -19,52 +21,36 @@ interface UnlockFormProps {
 /** Asks friends for the shared passcode, then reloads the page with private photos visible. */
 export function UnlockForm({ next, layout = 'stacked' }: UnlockFormProps) {
   const router = useRouter();
-  const [passcode, setPasscode] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
   const inline = layout === 'inline';
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setPending(true);
-    setError(null);
-    try {
+  const form = useForm({
+    schema: unlockSchema,
+    initial: { passcode: '' },
+    onSubmit: async ({ passcode }) => {
       await unlockPrivate(passcode);
       router.replace(next);
       router.refresh();
-    } catch (caught) {
-      setError(messageOf(caught));
-      setPending(false);
-    }
-  }
+      return 'leaving';
+    },
+  });
 
   return (
-    <form onSubmit={submit} className='space-y-3'>
+    <form onSubmit={form.submit} noValidate>
       <div className={cn(inline ? 'flex flex-wrap items-end gap-2.5' : 'space-y-4')}>
-        <Field label='Passcode' className={inline ? 'min-w-52 flex-1' : undefined}>
+        <Field label={t('auth.unlock.passcode')} className={inline ? 'min-w-52 flex-1' : undefined}>
           <Input
             className='h-12'
             type='password'
             autoComplete='off'
             autoFocus={!inline}
-            value={passcode}
-            onChange={(event) => setPasscode(event.target.value)}
+            {...form.field('passcode')}
           />
         </Field>
-        <Button
-          type='submit'
-          size='lg'
-          className={inline ? '' : 'w-full'}
-          loading={pending}
-          disabled={!passcode}>
-          {inline ? 'Unlock' : 'Unlock private photos'}
+        <Button type='submit' size='lg' className={inline ? undefined : 'w-full'} loading={form.pending}>
+          {inline ? t('auth.unlock.submitShort') : t('auth.unlock.submit')}
         </Button>
       </div>
-      {error && (
-        <p role='alert' className='text-danger text-sm'>
-          {error}
-        </p>
-      )}
+      {/* Under the whole row, so the button does not move when a message appears. */}
+      <FieldError message={form.errors.passcode ?? form.error ?? undefined} />
     </form>
   );
 }

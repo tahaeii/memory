@@ -1,59 +1,39 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { t } from '@i18n';
+import { loginSchema } from '@contracts/schemas/account';
 import { apiFetch } from '@/shared/api/http';
-import { messageOf } from '@/shared/lib/error-message';
+import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
+import { Notice } from '@/shared/ui/Notice';
 
 export function AdminLoginForm() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setPending(true);
-    setError(null);
-    try {
-      await apiFetch('/auth/login', { method: 'POST', json: { username, password } });
+  const form = useForm({
+    schema: loginSchema,
+    initial: { username: '', password: '' },
+    onSubmit: async (credentials) => {
+      await apiFetch('/auth/login', { method: 'POST', json: credentials });
       router.replace('/admin');
       router.refresh();
-    } catch (caught) {
-      setError(messageOf(caught));
-      setPending(false);
-    }
-  }
+      return 'leaving';
+    },
+  });
 
   return (
-    <form onSubmit={submit} className='space-y-4'>
-      <Field label='Username'>
-        <Input
-          autoComplete='username'
-          autoFocus
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
+    <form onSubmit={form.submit} noValidate className='space-y-4'>
+      <Field label={t('auth.login.username')} error={form.errors.username}>
+        <Input autoComplete='username' autoCapitalize='none' autoFocus {...form.field('username')} />
       </Field>
-      <Field label='Password'>
-        <Input
-          type='password'
-          autoComplete='current-password'
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
+      <Field label={t('auth.login.password')} error={form.errors.password}>
+        <Input type='password' autoComplete='current-password' {...form.field('password')} />
       </Field>
-      {error && (
-        <p role='alert' className='text-danger text-sm'>
-          {error}
-        </p>
-      )}
-      <Button type='submit' className='w-full' loading={pending} disabled={!username || !password}>
-        Sign in
+      {form.error && <Notice tone='error'>{form.error}</Notice>}
+      <Button type='submit' className='w-full' loading={form.pending}>
+        {t('auth.login.submit')}
       </Button>
     </form>
   );

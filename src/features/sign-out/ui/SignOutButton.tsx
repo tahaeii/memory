@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogOut } from 'lucide-react';
+import { t } from '@i18n';
 import { apiFetch } from '@/shared/api/http';
 import { Button } from '@/shared/ui/Button';
 
 /** Ends the current session (friend or admin). */
-export function SignOutButton({ label = 'Sign out' }: { label?: string }) {
+export function SignOutButton({ label = t('auth.signOut') }: { label?: string }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
