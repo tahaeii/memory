@@ -26,8 +26,8 @@ export function SelectableGrid({ items, selected, onToggle, onOpen, caption }: S
           <li
             key={item.id}
             className={cn(
-              'group bg-subtle relative aspect-square overflow-hidden rounded-xl bg-cover',
-              isSelected && 'ring-primary ring-4',
+              'group bg-subtle ring-primary relative aspect-square overflow-hidden rounded-xl bg-cover transition-shadow duration-300',
+              isSelected ? 'ring-4' : 'ring-0',
             )}
             style={{ backgroundImage: 'url(' + item.placeholder + ')' }}>
             <button
@@ -35,11 +35,7 @@ export function SelectableGrid({ items, selected, onToggle, onOpen, caption }: S
               className='absolute inset-0'
               onClick={() => onOpen(index)}
               aria-label={'Open ' + item.kind}>
-              <MediaImage
-                item={item}
-                sizes='(min-width: 1024px) 16vw, (min-width: 640px) 25vw, 50vw'
-                className='transition-transform duration-500 group-hover:scale-105'
-              />
+              <MediaImage item={item} sizes='(min-width: 1024px) 16vw, (min-width: 640px) 25vw, 50vw' zoom />
             </button>
             <button
               type='button'
@@ -48,7 +44,7 @@ export function SelectableGrid({ items, selected, onToggle, onOpen, caption }: S
               aria-label={'Select ' + item.kind}
               onClick={() => onToggle(item.id)}
               className={cn(
-                'absolute top-2 left-2 grid size-6 place-items-center rounded-full border-2 transition',
+                'absolute top-2 left-2 grid size-6 place-items-center rounded-full border-2 transition-[opacity,background-color,border-color,scale] duration-300 active:scale-90',
                 isSelected
                   ? 'border-primary bg-primary text-on-primary'
                   : 'border-white/90 bg-slate-950/20 text-transparent opacity-0 group-hover:opacity-100 focus-visible:opacity-100',

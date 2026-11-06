@@ -24,12 +24,7 @@ function Strip({ photos, direction }: { photos: MediaDto[]; direction: 'left' | 
               aspectRatio: String(ratioOf(photo, 0.75, 1.6)),
               backgroundImage: 'url(' + photo.placeholder + ')',
             }}>
-            <MediaImage
-              item={photo}
-              sizes='(min-width: 640px) 360px, 280px'
-              priority={index < 4}
-              className='transition-transform duration-700 group-hover:scale-[1.04]'
-            />
+            <MediaImage item={photo} sizes='(min-width: 640px) 360px, 280px' priority={index < 4} zoom />
           </Link>
         ))}
       </div>

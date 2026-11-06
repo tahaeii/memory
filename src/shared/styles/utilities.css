@@ -27,3 +27,21 @@
     background-size: 100% 1.5px;
   }
 }
+
+/*
+ * A photo that grows a little while its card (a parent with the `group` class) is under the
+ * pointer: unhurried on the way in, slower on the way out. Also fades the photo in once loaded.
+ * Only for devices with a real pointer, where hover does not stick after a tap.
+ */
+@utility media-zoom {
+  transition:
+    scale 1.4s var(--ease-out),
+    opacity var(--duration-slower) var(--ease-soft);
+
+  @media (hover: hover) {
+    :where(.group):hover & {
+      scale: 1.045;
+      transition-duration: 0.9s, var(--duration-slower);
+    }
+  }
+}

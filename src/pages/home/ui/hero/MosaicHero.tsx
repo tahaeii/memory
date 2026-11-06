@@ -28,7 +28,7 @@ function Tile({ photo, index }: { photo: MediaDto; index: number }) {
         item={photo}
         sizes={index === 0 ? '(min-width: 1024px) 34vw, 66vw' : '(min-width: 1024px) 17vw, 33vw'}
         priority={index < 3}
-        className='transition-transform duration-700 group-hover:scale-[1.04]'
+        zoom
       />
       {index === 0 && photo.event && (
         <span className='bg-glass text-fg absolute right-4 bottom-4 left-4 flex items-center justify-between gap-3 rounded-lg px-4 py-3 backdrop-blur-xl'>

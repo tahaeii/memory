@@ -13,6 +13,8 @@ interface MediaImageProps {
   priority?: boolean;
   /** Also offer the large variant (for images that fill the screen). */
   large?: boolean;
+  /** Grow slightly while a parent with the `group` class is under the pointer. */
+  zoom?: boolean;
   className?: string;
 }
 
@@ -20,7 +22,14 @@ interface MediaImageProps {
  * Responsive <img> (a frame of the video for videos) that fills its relatively positioned parent and
  * fades in once loaded. Give the parent a background from `item.placeholder` for a blur-up effect.
  */
-export function MediaImage({ item, sizes, priority = false, large = false, className }: MediaImageProps) {
+export function MediaImage({
+  item,
+  sizes,
+  priority = false,
+  large = false,
+  zoom = false,
+  className,
+}: MediaImageProps) {
   const site = useSite();
   const [loaded, setLoaded] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
@@ -56,7 +65,8 @@ export function MediaImage({ item, sizes, priority = false, large = false, class
       decoding='async'
       onLoad={() => setLoaded(true)}
       className={cn(
-        'absolute inset-0 h-full w-full object-cover transition-opacity duration-500',
+        'absolute inset-0 h-full w-full object-cover',
+        zoom ? 'media-zoom' : 'transition-opacity duration-500',
         loaded ? 'opacity-100' : 'opacity-0',
         className,
       )}

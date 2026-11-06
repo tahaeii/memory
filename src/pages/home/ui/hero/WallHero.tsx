@@ -46,7 +46,7 @@ export function WallHero({ site, summary, photos }: HeroProps) {
                         item={photo}
                         sizes='(min-width: 1024px) 17vw, 32vw'
                         priority={position < 2}
-                        className='transition-transform duration-700 group-hover:scale-[1.04]'
+                        zoom
                       />
                     </Link>
                   ))}
