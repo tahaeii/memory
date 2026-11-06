@@ -12,6 +12,7 @@
   --animate-rise-out: rise-out var(--duration-base) var(--ease-in) both;
   --animate-zoom-in: zoom-in var(--duration-slow) var(--ease-out) both;
   --animate-enter: enter 0.7s var(--ease-out) both;
+  --animate-page: fade-in var(--duration-slow) var(--ease-soft);
   --animate-check: check var(--duration-base) var(--ease-spring) both;
 
   /* Home page styles */
@@ -19,8 +20,6 @@
   --animate-wall-down: wall-down 90s linear infinite;
   --animate-marquee-left: marquee-left 80s linear infinite;
   --animate-marquee-right: marquee-right 80s linear infinite;
-  --animate-ken-burns: ken-burns 24s ease-out both;
-  --animate-grow: grow 7s linear both;
 
   @keyframes fade-in {
     from {
@@ -112,22 +111,6 @@
     }
     to {
       transform: translate3d(0, 0, 0);
-    }
-  }
-  @keyframes ken-burns {
-    from {
-      transform: scale(1.08);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-  @keyframes grow {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
     }
   }
 }
