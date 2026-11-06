@@ -10,7 +10,7 @@ interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
 }
 
 export const iconButtonStyles =
-  'grid shrink-0 place-items-center rounded-lg text-muted transition-colors hover:bg-fg/[0.07] hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-35 aria-pressed:bg-fg/10 aria-pressed:text-fg';
+  'grid shrink-0 place-items-center rounded-lg text-muted transition-[background-color,color,scale] duration-300 hover:bg-fg/[0.07] hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary active:scale-90 active:duration-100 disabled:pointer-events-none disabled:opacity-35 aria-pressed:bg-fg/10 aria-pressed:text-fg';
 
 /** A square button that holds only an icon. */
 export function IconButton({
