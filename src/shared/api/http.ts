@@ -1,3 +1,5 @@
+import { t } from '@i18n';
+
 /** Error thrown for every non-2xx response from our API. */
 export class ApiError extends Error {
   constructor(
@@ -32,7 +34,10 @@ export async function apiFetch<T>(path: string, options: ApiOptions = {}): Promi
   const data: unknown = await response.json().catch(() => null);
   if (!response.ok) {
     const message = (data as { error?: unknown } | null)?.error;
-    throw new ApiError(typeof message === 'string' ? message : 'Request failed.', response.status);
+    throw new ApiError(
+      typeof message === 'string' ? message : t('common.errors.requestFailed'),
+      response.status,
+    );
   }
   return data as T;
 }

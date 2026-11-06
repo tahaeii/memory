@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { CircleAlert, CircleCheck, Info, X } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 
 interface NoticeProps {
@@ -30,8 +31,8 @@ export function Notice({ tone, children, className, onDismiss }: NoticeProps) {
         <button
           type='button'
           onClick={onDismiss}
-          aria-label='Dismiss'
-          title='Dismiss'
+          aria-label={t('common.actions.dismiss')}
+          title={t('common.actions.dismiss')}
           className='-my-1.5 -mr-2 grid size-8 shrink-0 place-items-center rounded-md opacity-70 transition hover:bg-current/10 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-current'>
           <X className='size-4' />
         </button>
