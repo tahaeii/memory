@@ -17,7 +17,8 @@ function readPositive(name: string, fallback: number): number {
  * In Docker, mount a volume here so nothing is lost when the container is replaced.
  */
 export function dataDir(): string {
-  return path.resolve(process.cwd(), read('DATA_DIR') ?? 'data');
+  // The comment tells the bundler not to trace this folder: it is data, not code.
+  return path.resolve(/* turbopackIgnore: true */ process.cwd(), read('DATA_DIR') ?? 'data');
 }
 
 /** Largest photo accepted, in bytes (MAX_UPLOAD_MB, default 100). */

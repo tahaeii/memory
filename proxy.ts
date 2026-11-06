@@ -1,11 +1,23 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { isSetupComplete } from '@server/setup/setup.service';
 
 /**
- * Runs before every page request (Next.js "proxy", formerly middleware). It adds a
- * Content-Security-Policy with a fresh nonce: Next.js puts that nonce on its own scripts, so the
- * browser runs those and nothing injected into a page. API routes and static files are not affected.
+ * Runs before every page request (Next.js "proxy", formerly middleware). API routes and static
+ * files are not affected. It does two things:
+ *
+ * 1. Until the first super admin exists, every page leads to /setup, so whoever installs the app
+ *    lands on the right page without knowing its address.
+ * 2. It adds a Content-Security-Policy with a fresh nonce: Next.js puts that nonce on its own
+ *    scripts, so the browser runs those and nothing injected into a page.
  */
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname !== '/setup' && !(await isSetupComplete())) {
+    const setup = request.nextUrl.clone();
+    setup.pathname = '/setup';
+    setup.search = '';
+    return NextResponse.redirect(setup);
+  }
+
   const nonce = btoa(crypto.randomUUID());
   const dev = process.env.NODE_ENV !== 'production';
   const csp = [
