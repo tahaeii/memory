@@ -10,5 +10,16 @@
   "errors": {
     "generic": "Something went wrong.",
     "requestFailed": "The request failed."
+  },
+  "nav": {
+    "label": "Main",
+    "home": "Home",
+    "gallery": "Gallery",
+    "events": "Events",
+    "homeLabel": "{name} home",
+    "dashboard": "Dashboard",
+    "privateAccess": "Private access",
+    "friendsAccess": "Friends access",
+    "lock": "Lock"
   }
 }
