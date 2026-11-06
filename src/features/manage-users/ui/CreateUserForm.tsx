@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
-import { messageOf } from '@/shared/lib/error-message';
+import { useState } from 'react';
+import { t } from '@i18n';
+import { ACCOUNT_LIMITS, createUserSchema } from '@contracts/schemas/account';
+import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
@@ -12,61 +14,64 @@ import { PasswordField } from './PasswordField';
 
 /** Creates an admin account with a username, a starting password and optional private access. */
 export function CreateUserForm({ onCreated }: { onCreated: () => void }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [privateAccess, setPrivateAccess] = useState(false);
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [created, setCreated] = useState<string | null>(null);
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setPending(true);
-    setError(null);
-    setCreated(null);
-    try {
-      const user = await createUser({ username, password, privateAccess });
+  const form = useForm({
+    schema: createUserSchema,
+    initial: { username: '', password: '', privateAccess: false },
+    onSubmit: async (input) => {
+      setCreated(null);
+      const user = await createUser(input);
+      form.reset();
       setCreated(user.username);
-      setUsername('');
-      setPassword('');
-      setPrivateAccess(false);
       onCreated();
-    } catch (caught) {
-      setError(messageOf(caught));
-    } finally {
-      setPending(false);
-    }
-  }
+    },
+  });
+  const { values, errors } = form;
+  const password = form.field('password');
 
   return (
-    <form onSubmit={submit} className='border-line bg-surface h-fit space-y-4 rounded-xl border p-4 sm:p-5'>
-      <h3 className='type-heading'>New admin</h3>
-      <Field label='Username'>
+    <form
+      onSubmit={form.submit}
+      noValidate
+      className='border-line bg-surface h-fit space-y-4 rounded-xl border p-4 sm:p-5'>
+      <h3 className='type-heading'>{t('users.create.title')}</h3>
+      <Field label={t('users.create.username')} error={errors.username}>
         <Input
           autoComplete='off'
+          autoCapitalize='none'
           spellCheck={false}
-          maxLength={32}
-          placeholder='e.g. sara.k'
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          maxLength={ACCOUNT_LIMITS.usernameMax}
+          placeholder={t('users.create.usernamePlaceholder')}
+          {...form.field('username')}
         />
       </Field>
-      <PasswordField label='Starting password' value={password} onChange={setPassword} />
+      <PasswordField
+        label={t('users.create.password')}
+        help={t('users.create.passwordHelp', { min: ACCOUNT_LIMITS.passwordMin })}
+        error={errors.password}
+        value={values.password}
+        onChange={(value) => form.set('password', value)}
+        onBlur={password.onBlur}
+      />
       <div className='flex items-start justify-between gap-4'>
         <div className='text-sm'>
-          <p className='text-fg font-medium'>Private items</p>
-          <p className='text-muted mt-0.5'>Can see, upload and manage private items.</p>
+          <p className='text-fg font-medium'>{t('users.create.privateTitle')}</p>
+          <p className='text-muted mt-0.5'>{t('users.create.privateHint')}</p>
         </div>
-        <Switch checked={privateAccess} onChange={setPrivateAccess} label='Access to private items' />
+        <Switch
+          checked={values.privateAccess ?? false}
+          onChange={(value) => form.set('privateAccess', value)}
+          label={t('users.create.privateLabel')}
+        />
       </div>
-      {error && <Notice tone='error'>{error}</Notice>}
+      {form.error && <Notice tone='error'>{form.error}</Notice>}
       {created && (
-        <Notice tone='success'>
-          “{created}” can sign in now. Share the password privately; they can change it in Settings.
+        <Notice tone='success' onDismiss={() => setCreated(null)}>
+          {t('users.create.created', { username: created })}
         </Notice>
       )}
-      <Button type='submit' loading={pending} disabled={username.trim().length < 3 || password.length < 8}>
-        Create admin
+      <Button type='submit' loading={form.pending}>
+        {t('users.create.submit')}
       </Button>
     </form>
   );

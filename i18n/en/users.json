@@ -1,1 +1,40 @@
-{}
+{
+  "roles": {
+    "guest": "Guest",
+    "friend": "Friend",
+    "admin": "Admin",
+    "superadmin": "Super admin"
+  },
+  "create": {
+    "title": "New admin",
+    "username": "Username",
+    "usernamePlaceholder": "e.g. sara.k",
+    "password": "Starting password",
+    "passwordHelp": "At least {min} characters. They choose their own after signing in.",
+    "privateTitle": "Private items",
+    "privateHint": "Can see, upload and manage private items.",
+    "privateLabel": "Access to private items",
+    "submit": "Create admin",
+    "created": "“{username}” can sign in now. Share the password privately; they can change it in Settings."
+  },
+  "generatePassword": "Generate a password",
+  "list": {
+    "blocked": "Blocked",
+    "added": "{role}, added {date}",
+    "addedStartingPassword": "{role}, added {date}, still on the starting password",
+    "fullAccess": "Full access",
+    "privateItems": "Private items",
+    "privateLabel": "Access to private items for {username}",
+    "password": "Password",
+    "passwordLabel": "Set a new password for {username}",
+    "block": "Block",
+    "unblock": "Unblock",
+    "empty": "No other admins yet. Create one with the form."
+  },
+  "reset": {
+    "title": "New password for {username}",
+    "hint": "They are signed out everywhere and must use this password next time.",
+    "password": "Password",
+    "submit": "Set password"
+  }
+}
