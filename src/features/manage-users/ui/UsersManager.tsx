@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { t } from '@i18n';
 import type { UserDto } from '@/entities/user';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 import { useUserChanges } from '../model/use-user-changes';
 import { CreateUserForm } from './CreateUserForm';
 import { ResetPasswordDialog } from './ResetPasswordDialog';
@@ -24,11 +24,7 @@ export function UsersManager({ users, onChanged }: UsersManagerProps) {
       <CreateUserForm onCreated={onChanged} />
 
       <div className='space-y-3'>
-        {error && (
-          <Notice tone='error' onDismiss={dismissError}>
-            {error}
-          </Notice>
-        )}
+        <NoticeSlot tone='error' message={error} onDismiss={dismissError} />
         <ul className='divide-line-soft border-line bg-surface divide-y overflow-hidden rounded-xl border'>
           {users.map((user) => (
             <UserRow

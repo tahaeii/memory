@@ -8,7 +8,7 @@ import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 import { completeSetup } from '../api/setup-api';
 import { setupFormSchema } from '../model/setup-form';
 
@@ -101,7 +101,7 @@ export function SetupForm({ friendsEnabled, defaultName, defaultOrganization }: 
           />
         </Field>
       )}
-      {form.error && <Notice tone='error'>{form.error}</Notice>}
+      <NoticeSlot tone='error' message={form.error} />
       <Button type='submit' className='w-full' loading={form.pending}>
         {t('setup.submit')}
       </Button>

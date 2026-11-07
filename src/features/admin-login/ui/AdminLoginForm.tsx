@@ -8,7 +8,7 @@ import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export function AdminLoginForm() {
       <Field label={t('auth.login.password')} error={form.errors.password}>
         <Input type='password' autoComplete='current-password' {...form.field('password')} />
       </Field>
-      {form.error && <Notice tone='error'>{form.error}</Notice>}
+      <NoticeSlot tone='error' message={form.error} />
       <Button type='submit' className='w-full' loading={form.pending}>
         {t('auth.login.submit')}
       </Button>

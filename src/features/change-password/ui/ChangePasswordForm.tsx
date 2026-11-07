@@ -9,7 +9,7 @@ import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 import { changePasswordFormSchema } from '../model/change-password-form';
 
 /** Lets a signed-in admin replace their own password. Other devices are signed out by the server. */
@@ -48,12 +48,12 @@ export function ChangePasswordForm() {
       <Field label={t('settings.password.repeat')} error={errors.repeat}>
         <Input type='password' autoComplete='new-password' {...field('repeat')} />
       </Field>
-      {form.error && <Notice tone='error'>{form.error}</Notice>}
-      {saved && (
-        <Notice tone='success' onDismiss={() => setSaved(false)}>
-          {t('settings.password.saved')}
-        </Notice>
-      )}
+      <NoticeSlot tone='error' message={form.error} />
+      <NoticeSlot
+        tone='success'
+        message={saved && t('settings.password.saved')}
+        onDismiss={() => setSaved(false)}
+      />
       <Button type='submit' loading={form.pending}>
         {t('settings.password.submit')}
       </Button>

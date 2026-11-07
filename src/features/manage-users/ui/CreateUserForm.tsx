@@ -7,7 +7,7 @@ import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 import { Switch } from '@/shared/ui/Switch';
 import { createUser } from '../api/users-api';
 import { PasswordField } from './PasswordField';
@@ -64,12 +64,12 @@ export function CreateUserForm({ onCreated }: { onCreated: () => void }) {
           label={t('users.create.privateLabel')}
         />
       </div>
-      {form.error && <Notice tone='error'>{form.error}</Notice>}
-      {created && (
-        <Notice tone='success' onDismiss={() => setCreated(null)}>
-          {t('users.create.created', { username: created })}
-        </Notice>
-      )}
+      <NoticeSlot tone='error' message={form.error} />
+      <NoticeSlot
+        tone='success'
+        message={created && t('users.create.created', { username: created })}
+        onDismiss={() => setCreated(null)}
+      />
       <Button type='submit' loading={form.pending}>
         {t('users.create.submit')}
       </Button>

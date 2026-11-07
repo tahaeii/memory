@@ -9,7 +9,7 @@ import { useForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/Button';
 import { Field } from '@/shared/ui/Field';
 import { Input } from '@/shared/ui/Input';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 import { passcodeFormSchema } from '../model/passcode-form';
 
 /** Sets the shared passcode friends use to unlock private items. */
@@ -45,12 +45,12 @@ export function FriendsPasscodeForm() {
       <Field label={t('settings.passcode.repeat')} error={errors.repeat}>
         <Input type='password' autoComplete='off' {...field('repeat')} />
       </Field>
-      {form.error && <Notice tone='error'>{form.error}</Notice>}
-      {saved && (
-        <Notice tone='success' onDismiss={() => setSaved(false)}>
-          {t('settings.passcode.saved')}
-        </Notice>
-      )}
+      <NoticeSlot tone='error' message={form.error} />
+      <NoticeSlot
+        tone='success'
+        message={saved && t('settings.passcode.saved')}
+        onDismiss={() => setSaved(false)}
+      />
       <Button type='submit' loading={form.pending}>
         {t('settings.passcode.submit')}
       </Button>
