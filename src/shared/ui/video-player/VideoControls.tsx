@@ -1,4 +1,5 @@
 import { Maximize, Minimize, Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import { formatDuration } from '@/shared/lib/format';
 import type { VideoPlayerCommands, VideoPlayerState } from './use-video-player';
@@ -28,7 +29,7 @@ function SeekBar({ state, onSeek }: { state: VideoPlayerState; onSeek: (value: n
       />
       <input
         type='range'
-        aria-label='Seek'
+        aria-label={t('ui.video.seek')}
         aria-valuetext={formatDuration(time) + ' of ' + formatDuration(duration)}
         min={0}
         max={duration || 0}
@@ -63,7 +64,7 @@ export function VideoControls({ state, commands }: VideoControlsProps) {
           type='button'
           className={controlButton}
           onClick={commands.togglePlay}
-          aria-label={playing ? 'Pause' : 'Play'}>
+          aria-label={playing ? t('ui.video.pause') : t('ui.video.play')}>
           {playing ? (
             <Pause className='size-5' fill='currentColor' />
           ) : (
@@ -74,12 +75,12 @@ export function VideoControls({ state, commands }: VideoControlsProps) {
           type='button'
           className={controlButton}
           onClick={commands.toggleMute}
-          aria-label={silent ? 'Unmute' : 'Mute'}>
+          aria-label={silent ? t('ui.video.unmute') : t('ui.video.mute')}>
           {silent ? <VolumeX className='size-5' /> : <Volume2 className='size-5' />}
         </button>
         <input
           type='range'
-          aria-label='Volume'
+          aria-label={t('ui.video.volume')}
           min={0}
           max={1}
           step={0.05}
@@ -94,7 +95,7 @@ export function VideoControls({ state, commands }: VideoControlsProps) {
           type='button'
           className={cn(controlButton, 'ml-auto')}
           onClick={commands.toggleFullscreen}
-          aria-label={fullscreen ? 'Exit full screen' : 'Full screen'}>
+          aria-label={fullscreen ? t('ui.video.exitFullScreen') : t('ui.video.fullScreen')}>
           {fullscreen ? <Minimize className='size-5' /> : <Maximize className='size-5' />}
         </button>
       </div>

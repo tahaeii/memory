@@ -1,6 +1,7 @@
 'use client';
 
 import { Play } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import { Spinner } from '../Spinner';
 import { useVideoPlayer } from './use-video-player';
@@ -57,7 +58,7 @@ export function VideoPlayer({
 
       {state.failed ? (
         <p className='absolute inset-x-6 top-1/2 -translate-y-1/2 text-center text-sm text-white/80'>
-          This video could not be played. Try downloading it instead.
+          {t('ui.video.failed')}
         </p>
       ) : state.waiting ? (
         <Spinner className='pointer-events-none absolute size-9 text-white/80' />
@@ -66,7 +67,7 @@ export function VideoPlayer({
           <button
             type='button'
             onClick={commands.togglePlay}
-            aria-label='Play'
+            aria-label={t('ui.video.play')}
             className='animate-pop-in absolute grid size-16 place-items-center rounded-full bg-white/15 text-white backdrop-blur-md transition-[background-color,scale] duration-300 hover:scale-105 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:scale-95'>
             <Play className='ml-1 size-7' fill='currentColor' />
           </button>

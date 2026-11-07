@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { t } from '@i18n';
 import { parseIsoDate } from '@/shared/lib/calendar';
 import { cn } from '@/shared/lib/cn';
 import { formatShortDate } from '@/shared/lib/format';
@@ -32,7 +33,7 @@ export function DatePicker({
   label,
   value,
   onChange,
-  placeholder = 'Choose a date',
+  placeholder = t('ui.datePicker.placeholder'),
   clearable = false,
   className,
 }: DatePickerProps) {
@@ -94,19 +95,25 @@ export function DatePicker({
         side={side}
         className='w-[min(19rem,calc(100vw-2rem))] p-3'>
         <div className='mb-1 flex items-center'>
-          <IconButton size='sm' label='Previous year' onClick={() => calendar.moveMonths(-12)}>
+          <IconButton
+            size='sm'
+            label={t('ui.datePicker.previousYear')}
+            onClick={() => calendar.moveMonths(-12)}>
             <ChevronsLeft className='size-4' />
           </IconButton>
-          <IconButton size='sm' label='Previous month' onClick={() => calendar.moveMonths(-1)}>
+          <IconButton
+            size='sm'
+            label={t('ui.datePicker.previousMonth')}
+            onClick={() => calendar.moveMonths(-1)}>
             <ChevronLeft className='size-4' />
           </IconButton>
           <p aria-live='polite' className='flex-1 text-center text-sm font-semibold'>
             {calendar.title}
           </p>
-          <IconButton size='sm' label='Next month' onClick={() => calendar.moveMonths(1)}>
+          <IconButton size='sm' label={t('ui.datePicker.nextMonth')} onClick={() => calendar.moveMonths(1)}>
             <ChevronRight className='size-4' />
           </IconButton>
-          <IconButton size='sm' label='Next year' onClick={() => calendar.moveMonths(12)}>
+          <IconButton size='sm' label={t('ui.datePicker.nextYear')} onClick={() => calendar.moveMonths(12)}>
             <ChevronsRight className='size-4' />
           </IconButton>
         </div>
@@ -126,14 +133,14 @@ export function DatePicker({
             type='button'
             onClick={() => pick(calendar.today)}
             className='text-link hover:bg-primary-soft rounded-md px-2.5 py-1.5 text-sm font-semibold transition-colors'>
-            Today
+            {t('common.actions.today')}
           </button>
           {clearable && chosen && (
             <button
               type='button'
               onClick={() => pick('')}
               className='text-muted hover:bg-subtle hover:text-fg rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors'>
-              Clear
+              {t('common.actions.clear')}
             </button>
           )}
         </div>

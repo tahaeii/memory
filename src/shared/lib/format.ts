@@ -1,3 +1,5 @@
+import { plural, t } from '@i18n';
+
 // Dates of photos carry no time zone (EXIF), so everything is formatted in UTC to stay stable on server and client.
 const dayFormat = new Intl.DateTimeFormat('en-GB', {
   weekday: 'long',
@@ -49,12 +51,12 @@ export function formatDuration(seconds: number): string {
   return hours > 0 ? hours + ':' + String(minutes).padStart(2, '0') + ':' + rest : minutes + ':' + rest;
 }
 
-const plural = (count: number, word: string): string =>
-  formatCount(count) + ' ' + word + (count === 1 ? '' : 's');
-
 /** "12 photos", "3 videos", "12 photos, 3 videos" or "No photos yet". */
 export function formatMediaCount(photos: number, videos: number): string {
-  if (photos > 0 && videos > 0) return plural(photos, 'photo') + ', ' + plural(videos, 'video');
-  if (videos > 0) return plural(videos, 'video');
-  return photos > 0 ? plural(photos, 'photo') : 'No photos yet';
+  const photoCount = plural('common.media.photos', photos);
+  const videoCount = plural('common.media.videos', videos);
+  if (photos > 0 && videos > 0)
+    return t('common.media.photosAndVideos', { photos: photoCount, videos: videoCount });
+  if (videos > 0) return videoCount;
+  return photos > 0 ? photoCount : t('common.media.none');
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import { usePopover } from '@/shared/lib/use-popover';
 import { fieldStyles } from '../Input';
@@ -40,7 +41,7 @@ export function Select<T extends string>({
   value,
   options,
   onChange,
-  placeholder = 'Choose…',
+  placeholder = t('ui.select.placeholder'),
   prefix,
   size = 'md',
   align = 'start',

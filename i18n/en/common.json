@@ -5,7 +5,10 @@
     "close": "Close",
     "dismiss": "Dismiss",
     "delete": "Delete",
-    "back": "Back"
+    "back": "Back",
+    "clear": "Clear",
+    "today": "Today",
+    "default": "Default"
   },
   "errors": {
     "generic": "Something went wrong.",
@@ -21,5 +24,17 @@
     "privateAccess": "Private access",
     "friendsAccess": "Friends access",
     "lock": "Lock"
+  },
+  "media": {
+    "photos": {
+      "one": "{count} photo",
+      "other": "{count} photos"
+    },
+    "videos": {
+      "one": "{count} video",
+      "other": "{count} videos"
+    },
+    "photosAndVideos": "{photos}, {videos}",
+    "none": "No photos yet"
   }
 }

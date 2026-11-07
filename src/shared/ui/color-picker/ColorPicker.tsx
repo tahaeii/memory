@@ -2,6 +2,7 @@
 
 import { useId } from 'react';
 import { Check, ChevronDown, RotateCcw } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import { readableOn } from '@/shared/lib/color';
 import { usePopover } from '@/shared/lib/use-popover';
@@ -48,7 +49,10 @@ export function ColorPicker({
     <div ref={rootRef} className={cn('relative', className)}>
       <button
         type='button'
-        aria-label={label + ': ' + (value ?? 'default')}
+        aria-label={t('ui.colorPicker.valueLabel', {
+          label,
+          value: value ?? t('ui.colorPicker.defaultValue'),
+        })}
         aria-haspopup='dialog'
         aria-expanded={open}
         aria-controls={panelId}
@@ -64,7 +68,11 @@ export function ColorPicker({
           style={{ backgroundColor: color }}
         />
         <span className='min-w-0 flex-1 truncate font-medium tabular-nums'>
-          {value ? value.toUpperCase() : <span className='text-muted font-normal'>Default</span>}
+          {value ? (
+            value.toUpperCase()
+          ) : (
+            <span className='text-muted font-normal'>{t('common.actions.default')}</span>
+          )}
         </span>
         <ChevronDown
           aria-hidden
@@ -85,7 +93,7 @@ export function ColorPicker({
 
         <div className='flex items-center gap-2'>
           <Input
-            aria-label='Hex colour'
+            aria-label={t('ui.colorPicker.hex')}
             value={picker.text}
             onChange={(event) => picker.type(event.target.value)}
             onBlur={picker.settleText}
@@ -99,12 +107,12 @@ export function ColorPicker({
               type='button'
               onClick={() => onChange(null)}
               className='text-muted hover:bg-subtle hover:text-fg inline-flex h-9 shrink-0 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium transition-colors'>
-              <RotateCcw aria-hidden className='size-3.5' /> Default
+              <RotateCcw aria-hidden className='size-3.5' /> {t('common.actions.default')}
             </button>
           )}
         </div>
 
-        <div role='group' aria-label='Suggested colours' className='flex justify-between gap-1'>
+        <div role='group' aria-label={t('ui.colorPicker.presets')} className='flex justify-between gap-1'>
           {presets.map((preset) => (
             <button
               key={preset}

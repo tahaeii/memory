@@ -1,4 +1,5 @@
 import type { KeyboardEvent } from 'react';
+import { t } from '@i18n';
 import type { CalendarDay } from '@/shared/lib/calendar';
 import { cn } from '@/shared/lib/cn';
 import { formatDay } from '@/shared/lib/format';
@@ -26,7 +27,7 @@ export function CalendarGrid({
   onKeyDown,
 }: CalendarGridProps) {
   return (
-    <div role='grid' aria-label='Calendar' onKeyDown={onKeyDown}>
+    <div role='grid' aria-label={t('ui.datePicker.calendar')} onKeyDown={onKeyDown}>
       <div role='row' className='grid grid-cols-7'>
         {weekdays.map((weekday) => (
           <span

@@ -1,6 +1,7 @@
 'use client';
 
 import type { KeyboardEvent } from 'react';
+import { t } from '@i18n';
 import { hsvToHex, type Hsv } from '@/shared/lib/color';
 import { useDragArea } from '@/shared/lib/use-drag-area';
 
@@ -23,9 +24,9 @@ export function ColorArea({ hsv, onMove, onKeyDown }: ColorAreaProps) {
     <div
       role='slider'
       tabIndex={0}
-      aria-label='Saturation and brightness'
+      aria-label={t('ui.colorPicker.area')}
       aria-valuenow={saturation}
-      aria-valuetext={'Saturation ' + saturation + '%, brightness ' + brightness + '%'}
+      aria-valuetext={t('ui.colorPicker.areaValue', { saturation, brightness })}
       onKeyDown={onKeyDown}
       {...drag}
       className={'relative h-36 cursor-crosshair touch-none rounded-lg ' + focus}
@@ -52,7 +53,7 @@ export function HueSlider({ hue, onMove, onKeyDown }: HueSliderProps) {
     <div
       role='slider'
       tabIndex={0}
-      aria-label='Hue'
+      aria-label={t('ui.colorPicker.hue')}
       aria-valuemin={0}
       aria-valuemax={359}
       aria-valuenow={Math.round(hue)}

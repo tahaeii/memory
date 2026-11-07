@@ -1,1 +1,33 @@
-{}
+{
+  "select": {
+    "placeholder": "Choose…"
+  },
+  "datePicker": {
+    "placeholder": "Choose a date",
+    "calendar": "Calendar",
+    "previousYear": "Previous year",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "nextYear": "Next year"
+  },
+  "colorPicker": {
+    "area": "Saturation and brightness",
+    "areaValue": "Saturation {saturation}%, brightness {brightness}%",
+    "hue": "Hue",
+    "hex": "Hex colour",
+    "presets": "Suggested colours",
+    "valueLabel": "{label}: {value}",
+    "defaultValue": "default"
+  },
+  "video": {
+    "seek": "Seek",
+    "play": "Play",
+    "pause": "Pause",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume",
+    "fullScreen": "Full screen",
+    "exitFullScreen": "Exit full screen",
+    "failed": "This video could not be played. Try downloading it instead."
+  }
+}
