@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 /** How long the exit animations in animations.css take (the slowest one, plus a frame). */
-export const EXIT_MS = 220;
+export const EXIT_MS = 260;
 
 /**
  * Keeps something mounted for a moment after it closes, so it can animate out.
