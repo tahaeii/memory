@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, EyeOff, Trash2 } from 'lucide-react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { useSession } from '@/entities/session';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
@@ -28,13 +29,13 @@ export function MediaAdminActions({ item, onUpdated, onDeleted }: MediaAdminActi
     <>
       {privateAccess && (
         <IconButton
-          label={isPrivate ? 'Private. Make it public' : 'Public. Make it private'}
+          label={isPrivate ? t('media.actions.makePublic') : t('media.actions.makePrivate')}
           disabled={updates.busy}
           onClick={() => void updates.update([item.id], { visibility: isPrivate ? 'public' : 'private' })}>
           {isPrivate ? <EyeOff className='size-5' /> : <Eye className='size-5' />}
         </IconButton>
       )}
-      <IconButton label={'Delete ' + item.kind} onClick={() => setConfirming(true)}>
+      <IconButton label={t(`media.actions.delete.${item.kind}`)} onClick={() => setConfirming(true)}>
         <Trash2 className='size-5' />
       </IconButton>
       <ConfirmDialog

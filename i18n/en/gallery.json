@@ -1,1 +1,21 @@
-{}
+{
+  "filters": {
+    "year": "Year",
+    "allYears": "All years",
+    "event": "Event",
+    "allEvents": "All events",
+    "type": "Type",
+    "allTypes": "Photos and videos",
+    "photos": "Photos",
+    "videos": "Videos",
+    "access": "Access",
+    "allAccess": "Everything",
+    "public": "Public",
+    "private": "Private",
+    "clear": "Clear filters",
+    "results": {
+      "one": "{count} result",
+      "other": "{count} results"
+    }
+  }
+}

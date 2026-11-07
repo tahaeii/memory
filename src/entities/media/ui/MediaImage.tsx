@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { t } from '@i18n';
 import { useSite } from '@/shared/config/site-context';
 import { cn } from '@/shared/lib/cn';
 import { formatDay } from '@/shared/lib/format';
@@ -50,14 +51,16 @@ export function MediaImage({
     medium.width +
     'w' +
     (large ? ', ' + item.variants.large.url + ' ' + item.variants.large.width + 'w' : '');
-  const label = (item.kind === 'video' ? 'Video: ' : '') + (item.event?.title ?? site.name);
   return (
     <img
       ref={ref}
       src={thumb.url}
       srcSet={srcSet}
       sizes={sizes}
-      alt={label + ' - ' + formatDay(item.takenAt)}
+      alt={t(`media.alt.${item.kind}`, {
+        title: item.event?.title ?? site.name,
+        date: formatDay(item.takenAt),
+      })}
       width={item.width}
       height={item.height}
       loading={priority ? 'eager' : 'lazy'}

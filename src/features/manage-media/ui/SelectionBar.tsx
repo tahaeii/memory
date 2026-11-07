@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
+import { plural, t } from '@i18n';
 import type { EventDto } from '@/entities/event';
 import type { Visibility } from '@/entities/media';
 import { Button } from '@/shared/ui/Button';
+import { FloatingBar } from '@/shared/ui/FloatingBar';
 import { Select } from '@/shared/ui/select';
 
 interface SelectionBarProps {
@@ -32,38 +35,43 @@ export function SelectionBar({
   onDelete,
   onClear,
 }: SelectionBarProps) {
+  // Keep the last number on screen while the bar sinks out.
+  const [shown, setShown] = useState(count);
+  if (count > 0 && count !== shown) setShown(count);
   return (
-    <div className='animate-rise-in border-line bg-glass fixed inset-x-3 bottom-4 z-30 mx-auto flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-2xl border p-2 pl-4 shadow-2xl shadow-black/20 backdrop-blur-xl'>
-      <span className='text-fg text-sm font-medium'>{count} selected</span>
+    <FloatingBar open={count > 0}>
+      <span className='text-fg text-sm font-medium tabular-nums'>
+        {plural('media.selection.count', shown)}
+      </span>
       {canChangeVisibility && (
         <>
           <Button size='sm' variant='secondary' disabled={busy} onClick={() => onVisibility('public')}>
-            Make public
+            {t('media.selection.makePublic')}
           </Button>
           <Button size='sm' variant='secondary' disabled={busy} onClick={() => onVisibility('private')}>
-            Make private
+            {t('media.selection.makePrivate')}
           </Button>
         </>
       )}
       <Select
-        label='Move to event'
+        label={t('media.selection.moveLabel')}
         size='sm'
         className='w-44'
         disabled={busy}
         value=''
-        placeholder='Move to event…'
+        placeholder={t('media.selection.movePlaceholder')}
         options={[
-          { value: NO_EVENT, label: 'No event' },
+          { value: NO_EVENT, label: t('media.selection.noEvent') },
           ...events.map((event) => ({ value: event.id, label: event.title })),
         ]}
         onChange={(eventId) => onMove(eventId === NO_EVENT ? null : eventId)}
       />
       <Button size='sm' variant='danger' disabled={busy} onClick={onDelete}>
-        <Trash2 className='size-4' /> Delete
+        <Trash2 className='size-4' /> {t('media.delete.confirm')}
       </Button>
       <Button size='sm' variant='ghost' onClick={onClear}>
-        Clear
+        {t('common.actions.clear')}
       </Button>
-    </div>
+    </FloatingBar>
   );
 }

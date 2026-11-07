@@ -1,1 +1,67 @@
-{}
+{
+  "open": {
+    "photo": "Open the photo from {date}",
+    "video": "Open the video from {date}"
+  },
+  "alt": {
+    "photo": "{title}, {date}",
+    "video": "Video: {title}, {date}"
+  },
+  "openItem": {
+    "photo": "Open photo",
+    "video": "Open video"
+  },
+  "selectItem": {
+    "photo": "Select photo",
+    "video": "Select video"
+  },
+  "badges": {
+    "waiting": "Waiting",
+    "converting": "Converting {percent}%",
+    "failed": "Failed"
+  },
+  "load": {
+    "failed": "Could not load the library.",
+    "moreFailed": "Could not load more."
+  },
+  "selection": {
+    "count": {
+      "one": "{count} selected",
+      "other": "{count} selected"
+    },
+    "makePublic": "Make public",
+    "makePrivate": "Make private",
+    "moveLabel": "Move to event",
+    "movePlaceholder": "Move to event…",
+    "noEvent": "No event",
+    "restore": "Restore"
+  },
+  "actions": {
+    "makePublic": "Private. Make it public",
+    "makePrivate": "Public. Make it private",
+    "delete": {
+      "photo": "Delete photo",
+      "video": "Delete video"
+    },
+    "restore": "Restore",
+    "deleteForGood": "Delete for good"
+  },
+  "delete": {
+    "titleOne": {
+      "item": "Delete this item?",
+      "photo": "Delete this photo?",
+      "video": "Delete this video?"
+    },
+    "titleMany": "Delete {count} items?",
+    "titleOneForGood": {
+      "item": "Delete this item for good?",
+      "photo": "Delete this photo for good?",
+      "video": "Delete this video for good?"
+    },
+    "titleManyForGood": "Delete {count} items for good?",
+    "body": "Deleted items are removed from the gallery and the library.",
+    "bodyForGood": "The original and every converted copy are removed from the server. This cannot be undone.",
+    "confirm": "Delete",
+    "confirmForGood": "Delete for good"
+  }
+}

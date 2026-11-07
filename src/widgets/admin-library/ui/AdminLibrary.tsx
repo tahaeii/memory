@@ -123,18 +123,16 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
         error={error ?? mutations.error}
       />
 
-      {ids.length > 0 && (
-        <SelectionBar
-          count={ids.length}
-          events={events}
-          busy={mutations.busy}
-          canChangeVisibility={privateAccess}
-          onVisibility={(value) => void mutations.update(ids, { visibility: value })}
-          onMove={(eventId) => void mutations.update(ids, { eventId })}
-          onDelete={() => setConfirmDelete(true)}
-          onClear={selection.clear}
-        />
-      )}
+      <SelectionBar
+        count={ids.length}
+        events={events}
+        busy={mutations.busy}
+        canChangeVisibility={privateAccess}
+        onVisibility={(value) => void mutations.update(ids, { visibility: value })}
+        onMove={(eventId) => void mutations.update(ids, { eventId })}
+        onDelete={() => setConfirmDelete(true)}
+        onClear={selection.clear}
+      />
 
       <ConfirmDialog
         open={confirmDelete}

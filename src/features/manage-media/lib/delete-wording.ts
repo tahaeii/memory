@@ -1,20 +1,23 @@
+import { t } from '@i18n';
 import type { Role } from '@/entities/session';
 
 /**
  * What the delete confirmation says. The super admin's delete is final; an admin is told the items
  * are deleted (they disappear for everyone), while they actually wait for the super admin's review.
  */
-export function deleteWording(role: Role, count: number, noun = 'item') {
-  const what = count === 1 ? 'this ' + noun : count + ' ' + noun + 's';
-  return role === 'superadmin'
-    ? {
-        title: 'Delete ' + what + ' for good?',
-        body: 'The original and every converted copy are removed from the server. This cannot be undone.',
-        confirm: 'Delete for good',
-      }
-    : {
-        title: 'Delete ' + what + '?',
-        body: 'Deleted items are removed from the gallery and the library.',
-        confirm: 'Delete',
-      };
+export function deleteWording(role: Role, count: number, noun: 'item' | 'photo' | 'video' = 'item') {
+  if (role === 'superadmin')
+    return {
+      title:
+        count === 1
+          ? t(`media.delete.titleOneForGood.${noun}`)
+          : t('media.delete.titleManyForGood', { count }),
+      body: t('media.delete.bodyForGood'),
+      confirm: t('media.delete.confirmForGood'),
+    };
+  return {
+    title: count === 1 ? t(`media.delete.titleOne.${noun}`) : t('media.delete.titleMany', { count }),
+    body: t('media.delete.body'),
+    confirm: t('media.delete.confirm'),
+  };
 }

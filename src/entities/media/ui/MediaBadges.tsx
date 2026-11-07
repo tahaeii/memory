@@ -1,4 +1,5 @@
 import { CircleAlert, Lock, Play } from 'lucide-react';
+import { t } from '@i18n';
 import { formatDuration } from '@/shared/lib/format';
 import { Spinner } from '@/shared/ui/Spinner';
 import type { MediaDto } from '../model/types';
@@ -25,13 +26,15 @@ export function MediaBadges({ item }: { item: MediaDto }) {
       {video?.status === 'processing' && (
         <span className={pill + ' bg-slate-950/65'}>
           <Spinner className='size-3' />
-          {video.progress === null ? 'Waiting' : 'Converting ' + Math.round(video.progress * 100) + '%'}
+          {video.progress === null
+            ? t('media.badges.waiting')
+            : t('media.badges.converting', { percent: Math.round(video.progress * 100) })}
         </span>
       )}
       {video?.status === 'failed' && (
         <span className={pill + ' bg-red-600/90'}>
           <CircleAlert className='size-3' />
-          Failed
+          {t('media.badges.failed')}
         </span>
       )}
     </>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { RotateCcw, Trash2 } from 'lucide-react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
 import { IconButton } from '@/shared/ui/IconButton';
@@ -22,10 +23,16 @@ export function DeletedItemActions({ item, onDone }: DeletedItemActionsProps) {
 
   return (
     <>
-      <IconButton label='Restore' disabled={actions.busy} onClick={() => void actions.restore([item.id])}>
+      <IconButton
+        label={t('media.actions.restore')}
+        disabled={actions.busy}
+        onClick={() => void actions.restore([item.id])}>
         <RotateCcw className='size-5' />
       </IconButton>
-      <IconButton label='Delete for good' disabled={actions.busy} onClick={() => setConfirming(true)}>
+      <IconButton
+        label={t('media.actions.deleteForGood')}
+        disabled={actions.busy}
+        onClick={() => setConfirming(true)}>
         <Trash2 className='size-5' />
       </IconButton>
       <ConfirmDialog

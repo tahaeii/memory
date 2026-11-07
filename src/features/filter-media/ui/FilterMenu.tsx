@@ -63,8 +63,8 @@ export function FilterMenu({ label, options }: { label: string; options: FilterO
                 aria-current={option.active ? 'true' : undefined}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  'flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-sm transition',
-                  option.active ? 'bg-primary-soft text-link font-semibold' : 'hover:bg-subtle',
+                  'flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors',
+                  option.active ? 'bg-primary-soft text-link font-medium' : 'hover:bg-subtle',
                 )}>
                 <span className='truncate'>{option.text}</span>
                 {option.active && <Check className='size-4 shrink-0' />}

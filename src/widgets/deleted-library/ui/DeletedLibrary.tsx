@@ -98,17 +98,15 @@ export function DeletedLibrary({ initial, users, version, onChanged }: DeletedLi
         error={error ?? mutations.error}
       />
 
-      {ids.length > 0 && (
-        <DeletedSelectionBar
-          count={ids.length}
-          busy={mutations.busy}
-          onRestore={async () => {
-            if (await mutations.restore(ids)) selection.clear();
-          }}
-          onDelete={() => setConfirmDelete(true)}
-          onClear={selection.clear}
-        />
-      )}
+      <DeletedSelectionBar
+        count={ids.length}
+        busy={mutations.busy}
+        onRestore={async () => {
+          if (await mutations.restore(ids)) selection.clear();
+        }}
+        onDelete={() => setConfirmDelete(true)}
+        onClear={selection.clear}
+      />
 
       <ConfirmDialog
         open={confirmDelete}

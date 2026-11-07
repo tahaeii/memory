@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { Check } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import type { MediaDto } from '../model/types';
 import { MediaBadges } from './MediaBadges';
@@ -34,14 +35,14 @@ export function SelectableGrid({ items, selected, onToggle, onOpen, caption }: S
               type='button'
               className='absolute inset-0'
               onClick={() => onOpen(index)}
-              aria-label={'Open ' + item.kind}>
+              aria-label={t(`media.openItem.${item.kind}`)}>
               <MediaImage item={item} sizes='(min-width: 1024px) 16vw, (min-width: 640px) 25vw, 50vw' zoom />
             </button>
             <button
               type='button'
               role='checkbox'
               aria-checked={isSelected}
-              aria-label={'Select ' + item.kind}
+              aria-label={t(`media.selectItem.${item.kind}`)}
               onClick={() => onToggle(item.id)}
               className={cn(
                 'absolute top-2 left-2 grid size-6 place-items-center rounded-full border-2 transition-[opacity,background-color,border-color,scale] duration-300 active:scale-90',

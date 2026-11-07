@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { t } from '@i18n';
 import { formatDay } from '@/shared/lib/format';
 import type { MediaDto } from '../model/types';
 import { MediaBadges } from './MediaBadges';
@@ -20,7 +21,7 @@ export function MediaTile({ item, ratio, sizes, priority, style, onOpen }: Media
     <button
       type='button'
       onClick={onOpen}
-      aria-label={'Open ' + item.kind + ' from ' + formatDay(item.takenAt)}
+      aria-label={t(`media.open.${item.kind}`, { date: formatDay(item.takenAt) })}
       className='group focus-visible:outline-primary bg-subtle relative block cursor-zoom-in overflow-hidden rounded-xl bg-cover outline-offset-2 focus-visible:outline-2'
       style={{ ...style, backgroundImage: 'url(' + item.placeholder + ')' }}>
       <span aria-hidden className='block' style={{ paddingBottom: (100 / ratio).toFixed(3) + '%' }} />

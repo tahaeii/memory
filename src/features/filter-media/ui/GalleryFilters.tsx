@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { X } from 'lucide-react';
+import { plural, t } from '@i18n';
 import type { EventDto } from '@/entities/event';
 import type { MediaFilters } from '@/entities/media';
-import { formatCount } from '@/shared/lib/format';
 import { FilterMenu, type FilterOption } from './FilterMenu';
 
 interface GalleryFiltersProps {
@@ -52,17 +52,17 @@ export function GalleryFilters({
 
   if (years.length > 0)
     menus.push({
-      label: 'Year',
+      label: t('gallery.filters.year'),
       options: [
-        option('all', 'All years', { year: undefined }, !current.year),
+        option('all', t('gallery.filters.allYears'), { year: undefined }, !current.year),
         ...years.map((year) => option(String(year), String(year), { year }, current.year === year)),
       ],
     });
   if (events.length > 0)
     menus.push({
-      label: 'Event',
+      label: t('gallery.filters.event'),
       options: [
-        option('all', 'All events', { event: undefined }, !current.event),
+        option('all', t('gallery.filters.allEvents'), { event: undefined }, !current.event),
         ...events.map((event) =>
           option(event.slug, event.title, { event: event.slug }, current.event === event.slug),
         ),
@@ -70,20 +70,30 @@ export function GalleryFilters({
     });
   if (showKind)
     menus.push({
-      label: 'Type',
+      label: t('gallery.filters.type'),
       options: [
-        option('all', 'Photos and videos', { kind: undefined }, !current.kind),
-        option('photo', 'Photos', { kind: 'photo' }, current.kind === 'photo'),
-        option('video', 'Videos', { kind: 'video' }, current.kind === 'video'),
+        option('all', t('gallery.filters.allTypes'), { kind: undefined }, !current.kind),
+        option('photo', t('gallery.filters.photos'), { kind: 'photo' }, current.kind === 'photo'),
+        option('video', t('gallery.filters.videos'), { kind: 'video' }, current.kind === 'video'),
       ],
     });
   if (showVisibility)
     menus.push({
-      label: 'Access',
+      label: t('gallery.filters.access'),
       options: [
-        option('all', 'Everything', { visibility: undefined }, !current.visibility),
-        option('public', 'Public', { visibility: 'public' }, current.visibility === 'public'),
-        option('private', 'Private', { visibility: 'private' }, current.visibility === 'private'),
+        option('all', t('gallery.filters.allAccess'), { visibility: undefined }, !current.visibility),
+        option(
+          'public',
+          t('gallery.filters.public'),
+          { visibility: 'public' },
+          current.visibility === 'public',
+        ),
+        option(
+          'private',
+          t('gallery.filters.private'),
+          { visibility: 'private' },
+          current.visibility === 'private',
+        ),
       ],
     });
 
@@ -98,12 +108,12 @@ export function GalleryFilters({
         <Link
           href='/gallery'
           scroll={false}
-          className='text-link inline-flex h-10 items-center gap-1.5 px-2.5 text-sm font-semibold hover:underline'>
-          <X className='size-4' /> Clear filters
+          className='text-link hover:bg-primary-soft inline-flex h-10 items-center gap-1.5 rounded-lg px-2.5 text-sm font-semibold transition-colors'>
+          <X className='size-4' /> {t('gallery.filters.clear')}
         </Link>
       )}
-      <span className='text-muted ml-auto px-2 text-sm'>
-        {formatCount(total)} {total === 1 ? 'result' : 'results'}
+      <span className='text-muted ml-auto px-2 text-sm tabular-nums'>
+        {plural('gallery.filters.results', total)}
       </span>
     </div>
   );
