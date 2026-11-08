@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { t } from '@i18n';
 import type { BrandingDto, BrandingInput } from '@contracts/branding';
 import { useSite } from '@/shared/config/site-context';
 import { messageOf } from '@/shared/lib/error-message';
@@ -84,10 +85,9 @@ export function useBrandingForm() {
     pending,
     message,
     dismissMessage: () => setMessage(null),
-    save: () =>
-      attempt('details', () => saveBranding(draft), 'Saved. Every visitor sees the new branding now.'),
-    replaceLogo: (file: File) => attempt('logo', () => uploadLogo(file), 'Logo updated.'),
-    removeLogo: () => attempt('logo', deleteLogo, 'Back to the default logo.'),
+    save: () => attempt('details', () => saveBranding(draft), t('branding.form.saved')),
+    replaceLogo: (file: File) => attempt('logo', () => uploadLogo(file), t('branding.logo.updated')),
+    removeLogo: () => attempt('logo', deleteLogo, t('branding.logo.reset')),
   };
 }
 

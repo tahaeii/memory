@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { ImageUp, Trash2 } from 'lucide-react';
+import { t } from '@i18n';
 import { Button } from '@/shared/ui/Button';
 import { IconButton } from '@/shared/ui/IconButton';
 import { LogoMark } from '@/shared/ui/Logo';
@@ -20,9 +21,9 @@ export function LogoCard({ logoUrl, custom, busy, onUpload, onRemove }: LogoCard
   const fileRef = useRef<HTMLInputElement>(null);
   return (
     <div className='border-line-soft bg-canvas rounded-xl border p-4 sm:p-5'>
-      <p className='text-sm font-semibold'>Logo</p>
+      <p className='text-sm font-semibold'>{t('branding.logo.title')}</p>
       <div className='border-line bg-surface mt-3 grid place-items-center rounded-lg border p-6'>
-        <LogoMark src={logoUrl} alt='Current logo' className='size-20 rounded-2xl' />
+        <LogoMark src={logoUrl} alt={t('branding.logo.alt')} className='size-20 rounded-2xl' />
       </div>
       <input
         ref={fileRef}
@@ -43,17 +44,15 @@ export function LogoCard({ logoUrl, custom, busy, onUpload, onRemove }: LogoCard
           className='flex-1'
           loading={busy}
           onClick={() => fileRef.current?.click()}>
-          <ImageUp className='size-4' /> Upload logo
+          <ImageUp className='size-4' /> {t('branding.logo.upload')}
         </Button>
         {custom && (
-          <IconButton label='Use the default logo' disabled={busy} onClick={onRemove}>
+          <IconButton label={t('branding.logo.useDefault')} disabled={busy} onClick={onRemove}>
             <Trash2 className='size-4' />
           </IconButton>
         )}
       </div>
-      <p className='text-muted mt-2.5 text-xs leading-relaxed text-pretty'>
-        PNG, JPEG, WebP or AVIF, square works best. Also used as the browser icon.
-      </p>
+      <p className='text-muted mt-2.5 text-xs leading-relaxed text-pretty'>{t('branding.logo.hint')}</p>
     </div>
   );
 }

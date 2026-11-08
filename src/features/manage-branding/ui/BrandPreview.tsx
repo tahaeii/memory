@@ -1,4 +1,5 @@
 import { Lock } from 'lucide-react';
+import { t } from '@i18n';
 import type { BrandColors } from '@contracts/branding';
 import { brandThemeVars, type Mode } from '@/shared/lib/brand-theme';
 import { cn } from '@/shared/lib/cn';
@@ -11,21 +12,27 @@ function ThemeSample({ colors, mode }: { colors: BrandColors; mode: Mode }) {
     <div
       className={cn(mode, 'border-line bg-canvas text-fg rounded-lg border p-3 transition-colors')}
       style={brandThemeVars(colors, mode)}>
-      <p className='text-muted text-xs font-medium'>{mode === 'light' ? 'Light theme' : 'Dark theme'}</p>
+      <p className='text-muted text-xs font-medium'>
+        {mode === 'light' ? t('branding.preview.light') : t('branding.preview.dark')}
+      </p>
       <div className='border-line bg-surface shadow-card mt-2 space-y-3 rounded-lg border p-3'>
         <div className='flex flex-wrap items-center gap-2'>
-          <span className={cn(pill, 'bg-primary text-on-primary transition-colors')}>Upload</span>
-          <span className={cn(pill, 'bg-primary-soft text-link transition-colors')}>Preview</span>
+          <span className={cn(pill, 'bg-primary text-on-primary transition-colors')}>
+            {t('branding.preview.upload')}
+          </span>
+          <span className={cn(pill, 'bg-primary-soft text-link transition-colors')}>
+            {t('branding.preview.preview')}
+          </span>
           <span className='bg-primary relative ml-auto h-5 w-9 rounded-full transition-colors'>
             <span className='bg-on-primary absolute top-0.5 right-0.5 size-4 rounded-full transition-colors' />
           </span>
         </div>
         <div className='flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px]'>
           <span className='text-link font-semibold underline decoration-1 underline-offset-4 transition-colors'>
-            Open the event
+            {t('branding.preview.link')}
           </span>
           <span className='bg-secondary-soft text-secondary-strong inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold transition-colors'>
-            <Lock className='size-3' /> Private
+            <Lock className='size-3' /> {t('branding.preview.badge')}
           </span>
         </div>
         <div className='flex gap-1.5'>

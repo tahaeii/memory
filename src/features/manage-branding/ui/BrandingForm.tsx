@@ -2,10 +2,12 @@
 
 import type { FormEvent } from 'react';
 import { Lock, LockOpen } from 'lucide-react';
+import { t } from '@i18n';
+import { rich } from '@i18n/rich';
 import { useSite } from '@/shared/config/site-context';
 import { Button } from '@/shared/ui/Button';
 import { Logo } from '@/shared/ui/Logo';
-import { Notice } from '@/shared/ui/Notice';
+import { NoticeSlot } from '@/shared/ui/NoticeSlot';
 import { useBrandingForm } from '../model/use-branding-form';
 import { BrandColorFields } from './BrandColorFields';
 import { HeroStylePicker } from './HeroStylePicker';
@@ -36,20 +38,20 @@ export function BrandingForm() {
               type='submit'
               loading={form.pending === 'details'}
               disabled={!form.dirty || !draft.name.trim()}>
-              Save branding
+              {t('branding.form.save')}
             </Button>
             {form.dirty && (
               <Button variant='ghost' onClick={form.discard}>
-                Discard changes
+                {t('branding.form.discard')}
               </Button>
             )}
-            <span className='text-muted text-xs'>Empty fields go back to the defaults.</span>
+            <span className='text-muted text-xs'>{t('branding.form.emptyHint')}</span>
           </div>
-          {message?.part === 'details' && (
-            <Notice tone={message.tone} onDismiss={form.dismissMessage}>
-              {message.text}
-            </Notice>
-          )}
+          <NoticeSlot
+            tone={message?.tone ?? 'success'}
+            message={message?.part === 'details' && message.text}
+            onDismiss={form.dismissMessage}
+          />
         </div>
       </form>
 
@@ -61,14 +63,14 @@ export function BrandingForm() {
           onUpload={(file) => void form.replaceLogo(file)}
           onRemove={() => void form.removeLogo()}
         />
-        {message?.part === 'logo' && (
-          <Notice tone={message.tone} onDismiss={form.dismissMessage}>
-            {message.text}
-          </Notice>
-        )}
+        <NoticeSlot
+          tone={message?.tone ?? 'success'}
+          message={message?.part === 'logo' && message.text}
+          onDismiss={form.dismissMessage}
+        />
 
         <div className='border-line-soft bg-canvas rounded-xl border p-4 sm:p-5'>
-          <p className='text-sm font-semibold'>Header preview</p>
+          <p className='text-sm font-semibold'>{t('branding.form.headerPreview')}</p>
           <div className='border-line bg-surface mt-3 rounded-lg border px-4 py-3'>
             <Logo name={draft.name || site.name} src={form.logo.url} />
           </div>
@@ -81,8 +83,10 @@ export function BrandingForm() {
             <Lock className='text-muted mt-0.5 size-4 shrink-0' />
           )}
           <p className='text-muted'>
-            <span className='text-fg font-semibold'>Friends area {site.friendsEnabled ? 'on' : 'off'}.</span>{' '}
-            Set by <code className='text-fg'>FRIENDS_ENABLED</code> on the server.
+            {rich(site.friendsEnabled ? 'branding.form.friendsOn' : 'branding.form.friendsOff', {
+              b: (text) => <span className='text-fg font-semibold'>{text}</span>,
+              code: (text) => <code className='text-fg'>{text}</code>,
+            })}
           </p>
         </div>
       </aside>

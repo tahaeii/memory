@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import { BRANDING_LIMITS, type BrandingInput } from '@contracts/branding';
 import { Field } from '@/shared/ui/Field';
 import { Input, Textarea } from '@/shared/ui/Input';
@@ -14,7 +15,7 @@ export function IdentityFields({ values, onChange }: IdentityFieldsProps) {
   return (
     <div className='space-y-4'>
       <div className='grid gap-4 sm:grid-cols-2'>
-        <Field label='Archive name'>
+        <Field label={t('branding.identity.name')}>
           <Input
             required
             maxLength={BRANDING_LIMITS.name}
@@ -22,7 +23,7 @@ export function IdentityFields({ values, onChange }: IdentityFieldsProps) {
             onChange={(event) => onChange('name', event.target.value)}
           />
         </Field>
-        <Field label='Organisation'>
+        <Field label={t('branding.identity.organization')}>
           <Input
             maxLength={BRANDING_LIMITS.organization}
             value={values.organization}
@@ -30,14 +31,14 @@ export function IdentityFields({ values, onChange }: IdentityFieldsProps) {
           />
         </Field>
       </div>
-      <Field label='Tagline' hint='small line above the home page heading'>
+      <Field label={t('branding.identity.tagline')} hint={t('branding.identity.taglineHint')}>
         <Input
           maxLength={BRANDING_LIMITS.tagline}
           value={values.tagline}
           onChange={(event) => onChange('tagline', event.target.value)}
         />
       </Field>
-      <Field label='Description' hint='under the home page heading'>
+      <Field label={t('branding.identity.description')} hint={t('branding.identity.descriptionHint')}>
         <Textarea
           rows={3}
           maxLength={BRANDING_LIMITS.description}

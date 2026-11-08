@@ -1,1 +1,72 @@
-{}
+{
+  "styles": {
+    "minimal": {
+      "title": "Minimal",
+      "hint": "Logo and words only, centred in the first screen."
+    },
+    "wall": {
+      "title": "Photo wall",
+      "hint": "Text beside slowly moving columns of recent photos."
+    },
+    "filmstrip": {
+      "title": "Filmstrip",
+      "hint": "Centred text above two rows of photos drifting sideways."
+    },
+    "mosaic": {
+      "title": "Mosaic",
+      "hint": "Text beside an editorial grid of five recent photos."
+    }
+  },
+  "home": {
+    "title": "Home page",
+    "hint": "Photo styles need a few public photos; with too few, the minimal style is shown until there are more.",
+    "preview": "Preview"
+  },
+  "identity": {
+    "name": "Archive name",
+    "organization": "Organisation",
+    "tagline": "Tagline",
+    "taglineHint": "small line above the home page heading",
+    "description": "Description",
+    "descriptionHint": "under the home page heading"
+  },
+  "colors": {
+    "title": "Brand colours",
+    "hint": "Choose the two colours of your organisation. The shades for hover, selection and the dark theme are worked out from them, and text on them is kept readable.",
+    "primary": "Primary",
+    "primaryHint": "buttons, links, selection",
+    "primaryLabel": "Primary colour",
+    "secondary": "Secondary",
+    "secondaryHint": "badges, highlights",
+    "secondaryLabel": "Secondary colour",
+    "darkerInLight": "Your primary colour is light, so the light theme uses a darker shade of it to stay visible.",
+    "lighterInDark": "Your primary colour is dark, so the dark theme uses a lighter shade of it.",
+    "darkLabels": "Button labels are set in dark text, because white would be hard to read on this colour."
+  },
+  "preview": {
+    "light": "Light theme",
+    "dark": "Dark theme",
+    "upload": "Upload",
+    "preview": "Preview",
+    "link": "Open the event",
+    "badge": "Private"
+  },
+  "logo": {
+    "title": "Logo",
+    "alt": "Current logo",
+    "upload": "Upload logo",
+    "useDefault": "Use the default logo",
+    "hint": "PNG, JPEG, WebP or AVIF, square works best. Also used as the browser icon.",
+    "updated": "Logo updated.",
+    "reset": "Back to the default logo."
+  },
+  "form": {
+    "save": "Save branding",
+    "discard": "Discard changes",
+    "emptyHint": "Empty fields go back to the defaults.",
+    "saved": "Saved. Every visitor sees the new branding now.",
+    "headerPreview": "Header preview",
+    "friendsOn": "<b>Friends area on.</b> Set by <code>FRIENDS_ENABLED</code> on the server.",
+    "friendsOff": "<b>Friends area off.</b> Set by <code>FRIENDS_ENABLED</code> on the server."
+  }
+}
