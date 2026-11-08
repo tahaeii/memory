@@ -1,4 +1,5 @@
 import { Globe, Lock } from 'lucide-react';
+import { t } from '@i18n';
 import type { Visibility } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 
@@ -12,10 +13,25 @@ interface AudiencePickerProps {
 /** Two cards for choosing who sees what is about to be uploaded. */
 export function AudiencePicker({ value, onChange, friendsEnabled }: AudiencePickerProps) {
   const audiences = [
-    { value: 'public' as const, title: 'Everyone', hint: 'Every visitor', icon: Globe },
+    {
+      value: 'public' as const,
+      title: t('upload.audience.everyone'),
+      hint: t('upload.audience.everyoneHint'),
+      icon: Globe,
+    },
     friendsEnabled
-      ? { value: 'private' as const, title: 'Friends only', hint: 'With the passcode', icon: Lock }
-      : { value: 'private' as const, title: 'Admins only', hint: 'With private access', icon: Lock },
+      ? {
+          value: 'private' as const,
+          title: t('upload.audience.friends'),
+          hint: t('upload.audience.friendsHint'),
+          icon: Lock,
+        }
+      : {
+          value: 'private' as const,
+          title: t('upload.audience.admins'),
+          hint: t('upload.audience.adminsHint'),
+          icon: Lock,
+        },
   ];
   return (
     <div className='grid grid-cols-2 gap-2'>

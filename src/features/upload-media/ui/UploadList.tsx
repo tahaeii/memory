@@ -1,4 +1,5 @@
 import { Check, Image as ImageIcon, Video, X } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import { formatBytes } from '@/shared/lib/format';
 import { Button } from '@/shared/ui/Button';
@@ -28,7 +29,7 @@ function UploadRow({ item }: { item: UploadItem }) {
       ) : (
         <div
           role='progressbar'
-          aria-label={'Upload of ' + item.file.name}
+          aria-label={t('upload.list.itemLabel', { name: item.file.name })}
           aria-valuenow={percent}
           className='bg-subtle mt-2.5 h-1 overflow-hidden rounded-full'>
           <div
@@ -41,9 +42,7 @@ function UploadRow({ item }: { item: UploadItem }) {
         </div>
       )}
       {item.status === 'done' && item.kind === 'video' && (
-        <p className='text-muted mt-1.5 text-xs text-pretty'>
-          Uploaded. The server is converting it for the web; it shows up in the gallery when ready.
-        </p>
+        <p className='text-muted mt-1.5 text-xs text-pretty'>{t('upload.list.converting')}</p>
       )}
     </li>
   );
@@ -61,13 +60,13 @@ export function UploadList({ items, onClearFinished }: UploadListProps) {
     <div className='border-line-soft overflow-hidden rounded-xl border'>
       <div className='flex items-center justify-between py-2 pr-2 pl-4'>
         <h3 className='text-sm font-semibold'>
-          Uploads{' '}
+          {t('upload.list.title')}{' '}
           <span className='text-muted font-normal tabular-nums'>
-            · {done} of {items.length} done
+            · {t('upload.list.progress', { done, total: items.length })}
           </span>
         </h3>
         <Button variant='ghost' size='sm' onClick={onClearFinished}>
-          Clear finished
+          {t('upload.list.clear')}
         </Button>
       </div>
       <ul className='divide-line-soft border-line-soft divide-y border-t'>

@@ -2,6 +2,8 @@
 
 import { useState, type DragEvent } from 'react';
 import { ArrowUpFromLine } from 'lucide-react';
+import { t } from '@i18n';
+import { rich } from '@i18n/rich';
 import { cn } from '@/shared/lib/cn';
 import { ACCEPTED_FILES, PHOTO_FORMATS, VIDEO_FORMATS } from '../config/formats';
 
@@ -52,10 +54,12 @@ export function DropZone({ onFiles }: { onFiles: (files: File[]) => void }) {
           )}
         />
         <span className='type-heading text-fg mt-4'>
-          {dragOver ? 'Let go to upload' : 'Drop photos and videos here'}
+          {dragOver ? t('upload.drop.over') : t('upload.drop.idle')}
         </span>
         <span className='text-muted mt-1 text-sm'>
-          or <span className='text-link font-semibold'>browse your files</span>
+          {rich('upload.drop.browse', {
+            a: (text) => <span className='text-link font-semibold'>{text}</span>,
+          })}
         </span>
         <span className='text-muted mt-6 max-w-md text-xs leading-relaxed text-pretty'>
           <span className='block'>{PHOTO_FORMATS.join(', ')}</span>

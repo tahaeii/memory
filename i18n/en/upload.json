@@ -1,1 +1,35 @@
-{}
+{
+  "errors": {
+    "tooLarge": "This file is too large.",
+    "failed": "Upload failed.",
+    "network": "Network error. Check your connection.",
+    "notMedia": "Not a photo or video."
+  },
+  "audience": {
+    "label": "Who can see these?",
+    "publicOnly": "Everyone. Your account adds public items only.",
+    "everyone": "Everyone",
+    "everyoneHint": "Every visitor",
+    "friends": "Friends only",
+    "friendsHint": "With the passcode",
+    "admins": "Admins only",
+    "adminsHint": "With private access"
+  },
+  "event": {
+    "label": "Add to event",
+    "none": "No event"
+  },
+  "originals": "Originals are kept untouched. Location data is removed from the web copies.",
+  "drop": {
+    "idle": "Drop photos and videos here",
+    "over": "Let go to upload",
+    "browse": "or <a>browse your files</a>"
+  },
+  "list": {
+    "title": "Uploads",
+    "progress": "{done} of {total} done",
+    "clear": "Clear finished",
+    "itemLabel": "Upload of {name}",
+    "converting": "Uploaded. The server is converting it for the web; it shows up in the gallery when ready."
+  }
+}

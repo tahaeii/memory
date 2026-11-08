@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import { ApiError } from '@/shared/api/http';
 import type { MediaDto, Visibility } from '@/entities/media';
 
@@ -34,10 +35,10 @@ export function uploadMedia(
         /* non-JSON error page, e.g. from a proxy */
       }
       if (request.status >= 200 && request.status < 300) resolve(data as unknown as MediaDto);
-      else if (request.status === 413 && !data?.error) reject(new ApiError('This file is too large.', 413));
-      else reject(new ApiError(data?.error ?? 'Upload failed.', request.status));
+      else if (request.status === 413 && !data?.error) reject(new ApiError(t('upload.errors.tooLarge'), 413));
+      else reject(new ApiError(data?.error ?? t('upload.errors.failed'), request.status));
     };
-    request.onerror = () => reject(new ApiError('Network error. Check your connection.', 0));
+    request.onerror = () => reject(new ApiError(t('upload.errors.network'), 0));
     request.send(file);
   });
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { t } from '@i18n';
 import type { EventDto } from '@/entities/event';
 import type { Visibility } from '@/entities/media';
 import { useSite } from '@/shared/config/site-context';
@@ -29,26 +30,26 @@ export function UploadPanel({ events, privateAccess, onFinished }: UploadPanelPr
   return (
     <div className='grid gap-5 xl:grid-cols-[300px_1fr]'>
       <div className='border-line-soft bg-canvas space-y-5 self-start rounded-xl border p-4 sm:p-5'>
-        <Field label='Who can see these?' as='group'>
+        <Field label={t('upload.audience.label')} as='group'>
           {privateAccess ? (
             <AudiencePicker value={visibility} onChange={setChosen} friendsEnabled={site.friendsEnabled} />
           ) : (
-            <p className='text-muted text-sm'>Everyone. Your account adds public items only.</p>
+            <p className='text-muted text-sm'>{t('upload.audience.publicOnly')}</p>
           )}
         </Field>
-        <Field label='Add to event' as='group'>
+        <Field label={t('upload.event.label')} as='group'>
           <Select
-            label='Add to event'
+            label={t('upload.event.label')}
             value={eventId}
             onChange={setEventId}
             options={[
-              { value: '', label: 'No event' },
+              { value: '', label: t('upload.event.none') },
               ...events.map((event) => ({ value: event.id, label: event.title })),
             ]}
           />
         </Field>
         <p className='border-line text-muted border-t pt-4 text-xs leading-relaxed text-pretty'>
-          Originals are kept untouched. Location data is removed from the web copies.
+          {t('upload.originals')}
         </p>
       </div>
 

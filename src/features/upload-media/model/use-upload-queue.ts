@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { t } from '@i18n';
 import type { MediaKind } from '@/entities/media';
 import { messageOf } from '@/shared/lib/error-message';
 import { uploadMedia, type UploadOptions } from '../api/upload-media';
@@ -46,7 +47,7 @@ export function useUploadQueue(options: UploadOptions, onFinished: () => void) {
         const id = 'upload-' + ++sequence;
         return isMedia(file)
           ? { id, file, status: 'queued', progress: 0 }
-          : { id, file, status: 'error', progress: 0, error: 'Not a photo or video.' };
+          : { id, file, status: 'error', progress: 0, error: t('upload.errors.notMedia') };
       });
       setItems((previous) => [...previous, ...entries]);
 
@@ -62,7 +63,7 @@ export function useUploadQueue(options: UploadOptions, onFinished: () => void) {
             const stored = await uploadMedia(item.file, settings, (progress) => patch(item.id, { progress }));
             patch(item.id, { status: 'done', progress: 1, kind: stored.kind });
           } catch (caught) {
-            patch(item.id, { status: 'error', error: messageOf(caught, 'Upload failed.') });
+            patch(item.id, { status: 'error', error: messageOf(caught, t('upload.errors.failed')) });
           }
         }
       };
