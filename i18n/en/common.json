@@ -36,5 +36,9 @@
     },
     "photosAndVideos": "{photos}, {videos}",
     "none": "No photos yet"
+  },
+  "theme": {
+    "toDark": "Switch to dark theme",
+    "toLight": "Switch to light theme"
   }
 }

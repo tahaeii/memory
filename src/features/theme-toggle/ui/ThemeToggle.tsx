@@ -2,6 +2,7 @@
 
 import type { MouseEvent } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { t } from '@i18n';
 import { cn } from '@/shared/lib/cn';
 import { useTheme } from '../model/use-theme';
 
@@ -13,7 +14,7 @@ const icon = 'ease-spring col-start-1 row-start-1 size-[18px] transition-[rotate
  */
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggle } = useTheme();
-  const label = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+  const label = theme === 'light' ? t('common.theme.toDark') : t('common.theme.toLight');
 
   const onClick = (event: MouseEvent<HTMLButtonElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
