@@ -1,1 +1,19 @@
-{}
+{
+  "manage": {
+    "newTitle": "New event",
+    "editTitle": "Edit event",
+    "title": "Title",
+    "date": "Date",
+    "dateLabel": "Event date",
+    "description": "Description",
+    "optional": "optional",
+    "create": "Create event",
+    "save": "Save changes",
+    "empty": "No events yet. Create the first one.",
+    "edit": "Edit {title}",
+    "delete": "Delete {title}",
+    "deleteTitle": "Delete “{title}”?",
+    "deleteBody": "Its photos and videos stay in the library; they just no longer belong to this event.",
+    "summary": "{date} · {count}"
+  }
+}
