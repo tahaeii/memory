@@ -1,1 +1,41 @@
-{}
+{
+  "label": {
+    "photo": "Photo viewer",
+    "video": "Video player"
+  },
+  "previous": "Previous",
+  "next": "Next",
+  "showItem": "Show item {position}",
+  "toolbar": {
+    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in",
+    "download": "Download",
+    "details": "Details (i)",
+    "close": "Close (Esc)"
+  },
+  "details": {
+    "title": "Details",
+    "close": "Close details",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "noEvent": "Not part of an event",
+    "size": "Size",
+    "megapixels": "{width} × {height} ({megapixels} MP)",
+    "pixels": "{width} × {height}",
+    "length": "Length",
+    "access": "Access",
+    "private": "Private",
+    "public": "Public",
+    "file": "File",
+    "deleted": "Deleted",
+    "deletedBy": "by {name} on {date}"
+  },
+  "pending": {
+    "failedTitle": "This video could not be converted",
+    "failedHint": "Try uploading it again.",
+    "convertingTitle": "Converting the video",
+    "waiting": "Waiting for its turn. It appears in the gallery once it is ready.",
+    "progress": "{percent}% done. It appears in the gallery once it is ready."
+  }
+}

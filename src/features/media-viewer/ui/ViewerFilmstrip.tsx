@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 
@@ -36,7 +37,7 @@ export function ViewerFilmstrip({ items, index, onSelect }: ViewerFilmstripProps
             ref={current ? currentRef : undefined}
             type='button'
             onClick={() => onSelect(position)}
-            aria-label={'Show item ' + (position + 1)}
+            aria-label={t('viewer.showItem', { position: position + 1 })}
             aria-current={current ? 'true' : undefined}
             className={cn(
               'bg-subtle relative h-11 shrink-0 overflow-hidden rounded-md bg-cover outline-offset-2 transition-[opacity,scale] duration-300 focus-visible:outline-2 focus-visible:outline-white sm:h-14',

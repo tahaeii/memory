@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { Download, Info, X, ZoomIn, ZoomOut } from 'lucide-react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 import { formatDay } from '@/shared/lib/format';
@@ -50,13 +51,13 @@ export function ViewerToolbar({
         {zoom && (
           <>
             <IconButton
-              label='Zoom out'
+              label={t('viewer.toolbar.zoomOut')}
               className='hidden sm:grid'
               onClick={zoom.zoomOut}
               disabled={zoom.scale === 1}>
               <ZoomOut className='size-5' />
             </IconButton>
-            <IconButton label='Zoom in' className='hidden sm:grid' onClick={zoom.zoomIn}>
+            <IconButton label={t('viewer.toolbar.zoomIn')} className='hidden sm:grid' onClick={zoom.zoomIn}>
               <ZoomIn className='size-5' />
             </IconButton>
           </>
@@ -65,14 +66,14 @@ export function ViewerToolbar({
           className={cn(iconButtonStyles, 'size-10')}
           href={download.href}
           download={download.name}
-          aria-label='Download'
-          title='Download'>
+          aria-label={t('viewer.toolbar.download')}
+          title={t('viewer.toolbar.download')}>
           <Download className='size-5' />
         </a>
-        <IconButton label='Details (i)' pressed={detailsOpen} onClick={onToggleDetails}>
+        <IconButton label={t('viewer.toolbar.details')} pressed={detailsOpen} onClick={onToggleDetails}>
           <Info className='size-5' />
         </IconButton>
-        <IconButton label='Close (Esc)' onClick={onClose}>
+        <IconButton label={t('viewer.toolbar.close')} onClick={onClose}>
           <X className='size-5' />
         </IconButton>
       </div>

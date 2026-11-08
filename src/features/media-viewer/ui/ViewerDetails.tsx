@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Globe, Lock, X } from 'lucide-react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { isStaffRole, useSession } from '@/entities/session';
 import { cn } from '@/shared/lib/cn';
@@ -49,7 +50,7 @@ export function ViewerDetails({ item, open, onClose, onNavigate }: ViewerDetails
   const rows = describeMedia(item, isStaffRole(role));
   return (
     <aside
-      aria-label='Details'
+      aria-label={t('viewer.details.title')}
       inert={!open}
       className={cn(
         'bg-surface z-20 shrink-0 transition-[translate,width,border-color] duration-300 ease-out',
@@ -62,8 +63,8 @@ export function ViewerDetails({ item, open, onClose, onNavigate }: ViewerDetails
       <div className='px-5 pt-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:h-full md:w-[21rem] md:overflow-y-auto md:pt-4'>
         <span aria-hidden className='bg-line-strong mx-auto mb-2 block h-1 w-9 rounded-full md:hidden' />
         <div className='flex items-center justify-between'>
-          <h2 className='type-heading'>Details</h2>
-          <IconButton label='Close details' size='sm' onClick={onClose} className='-mr-1.5'>
+          <h2 className='type-heading'>{t('viewer.details.title')}</h2>
+          <IconButton label={t('viewer.details.close')} size='sm' onClick={onClose} className='-mr-1.5'>
             <X className='size-4' />
           </IconButton>
         </div>

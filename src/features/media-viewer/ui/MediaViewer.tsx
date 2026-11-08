@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type KeyboardEvent, type ReactNode } from 'react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { useViewerDialog } from '../model/use-viewer-dialog';
 import { useViewerItems } from '../model/use-viewer-items';
@@ -68,7 +69,7 @@ export function MediaViewer({
     <dialog
       ref={dialogRef}
       tabIndex={-1}
-      aria-label={isPhoto ? 'Photo viewer' : 'Video player'}
+      aria-label={isPhoto ? t('viewer.label.photo') : t('viewer.label.video')}
       data-state={closing ? 'closed' : 'open'}
       onCancel={(event) => {
         event.preventDefault();

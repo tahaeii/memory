@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { cn } from '@/shared/lib/cn';
 import { formatDay } from '@/shared/lib/format';
@@ -74,7 +75,7 @@ export function ViewerStage({ item, zoom, hasPrevious, hasNext, onGo }: ViewerSt
         className={cn(arrow, 'left-2 sm:left-3')}
         onClick={() => onGo(-1)}
         disabled={!hasPrevious}
-        aria-label='Previous'>
+        aria-label={t('viewer.previous')}>
         <ChevronLeft className='size-5 sm:size-6' />
       </button>
       <button
@@ -82,7 +83,7 @@ export function ViewerStage({ item, zoom, hasPrevious, hasNext, onGo }: ViewerSt
         className={cn(arrow, 'right-2 sm:right-3')}
         onClick={() => onGo(1)}
         disabled={!hasNext}
-        aria-label='Next'>
+        aria-label={t('viewer.next')}>
         <ChevronRight className='size-5 sm:size-6' />
       </button>
     </div>

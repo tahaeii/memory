@@ -1,4 +1,5 @@
 import { CircleAlert } from 'lucide-react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import { Spinner } from '@/shared/ui/Spinner';
 
@@ -20,14 +21,14 @@ export function VideoPending({ item }: { item: MediaDto }) {
           <Spinner className='text-muted mx-auto size-8' />
         )}
         <p className='mt-4 font-medium'>
-          {failed ? 'This video could not be converted' : 'Converting the video'}
+          {failed ? t('viewer.pending.failedTitle') : t('viewer.pending.convertingTitle')}
         </p>
         <p className='text-muted mt-1 text-sm'>
           {failed
-            ? (video?.error ?? 'Try uploading it again.')
+            ? (video?.error ?? t('viewer.pending.failedHint'))
             : video?.progress == null
-              ? 'Waiting for its turn. It appears in the gallery once it is ready.'
-              : Math.round(video.progress * 100) + '% done. It appears in the gallery once it is ready.'}
+              ? t('viewer.pending.waiting')
+              : t('viewer.pending.progress', { percent: Math.round(video.progress * 100) })}
         </p>
       </div>
     </div>
