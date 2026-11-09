@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { t } from '@i18n';
 import {
   groupMediaByMonth,
   JustifiedGrid,
@@ -39,7 +40,7 @@ export function MediaGallery({
   grouping = 'month',
   pagination = 'scroll',
   pageSize,
-  emptyTitle = 'Nothing here yet',
+  emptyTitle = t('gallery.emptyTitle'),
 }: MediaGalleryProps) {
   const { items, total, hasMore, loading, error, loadMore, sentinelRef } = useInfiniteMedia(
     initial,
@@ -56,9 +57,7 @@ export function MediaGallery({
   );
 
   if (items.length === 0) {
-    return (
-      <EmptyState title={emptyTitle}>Photos and videos show up here as soon as they are added.</EmptyState>
-    );
+    return <EmptyState title={emptyTitle}>{t('gallery.emptyText')}</EmptyState>;
   }
 
   return (
@@ -99,10 +98,10 @@ export function MediaGallery({
         <div className='mt-10 flex flex-col items-center gap-2'>
           <Button variant='secondary' size='lg' loading={loading} onClick={() => void loadMore()}>
             {!loading && <ChevronDown className='size-4' />}
-            Show more
+            {t('gallery.showMore')}
           </Button>
-          <p className='text-muted text-xs'>
-            {formatCount(items.length)} of {formatCount(total)} shown
+          <p className='text-muted text-xs tabular-nums'>
+            {t('gallery.shown', { shown: formatCount(items.length), total: formatCount(total) })}
           </p>
         </div>
       )}
@@ -115,7 +114,7 @@ export function MediaGallery({
         <div className='text-danger flex flex-col items-center gap-3 py-6 text-sm'>
           {error}
           <Button variant='secondary' size='sm' onClick={() => void loadMore()}>
-            Try again
+            {t('gallery.retry')}
           </Button>
         </div>
       )}

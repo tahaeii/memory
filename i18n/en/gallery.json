@@ -17,5 +17,31 @@
       "one": "{count} result",
       "other": "{count} results"
     }
-  }
+  },
+  "pageTitle": "Gallery",
+  "title": "Gallery",
+  "summary": {
+    "photos": {
+      "one": "{count} photo, newest first.",
+      "other": "{count} photos, newest first."
+    },
+    "videos": {
+      "one": "{count} video, newest first.",
+      "other": "{count} videos, newest first."
+    },
+    "all": {
+      "one": "{count} photo or video, newest first.",
+      "other": "{count} photos and videos, newest first."
+    }
+  },
+  "years": {
+    "label": "Jump to year",
+    "title": "Years"
+  },
+  "noMatches": "Nothing matches these filters",
+  "emptyTitle": "Nothing here yet",
+  "emptyText": "Photos and videos show up here as soon as they are added.",
+  "showMore": "Show more",
+  "shown": "{shown} of {total} shown",
+  "retry": "Try again"
 }

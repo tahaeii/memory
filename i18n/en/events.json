@@ -15,5 +15,12 @@
     "deleteTitle": "Delete “{title}”?",
     "deleteBody": "Its photos and videos stay in the library; they just no longer belong to this event.",
     "summary": "{date} · {count}"
-  }
+  },
+  "pageTitle": "Events",
+  "title": "Events",
+  "subtitle": "Gatherings, celebrations and milestones.",
+  "all": "All events",
+  "emptyTitle": "No events yet",
+  "emptyText": "Events appear here once photos or videos are added to them.",
+  "detailEmpty": "Nothing in this event yet"
 }

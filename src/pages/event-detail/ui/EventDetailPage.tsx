@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, CalendarDays, Images } from 'lucide-react';
+import { t } from '@i18n';
 import { loadEvent } from '@/entities/event/server';
 import { MediaImage } from '@/entities/media';
 import { loadMediaPage } from '@/entities/media/server';
@@ -26,8 +27,9 @@ export async function EventDetailPage({ params }: { params: Promise<{ slug: stri
         <Container className='pt-8 pb-12 sm:pb-16'>
           <Link
             href='/events'
-            className='text-muted hover:text-fg inline-flex items-center gap-1.5 text-sm font-medium transition'>
-            <ArrowLeft className='size-4' /> All events
+            className='group text-muted hover:text-fg inline-flex items-center gap-1.5 text-sm font-medium transition-colors'>
+            <ArrowLeft className='size-4 transition-transform duration-300 group-hover:-translate-x-0.5' />{' '}
+            {t('events.all')}
           </Link>
           <h1 className='type-title mt-6 max-w-3xl'>{event.title}</h1>
           <p className='text-muted mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm'>
@@ -50,7 +52,7 @@ export async function EventDetailPage({ params }: { params: Promise<{ slug: stri
           initial={page}
           filters={{ event: slug }}
           grouping='none'
-          emptyTitle='Nothing in this event yet'
+          emptyTitle={t('events.detailEmpty')}
         />
       </Container>
     </>
