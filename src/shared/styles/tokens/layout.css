@@ -27,6 +27,9 @@
 @utility pt-section {
   padding-top: var(--section-gap);
 }
+@utility mt-section {
+  margin-top: var(--section-gap);
+}
 @utility pb-section {
   padding-bottom: var(--section-gap);
 }

@@ -15,9 +15,9 @@ interface AuthShellProps {
 export function AuthShell({ title, subtitle, children }: AuthShellProps) {
   const site = useSite();
   return (
-    <section className='relative isolate'>
-      <Backdrop className='h-[32rem]' />
-      <div className='mx-auto w-full max-w-md px-4 py-12 sm:py-20'>
+    <section className='min-h-page relative isolate grid items-center'>
+      <Backdrop />
+      <div className='mx-auto w-full max-w-md px-4 py-12'>
         <LogoMark src={site.logoUrl} className='size-11 rounded-xl' />
         <h1 className='type-title mt-6'>{title}</h1>
         <p className='text-muted mt-2 text-pretty'>{subtitle}</p>

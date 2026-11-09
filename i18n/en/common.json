@@ -40,5 +40,20 @@
   "theme": {
     "toDark": "Switch to dark theme",
     "toLight": "Switch to light theme"
+  },
+  "footer": {
+    "rights": "© {year} {organization}. All photos belong to the company.",
+    "admin": "Admin"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "This page could not be found",
+    "text": "It may have moved, or it might be private.",
+    "back": "Back to home"
+  },
+  "crash": {
+    "title": "Something went wrong",
+    "text": "Please try again. If it keeps happening, check the server logs.",
+    "retry": "Try again"
   }
 }
