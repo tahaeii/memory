@@ -1,5 +1,6 @@
 import { createReadStream, promises as fs } from 'node:fs';
 import { Readable } from 'node:stream';
+import { t } from '@i18n';
 import type { MediaFile } from '@server/media/media.files';
 
 export interface ByteRange {
@@ -31,7 +32,7 @@ export function parseRange(header: string | null, size: number): ByteRange | nul
 }
 
 const notFound = (): Response =>
-  new Response('Not found', { status: 404, headers: { 'Cache-Control': 'no-store' } });
+  new Response(t('errors.notFound'), { status: 404, headers: { 'Cache-Control': 'no-store' } });
 
 function contentDisposition(name: string): string {
   const encoded = encodeURIComponent(name).replace(

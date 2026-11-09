@@ -1,4 +1,5 @@
 import { randomInt } from 'node:crypto';
+import { t } from '@i18n';
 import { hashPassword, safeEqual } from '@server/auth/password';
 import { HttpError } from '@server/lib/errors';
 import { newId } from '@server/lib/ids';
@@ -47,17 +48,16 @@ export function setupCode(): string {
 
 /** Creates the super admin, the friends passcode and the first branding. Works exactly once. */
 export async function completeSetup(input: SetupInput): Promise<UserRecord> {
-  if (await isSetupComplete()) throw new HttpError(409, 'Setup is already done. Sign in instead.');
+  if (await isSetupComplete()) throw new HttpError(409, t('errors.setup.done'));
   if (!safeEqual(normalize(input.code), normalize(setupCode())))
-    throw new HttpError(403, 'That setup code is not correct. Copy it from the server log.');
-  if (friendsEnabled() && !input.passcode) throw new HttpError(400, 'Choose a friends passcode.');
+    throw new HttpError(403, t('errors.setup.wrongCode'));
+  if (friendsEnabled() && !input.passcode) throw new HttpError(400, t('errors.setup.passcodeRequired'));
 
   const passwordHash = await hashPassword(input.password);
   const user = await userRepository.mutate((users) => {
-    if (users.some((item) => item.role === 'superadmin'))
-      throw new HttpError(409, 'Setup is already done. Sign in instead.');
+    if (users.some((item) => item.role === 'superadmin')) throw new HttpError(409, t('errors.setup.done'));
     if (users.some((item) => item.username === input.username))
-      throw new HttpError(409, 'That username is already taken.');
+      throw new HttpError(409, t('errors.users.usernameTaken'));
     const now = new Date().toISOString();
     const created: UserRecord = {
       id: newId(),

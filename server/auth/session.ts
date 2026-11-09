@@ -1,4 +1,5 @@
 import { createHmac } from 'node:crypto';
+import { t } from '@i18n';
 import { friendsEnabled } from '@server/config';
 import { getSettings } from '@server/settings/settings.service';
 import { userRepository } from '@server/users/user.repository';
@@ -47,7 +48,7 @@ export async function createStaffToken(user: UserRecord): Promise<string> {
 
 export async function createFriendToken(): Promise<string> {
   const { sessionSecret, friendsPasscodeHash } = await getSettings();
-  if (!friendsPasscodeHash) throw new Error('The friends passcode has not been set.');
+  if (!friendsPasscodeHash) throw new Error(t('errors.friends.notSet'));
   return signToken(
     {
       sub: FRIEND_SUBJECT,

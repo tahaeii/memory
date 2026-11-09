@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import { t } from '@i18n';
 import { binaryPathFromEnv } from '@server/config';
 import { HttpError } from '@server/lib/errors';
 import { fileExists } from '@server/lib/fs';
@@ -76,7 +77,7 @@ function missingBinary(error: unknown): boolean {
   return error instanceof ProcessError && error.code === 'ENOENT';
 }
 
-const NO_FFMPEG = 'Video support is not available: ffmpeg was not found on the server.';
+const NO_FFMPEG = t('errors.video.unavailable');
 
 export interface VideoProbe {
   /** Display size (rotation applied). */
@@ -211,7 +212,7 @@ export async function extractPoster(file: string, probe: VideoProbe, output: str
     }
     if (await fileExists(output)) return;
   }
-  throw new HttpError(422, 'Could not read a frame from this video. The file may be damaged.');
+  throw new HttpError(422, t('errors.video.noFrame'));
 }
 
 /**

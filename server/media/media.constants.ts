@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import type { VariantName } from '@contracts/media';
 
 /** Derived WebP sizes generated for every upload (width in pixels). Videos get them from a frame. */
@@ -13,5 +14,4 @@ export function isVariantName(value: string): value is VariantName {
   return VARIANT_NAMES.includes(value as VariantName);
 }
 
-export const UNSUPPORTED_FILE =
-  'Unsupported file. Upload JPEG, PNG, HEIC, WebP, AVIF, GIF or TIFF photos, or MP4, MOV, WebM, MKV, AVI, WMV, 3GP or MPEG videos.';
+export const UNSUPPORTED_FILE = t('errors.media.unsupported');

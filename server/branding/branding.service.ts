@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import sharp from 'sharp';
+import { t } from '@i18n';
 import {
   DEFAULT_BRANDING,
   DEFAULT_LOGO_URL,
@@ -69,16 +70,15 @@ export async function updateBranding(input: BrandingInput): Promise<BrandingDto>
  * plain PNG (no SVG, no scripts, no metadata), so the stored file is always a harmless image.
  */
 export async function saveLogo(bytes: Buffer): Promise<BrandingDto> {
-  if (bytes.length === 0) throw new HttpError(400, 'Choose an image file.');
-  if (bytes.length > MAX_LOGO_BYTES) throw new HttpError(413, 'The logo must be smaller than 5 MB.');
+  if (bytes.length === 0) throw new HttpError(400, t('errors.logo.missing'));
+  if (bytes.length > MAX_LOGO_BYTES) throw new HttpError(413, t('errors.logo.tooLarge'));
   let format: string | undefined;
   try {
     format = (await sharp(bytes, { limitInputPixels: 40_000_000 }).metadata()).format;
   } catch {
     format = undefined;
   }
-  if (!format || !LOGO_FORMATS.has(format))
-    throw new HttpError(415, 'Use a PNG, JPEG, WebP or AVIF image for the logo.');
+  if (!format || !LOGO_FORMATS.has(format)) throw new HttpError(415, t('errors.logo.format'));
 
   const png = await sharp(bytes, { limitInputPixels: 40_000_000, animated: false })
     .rotate()

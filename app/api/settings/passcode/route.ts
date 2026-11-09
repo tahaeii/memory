@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { handle, json, readBody, requireStaff } from '@server/http/api';
 import { friendsEnabled } from '@server/config';
 import { HttpError } from '@server/lib/errors';
@@ -14,9 +15,8 @@ export const dynamic = 'force-dynamic';
 export async function PUT(req: NextRequest) {
   return handle(async () => {
     const viewer = await requireStaff(req);
-    if (!friendsEnabled()) throw new HttpError(404, 'The friends area is switched off on this server.');
-    if (!viewer.privateAccess)
-      throw new HttpError(403, 'Only admins with access to the private side can change its passcode.');
+    if (!friendsEnabled()) throw new HttpError(404, t('errors.friends.disabled'));
+    if (!viewer.privateAccess) throw new HttpError(403, t('errors.friends.privateAccessOnly'));
     const { passcode } = await readBody(req, passcodeSchema);
     return json(await setFriendsPasscode(passcode));
   });

@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { t } from '@i18n';
 import type {
   BulkMediaPatch,
   LibrarySummaryDto,
@@ -156,8 +157,7 @@ export async function listMedia(params: ListParams): Promise<MediaPageDto> {
 
 /** What admins deleted, most recently deleted first, optionally only one admin's deletions. */
 async function listDeleted(params: ListParams): Promise<MediaPageDto> {
-  if (!canReviewDeleted(params.viewer))
-    throw new HttpError(403, 'Only the super admin can see deleted items.');
+  if (!canReviewDeleted(params.viewer)) throw new HttpError(403, t('errors.media.deletedSuperAdminOnly'));
   const matches = (await mediaRepository.all())
     .filter(
       (record) =>
@@ -200,8 +200,8 @@ export async function getSummary(viewer: Viewer): Promise<LibrarySummaryDto> {
 
 /** Staff without friends access may only upload public items. */
 export function assertCanUpload(viewer: Viewer, visibility: Visibility): void {
-  if (!isStaff(viewer)) throw new HttpError(401, 'Please sign in as an admin.');
-  if (!canManage(viewer, visibility)) throw new HttpError(403, 'Your account cannot add private items.');
+  if (!isStaff(viewer)) throw new HttpError(401, t('errors.auth.staffOnly'));
+  if (!canManage(viewer, visibility)) throw new HttpError(403, t('errors.media.cannotAddPrivate'));
 }
 
 export interface IngestInput {
@@ -220,13 +220,13 @@ export interface IngestInput {
 export async function ingestMedia(input: IngestInput, viewer: Viewer): Promise<MediaDto> {
   assertCanUpload(viewer, input.visibility);
   if (input.eventId && !(await eventRepository.get(input.eventId)))
-    throw new HttpError(404, 'Event not found.');
+    throw new HttpError(404, t('errors.events.notFound'));
 
   const { size } = await fs.stat(input.tmpPath);
   const detected = await detectMedia(input.tmpPath);
   if (!detected) throw new HttpError(415, UNSUPPORTED_FILE);
   if (size > (detected.kind === 'video' ? maxVideoBytes() : maxPhotoBytes()))
-    throw new HttpError(413, 'This file is too large.');
+    throw new HttpError(413, t('errors.media.tooLarge'));
 
   const id = newId();
   const dir = mediaDir(id);
@@ -288,9 +288,9 @@ export async function ingestMedia(input: IngestInput, viewer: Viewer): Promise<M
 /** Changes visibility and/or event for the given items the viewer may manage. Returns how many changed. */
 export async function updateMedia(ids: string[], patch: BulkMediaPatch, viewer: Viewer): Promise<number> {
   if (patch.visibility === 'private' && !viewer.privateAccess)
-    throw new HttpError(403, 'Your account cannot make items private.');
+    throw new HttpError(403, t('errors.media.cannotMakePrivate'));
   if (patch.eventId && !(await eventRepository.get(patch.eventId)))
-    throw new HttpError(404, 'Event not found.');
+    throw new HttpError(404, t('errors.events.notFound'));
 
   let updated = 0;
   for (const id of new Set(ids)) {
@@ -344,7 +344,7 @@ async function purgeMedia(ids: string[]): Promise<number> {
 
 /** Puts items an admin deleted back into the library, exactly as they were (super admin only). */
 export async function restoreMedia(ids: string[], viewer: Viewer): Promise<number> {
-  if (!canReviewDeleted(viewer)) throw new HttpError(403, 'Only the super admin can restore items.');
+  if (!canReviewDeleted(viewer)) throw new HttpError(403, t('errors.media.restoreSuperAdminOnly'));
   let restored = 0;
   for (const id of new Set(ids)) {
     const next = await mediaRepository.update(id, (record) => {

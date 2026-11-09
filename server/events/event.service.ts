@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import type { EventDto, EventInput } from '@contracts/event';
 import { isStaff } from '@server/auth/access';
 import type { Viewer } from '@server/auth/viewer';
@@ -75,7 +76,7 @@ export async function createEvent(input: EventInput, viewer: Viewer): Promise<Ev
 export async function updateEvent(id: string, patch: Partial<EventInput>): Promise<void> {
   await eventRepository.mutate((events) => {
     const event = events.find((item) => item.id === id);
-    if (!event) throw new HttpError(404, 'Event not found.');
+    if (!event) throw new HttpError(404, t('errors.events.notFound'));
     if (patch.title !== undefined) event.title = patch.title;
     if (patch.date !== undefined) event.date = patch.date;
     if (patch.description !== undefined) event.description = patch.description;
@@ -86,7 +87,7 @@ export async function updateEvent(id: string, patch: Partial<EventInput>): Promi
 export async function deleteEvent(id: string): Promise<void> {
   await eventRepository.mutate((events) => {
     const index = events.findIndex((event) => event.id === id);
-    if (index === -1) throw new HttpError(404, 'Event not found.');
+    if (index === -1) throw new HttpError(404, t('errors.events.notFound'));
     events.splice(index, 1);
   });
   for (const item of await mediaRepository.all()) {

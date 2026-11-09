@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import sharp, { Metadata, Sharp, type SharpOptions } from 'sharp';
+import { t } from '@i18n';
 import { HttpError } from '@server/lib/errors';
 import { UNSUPPORTED_FILE, VARIANTS, VARIANT_NAMES } from './media.constants';
 
@@ -66,7 +67,7 @@ function heicDecoder(): HeicDecode {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       heicDecode = require('heic-decode') as HeicDecode;
     } catch {
-      throw new HttpError(415, 'HEIC support is missing on the server. Run "npm install" and restart it.');
+      throw new HttpError(415, t('errors.media.heicMissing'));
     }
   }
   return heicDecode;
@@ -113,11 +114,11 @@ async function openHeic(file: string): Promise<Source> {
   try {
     image = await decode({ buffer: await fs.readFile(file) });
   } catch {
-    throw new HttpError(422, 'This HEIC photo could not be read.');
+    throw new HttpError(422, t('errors.media.heicUnreadable'));
   }
   const { width, height, data } = image;
   if (!width || !height || width * height > MAX_PIXELS || data.byteLength !== width * height * 4)
-    throw new HttpError(422, 'This HEIC photo could not be read.');
+    throw new HttpError(422, t('errors.media.heicUnreadable'));
   const pixels = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
   return {
     width,
@@ -153,7 +154,7 @@ export async function processImage(
       placeholder: 'data:image/webp;base64,' + tiny.toString('base64'),
     };
   } catch {
-    throw new HttpError(422, 'The image could not be processed.');
+    throw new HttpError(422, t('errors.media.imageFailed'));
   }
 }
 

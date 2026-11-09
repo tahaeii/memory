@@ -1,1 +1,60 @@
-{}
+{
+  "tooManyAttempts": "Too many attempts. Try again in a few minutes.",
+  "auth": {
+    "invalidCredentials": "Invalid username or password.",
+    "blocked": "This account is blocked. Ask the super admin to unblock it.",
+    "signInAgain": "Please sign in again.",
+    "wrongCurrentPassword": "Your current password is not correct.",
+    "samePassword": "Choose a password that is different from the current one.",
+    "staffOnly": "Please sign in as an admin.",
+    "superAdminOnly": "Only the super admin can do this.",
+    "crossOrigin": "Cross-origin request blocked."
+  },
+  "friends": {
+    "disabled": "The friends area is switched off on this server.",
+    "wrongPasscode": "That passcode is not correct.",
+    "notSet": "The friends passcode has not been set.",
+    "privateAccessOnly": "Only admins with access to the private side can change its passcode."
+  },
+  "logo": {
+    "tooLarge": "The logo must be smaller than 5 MB.",
+    "missing": "Choose an image file.",
+    "format": "Use a PNG, JPEG, WebP or AVIF image for the logo."
+  },
+  "events": {
+    "notFound": "Event not found."
+  },
+  "users": {
+    "notFound": "User not found.",
+    "usernameTaken": "That username is already taken.",
+    "superAdminLocked": "The super admin account cannot be changed here."
+  },
+  "media": {
+    "tooLarge": "This file is too large.",
+    "noFile": "No file was sent.",
+    "unsupported": "Unsupported file. Upload JPEG, PNG, HEIC, WebP, AVIF, GIF or TIFF photos, or MP4, MOV, WebM, MKV, AVI, WMV, 3GP or MPEG videos.",
+    "deletedSuperAdminOnly": "Only the super admin can see deleted items.",
+    "restoreSuperAdminOnly": "Only the super admin can restore items.",
+    "cannotAddPrivate": "Your account cannot add private items.",
+    "cannotMakePrivate": "Your account cannot make items private.",
+    "heicMissing": "HEIC support is missing on the server. Run \"npm install\" and restart it.",
+    "heicUnreadable": "This HEIC photo could not be read.",
+    "imageFailed": "The image could not be processed."
+  },
+  "video": {
+    "unavailable": "Video support is not available: ffmpeg was not found on the server.",
+    "noFrame": "Could not read a frame from this video. The file may be damaged.",
+    "failed": "The video could not be converted. The file may be damaged or use an unusual format.",
+    "unreadable": "The converted file could not be read back."
+  },
+  "setup": {
+    "done": "Setup is already done. Sign in instead.",
+    "wrongCode": "That setup code is not correct. Copy it from the server log.",
+    "passcodeRequired": "Choose a friends passcode."
+  },
+  "server": {
+    "diskFull": "The server is out of disk space.",
+    "generic": "Something went wrong on the server."
+  },
+  "notFound": "Not found"
+}

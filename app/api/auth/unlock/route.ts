@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { unlockLimiter } from '@server/auth/limiter';
 import { createFriendToken, SESSION_TTL_SECONDS } from '@server/auth/session';
 import { FRIEND, toSessionDto } from '@server/auth/viewer';
@@ -21,19 +22,18 @@ export const dynamic = 'force-dynamic';
 /** Friends unlock the private side with the shared passcode. */
 export async function POST(req: NextRequest) {
   return handle(async () => {
-    if (!friendsEnabled()) throw new HttpError(404, 'The friends area is switched off on this server.');
+    if (!friendsEnabled()) throw new HttpError(404, t('errors.friends.disabled'));
     assertSameOrigin(req);
     const viewer = await viewerOf(req);
     if (viewer.role !== 'guest') return json(toSessionDto(viewer));
 
     const key = clientIp(req);
-    if (unlockLimiter.isBlocked(key))
-      throw new HttpError(429, 'Too many attempts. Try again in a few minutes.');
+    if (unlockLimiter.isBlocked(key)) throw new HttpError(429, t('errors.tooManyAttempts'));
 
     const { passcode } = await readBody(req, unlockSchema);
     if (!(await verifyFriendsPasscode(passcode.trim()))) {
       unlockLimiter.recordFailure(key);
-      throw new HttpError(401, 'That passcode is not correct.');
+      throw new HttpError(401, t('errors.friends.wrongPasscode'));
     }
 
     unlockLimiter.reset(key);

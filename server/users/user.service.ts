@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import type { CreateUserInput, UpdateUserInput, UserDto } from '@contracts/user';
 import { hashPassword, UNUSABLE_HASH, verifyPassword } from '@server/auth/password';
 import { HttpError } from '@server/lib/errors';
@@ -47,7 +48,7 @@ export async function createUser(input: CreateUserInput): Promise<UserDto> {
   const now = new Date().toISOString();
   const user = await userRepository.mutate((users) => {
     if (users.some((item) => item.username === input.username))
-      throw new HttpError(409, 'That username is already taken.');
+      throw new HttpError(409, t('errors.users.usernameTaken'));
     const created: UserRecord = {
       id: newId(),
       username: input.username,
@@ -71,9 +72,8 @@ export async function updateUser(id: string, patch: UpdateUserInput): Promise<Us
   const passwordHash = patch.password ? await hashPassword(patch.password) : null;
   const user = await userRepository.mutate((users) => {
     const target = users.find((item) => item.id === id);
-    if (!target) throw new HttpError(404, 'User not found.');
-    if (target.role === 'superadmin')
-      throw new HttpError(403, 'The super admin account cannot be changed here.');
+    if (!target) throw new HttpError(404, t('errors.users.notFound'));
+    if (target.role === 'superadmin') throw new HttpError(403, t('errors.users.superAdminLocked'));
 
     let endSessions = false;
     if (patch.active !== undefined && patch.active !== target.active) {
@@ -103,15 +103,14 @@ export async function changeOwnPassword(
   newPassword: string,
 ): Promise<UserRecord | null> {
   const user = await userRepository.findById(userId);
-  if (!user || !user.active) throw new HttpError(401, 'Please sign in again.');
+  if (!user || !user.active) throw new HttpError(401, t('errors.auth.signInAgain'));
   if (!(await verifyPassword(currentPassword, user.passwordHash))) return null;
-  if (currentPassword === newPassword)
-    throw new HttpError(400, 'Choose a password that is different from the current one.');
+  if (currentPassword === newPassword) throw new HttpError(400, t('errors.auth.samePassword'));
 
   const passwordHash = await hashPassword(newPassword);
   return userRepository.mutate((users) => {
     const target = users.find((item) => item.id === userId);
-    if (!target) throw new HttpError(401, 'Please sign in again.');
+    if (!target) throw new HttpError(401, t('errors.auth.signInAgain'));
     const now = new Date().toISOString();
     target.passwordHash = passwordHash;
     target.passwordChangedAt = now;

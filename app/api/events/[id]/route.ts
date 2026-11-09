@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { eventPatchSchema } from '@contracts/schemas/event';
 import { deleteEvent, updateEvent } from '@server/events/event.service';
 import { handle, json, readBody, requireStaff } from '@server/http/api';
@@ -11,7 +12,7 @@ type Context = { params: Promise<{ id: string }> };
 
 async function eventId(context: Context): Promise<string> {
   const { id } = await context.params;
-  if (!ID_PATTERN.test(id)) throw new HttpError(404, 'Event not found.');
+  if (!ID_PATTERN.test(id)) throw new HttpError(404, t('errors.events.notFound'));
   return id;
 }
 

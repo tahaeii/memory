@@ -4,6 +4,7 @@ import { Readable, Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import type { ReadableStream as NodeReadableStream } from 'node:stream/web';
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { maxPhotoBytes, maxVideoBytes } from '@server/config';
 import { handle, json, parseWith, readBody, requireStaff, viewerOf } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
@@ -28,7 +29,7 @@ function sizeLimit(maxBytes: number): Transform {
   return new Transform({
     transform(chunk: Buffer, _encoding, callback) {
       seen += chunk.length;
-      callback(seen > maxBytes ? new HttpError(413, 'This file is too large.') : null, chunk);
+      callback(seen > maxBytes ? new HttpError(413, t('errors.media.tooLarge')) : null, chunk);
     },
   });
 }
@@ -66,8 +67,8 @@ export async function POST(req: NextRequest) {
     assertCanUpload(viewer, query.visibility);
     const limit = Math.max(maxPhotoBytes(), maxVideoBytes());
     if (Number(req.headers.get('content-length')) > limit)
-      throw new HttpError(413, 'This file is too large.');
-    if (!req.body) throw new HttpError(400, 'No file was sent.');
+      throw new HttpError(413, t('errors.media.tooLarge'));
+    if (!req.body) throw new HttpError(400, t('errors.media.noFile'));
 
     await ensureDir(tmpRoot());
     const tmpPath = path.join(tmpRoot(), newId() + '.upload');

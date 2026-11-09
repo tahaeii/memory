@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import type { z, ZodTypeAny } from 'zod';
+import { t } from '@i18n';
 import { isStaff } from '@server/auth/access';
 import { resolveViewer, SESSION_COOKIE } from '@server/auth/session';
 import type { Viewer } from '@server/auth/viewer';
@@ -18,9 +19,9 @@ export async function handle(run: () => Promise<Response>): Promise<Response> {
   } catch (error) {
     if (error instanceof HttpError) return json({ error: error.message }, error.status);
     if ((error as NodeJS.ErrnoException)?.code === 'ENOSPC')
-      return json({ error: 'The server is out of disk space.' }, 507);
+      return json({ error: t('errors.server.diskFull') }, 507);
     console.error('[api]', error);
-    return json({ error: 'Something went wrong on the server.' }, 500);
+    return json({ error: t('errors.server.generic') }, 500);
   }
 }
 
@@ -52,26 +53,27 @@ export function assertSameOrigin(req: NextRequest): void {
   } catch {
     /* invalid Origin header */
   }
-  if (originHost !== host) throw new HttpError(403, 'Cross-origin request blocked.');
+  if (originHost !== host) throw new HttpError(403, t('errors.auth.crossOrigin'));
 }
 
 /** For write routes: same origin and signed in as an admin or the super admin. */
 export async function requireStaff(req: NextRequest): Promise<Viewer> {
   assertSameOrigin(req);
   const viewer = await viewerOf(req);
-  if (!isStaff(viewer)) throw new HttpError(401, 'Please sign in as an admin.');
+  if (!isStaff(viewer)) throw new HttpError(401, t('errors.auth.staffOnly'));
   return viewer;
 }
 
 export async function requireSuperAdmin(req: NextRequest): Promise<Viewer> {
   const viewer = await requireStaff(req);
-  if (viewer.role !== 'superadmin') throw new HttpError(403, 'Only the super admin can do this.');
+  if (viewer.role !== 'superadmin') throw new HttpError(403, t('errors.auth.superAdminOnly'));
   return viewer;
 }
 
 export function parseWith<S extends ZodTypeAny>(schema: S, raw: unknown): z.infer<S> {
   const result = schema.safeParse(raw);
-  if (!result.success) throw new HttpError(400, result.error.issues[0]?.message ?? 'Invalid request.');
+  if (!result.success)
+    throw new HttpError(400, result.error.issues[0]?.message ?? t('validation.invalidRequest'));
   return result.data;
 }
 
@@ -80,7 +82,7 @@ export async function readBody<S extends ZodTypeAny>(req: NextRequest, schema: S
   try {
     raw = await req.json();
   } catch {
-    throw new HttpError(400, 'Request body must be valid JSON.');
+    throw new HttpError(400, t('validation.invalidJson'));
   }
   return parseWith(schema, raw);
 }

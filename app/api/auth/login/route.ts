@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { accountLimiter, loginLimiter } from '@server/auth/limiter';
 import { createStaffToken, SESSION_TTL_SECONDS, viewerFromUser } from '@server/auth/session';
 import { toSessionDto } from '@server/auth/viewer';
@@ -14,20 +15,18 @@ export async function POST(req: NextRequest) {
   return handle(async () => {
     assertSameOrigin(req);
     const key = clientIp(req);
-    if (loginLimiter.isBlocked(key))
-      throw new HttpError(429, 'Too many attempts. Try again in a few minutes.');
+    if (loginLimiter.isBlocked(key)) throw new HttpError(429, t('errors.tooManyAttempts'));
 
     const { username, password } = await readBody(req, loginSchema);
     const account = username.trim().toLowerCase();
-    if (accountLimiter.isBlocked(account))
-      throw new HttpError(429, 'Too many attempts. Try again in a few minutes.');
+    if (accountLimiter.isBlocked(account)) throw new HttpError(429, t('errors.tooManyAttempts'));
     const user = await authenticate(username, password);
     if (!user) {
       loginLimiter.recordFailure(key);
       accountLimiter.recordFailure(account);
-      throw new HttpError(401, 'Invalid username or password.');
+      throw new HttpError(401, t('errors.auth.invalidCredentials'));
     }
-    if (!user.active) throw new HttpError(403, 'This account is blocked. Ask the super admin to unblock it.');
+    if (!user.active) throw new HttpError(403, t('errors.auth.blocked'));
 
     loginLimiter.reset(key);
     accountLimiter.reset(account);

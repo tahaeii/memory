@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { MAX_LOGO_BYTES, readLogo, removeLogo, saveLogo } from '@server/branding/branding.service';
 import { handle, json, requireSuperAdmin } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
@@ -28,7 +29,7 @@ export async function PUT(req: NextRequest) {
   return handle(async () => {
     await requireSuperAdmin(req);
     const declared = Number(req.headers.get('content-length') ?? 0);
-    if (declared > MAX_LOGO_BYTES) throw new HttpError(413, 'The logo must be smaller than 5 MB.');
+    if (declared > MAX_LOGO_BYTES) throw new HttpError(413, t('errors.logo.tooLarge'));
     const bytes = Buffer.from(await req.arrayBuffer());
     return json(await saveLogo(bytes));
   });

@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { t } from '@i18n';
 import { HttpError } from '@server/lib/errors';
 import { Semaphore } from '@server/lib/semaphore';
 import { singleton } from '@server/lib/singleton';
@@ -14,7 +15,7 @@ interface Job {
   progress: number | null;
 }
 
-const GENERIC_FAILURE = 'The video could not be converted. The file may be damaged or use an unusual format.';
+const GENERIC_FAILURE = t('errors.video.failed');
 
 function withStatus(
   record: MediaRecord,
@@ -79,7 +80,7 @@ class VideoQueue {
       job.progress = 0;
       await convertVideo(source, output, probe, { signal, onProgress: (ratio) => (job.progress = ratio) });
       const result = await probeVideo(output);
-      if (!result) throw new Error('The converted file could not be read back.');
+      if (!result) throw new Error(t('errors.video.unreadable'));
       await fs.rename(output, videoPath(id));
       await mediaRepository.update(id, (current) => withStatus(current, 'ready', null, result.duration));
     } catch (error) {

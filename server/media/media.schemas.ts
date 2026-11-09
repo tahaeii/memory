@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { t } from '@i18n';
 import { ID_PATTERN } from '@server/lib/ids';
 
-const id = z.string().regex(ID_PATTERN, 'Invalid id.');
+const id = z.string().regex(ID_PATTERN, t('validation.invalidId'));
 const visibility = z.enum(['public', 'private']);
 
 export const listQuerySchema = z.object({
@@ -40,6 +41,9 @@ export const bulkPatchSchema = z
     visibility: visibility.optional(),
     eventId: id.nullable().optional(),
   })
-  .refine((value) => value.visibility !== undefined || value.eventId !== undefined, 'Nothing to update.');
+  .refine(
+    (value) => value.visibility !== undefined || value.eventId !== undefined,
+    t('validation.nothingToUpdate'),
+  );
 
 export const idsSchema = z.object({ ids: z.array(id).min(1).max(500) });

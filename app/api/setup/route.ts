@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { setupLimiter } from '@server/auth/limiter';
 import { createStaffToken, SESSION_TTL_SECONDS, viewerFromUser } from '@server/auth/session';
 import { toSessionDto } from '@server/auth/viewer';
@@ -14,8 +15,7 @@ export async function POST(req: NextRequest) {
   return handle(async () => {
     assertSameOrigin(req);
     const key = clientIp(req);
-    if (setupLimiter.isBlocked(key))
-      throw new HttpError(429, 'Too many attempts. Try again in a few minutes.');
+    if (setupLimiter.isBlocked(key)) throw new HttpError(429, t('errors.tooManyAttempts'));
 
     const input = await readBody(req, setupSchema);
     const user = await completeSetup(input).catch((error: unknown) => {

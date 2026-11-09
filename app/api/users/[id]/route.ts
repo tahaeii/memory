@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { t } from '@i18n';
 import { handle, json, readBody, requireSuperAdmin } from '@server/http/api';
 import { HttpError } from '@server/lib/errors';
 import { ID_PATTERN } from '@server/lib/ids';
@@ -14,7 +15,7 @@ export async function PATCH(req: NextRequest, context: Context) {
   return handle(async () => {
     await requireSuperAdmin(req);
     const { id } = await context.params;
-    if (!ID_PATTERN.test(id)) throw new HttpError(404, 'User not found.');
+    if (!ID_PATTERN.test(id)) throw new HttpError(404, t('errors.users.notFound'));
     return json(await updateUser(id, await readBody(req, updateUserSchema)));
   });
 }
