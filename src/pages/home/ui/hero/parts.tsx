@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { t } from '@i18n';
 import type { MediaDto } from '@/entities/media';
 import type { SiteConfig } from '@/shared/config/site';
 import { cn } from '@/shared/lib/cn';
@@ -73,10 +74,10 @@ export function Actions({ align = 'start' }: PartProps) {
       className={cn('animate-enter mt-8 flex flex-wrap gap-3', align === 'center' && 'justify-center')}
       style={delay(4)}>
       <Link href='/gallery' className={buttonStyles('primary', 'lg')}>
-        Browse the gallery
+        {t('home.browse')}
       </Link>
       <Link href='/events' className={buttonStyles('secondary', 'lg')}>
-        View events
+        {t('home.viewEvents')}
       </Link>
     </div>
   );

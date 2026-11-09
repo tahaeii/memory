@@ -1,1 +1,30 @@
-{}
+{
+  "browse": "Browse the gallery",
+  "viewEvents": "View events",
+  "latest": {
+    "photos": "Latest photos",
+    "all": "Latest photos and videos",
+    "link": "Full gallery"
+  },
+  "events": {
+    "title": "Events",
+    "link": "All events"
+  },
+  "summary": {
+    "events": {
+      "one": "{count} event",
+      "other": "{count} events"
+    },
+    "both": "{photos} and {videos}",
+    "fromEvents": "{media} from {events}",
+    "since": "{text}, since {year}"
+  },
+  "preview": {
+    "text": "Previewing <b>{preview}</b>. Visitors still see <b>{current}</b>.",
+    "back": "Back to Branding"
+  },
+  "invite": {
+    "title": "There is a private side, too",
+    "text": "Friends of the team can unlock the behind-the-scenes photos and videos with a passcode."
+  }
+}

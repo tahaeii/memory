@@ -1,3 +1,4 @@
+import { t } from '@i18n';
 import { isHeroStyle } from '@contracts/branding';
 import { loadEvents } from '@/entities/event/server';
 import { loadMediaPage, loadSummary } from '@/entities/media/server';
@@ -42,9 +43,9 @@ export async function HomePage({ searchParams }: { searchParams: SearchParams })
       {page.items.length > 0 && (
         <Container className='pt-section'>
           <SectionHead
-            title={summary.videoCount > 0 ? 'Latest photos and videos' : 'Latest photos'}
+            title={summary.videoCount > 0 ? t('home.latest.all') : t('home.latest.photos')}
             href='/gallery'
-            link='Full gallery'
+            link={t('home.latest.link')}
           />
           <MediaGallery initial={page} grouping='none' pagination='button' pageSize={24} />
         </Container>
@@ -52,7 +53,7 @@ export async function HomePage({ searchParams }: { searchParams: SearchParams })
 
       {events.length > 0 && (
         <Container className='pt-section'>
-          <SectionHead title='Events' href='/events' link='All events' />
+          <SectionHead title={t('home.events.title')} href='/events' link={t('home.events.link')} />
           <div className='-mx-4 flex snap-x scroll-px-4 scrollbar-none gap-3 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:scroll-px-6 sm:gap-4 sm:px-6 lg:-mx-8 lg:scroll-px-8 lg:px-8'>
             {events.slice(0, 10).map((event) => (
               <EventPoster key={event.id} event={event} />
