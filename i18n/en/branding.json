@@ -68,5 +68,11 @@
     "headerPreview": "Header preview",
     "friendsOn": "<b>Friends area on.</b> Set by <code>FRIENDS_ENABLED</code> on the server.",
     "friendsOff": "<b>Friends area off.</b> Set by <code>FRIENDS_ENABLED</code> on the server."
+  },
+  "defaults": {
+    "name": "Memory",
+    "organization": "Your organisation",
+    "tagline": "Photo and video archive",
+    "description": "Celebrations, gatherings and everyday life at the company, organised by date and event and kept in one place."
   }
 }

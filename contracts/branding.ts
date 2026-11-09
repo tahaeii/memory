@@ -1,3 +1,5 @@
+import { t } from '@i18n';
+
 /** How the home page opens (chosen in Dashboard › Branding). */
 export const HERO_STYLES = ['minimal', 'wall', 'filmstrip', 'mosaic'] as const;
 export type HeroStyle = (typeof HERO_STYLES)[number];
@@ -52,11 +54,10 @@ export interface BrandingInput {
 export const DEFAULT_LOGO_URL = '/icon.svg';
 
 export const DEFAULT_BRANDING = {
-  name: 'Memory',
-  organization: 'Your organisation',
-  tagline: 'Photo and video archive',
-  description:
-    'Celebrations, gatherings and everyday life at the company, organised by date and event and kept in one place.',
+  name: t('branding.defaults.name'),
+  organization: t('branding.defaults.organization'),
+  tagline: t('branding.defaults.tagline'),
+  description: t('branding.defaults.description'),
   heroStyle: 'minimal' as HeroStyle,
 };
 
