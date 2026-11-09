@@ -1,5 +1,84 @@
 {
   "nav": {
     "label": "Dashboard sections"
+  },
+  "pageTitle": "Admin",
+  "title": "Dashboard",
+  "signedInAs": "Signed in as <b>{username}</b>, {role}.",
+  "viewGallery": "View the gallery",
+  "upload": "Upload",
+  "sections": {
+    "library": {
+      "label": "Library",
+      "title": "Library",
+      "description": "Select items to change who can see them, move them to an event or delete them."
+    },
+    "upload": {
+      "label": "Upload",
+      "title": "Upload",
+      "description": "Photos are ready at once. Videos are converted for the web on the server, one at a time."
+    },
+    "events": {
+      "label": "Events",
+      "title": "Events",
+      "description": "Group photos and videos by occasion. Deleting an event keeps its photos."
+    },
+    "deleted": {
+      "label": "Deleted",
+      "title": "Deleted by admins",
+      "description": "Hidden from everyone, including the admin who deleted them, until you restore them. Deleting them here removes them from the server for good."
+    },
+    "admins": {
+      "label": "Admins",
+      "title": "Admins",
+      "description": "Accounts that can upload and organise. Only you can manage them."
+    },
+    "branding": {
+      "label": "Branding",
+      "title": "Branding",
+      "description": "The name, logo, colours and texts every visitor sees, and how the home page opens."
+    },
+    "settings": {
+      "label": "Settings"
+    }
+  },
+  "stats": {
+    "photos": "Photos",
+    "videos": "Videos",
+    "private": "Private",
+    "events": "Events",
+    "disk": "Originals on disk"
+  },
+  "reminders": {
+    "password": "You are still using the password you were given.",
+    "passcode": "The friends passcode is still the initial one.",
+    "changeOne": "Change it in Settings",
+    "changeMany": "Change them in Settings"
+  },
+  "library": {
+    "filterEvent": "Filter by event",
+    "allEvents": "All events",
+    "filterType": "Filter by type",
+    "allTypes": "Photos and videos",
+    "photosOnly": "Photos only",
+    "videosOnly": "Videos only",
+    "filterAccess": "Filter by access",
+    "allAccess": "Public and private",
+    "publicOnly": "Public only",
+    "privateOnly": "Private only",
+    "items": {
+      "one": "{count} item",
+      "other": "{count} items"
+    },
+    "selectLoaded": "Select loaded",
+    "emptyTitle": "Nothing here",
+    "emptyText": "Upload photos or videos, or change the filters."
+  },
+  "deleted": {
+    "filterAdmin": "Filter by admin",
+    "byAnyone": "Deleted by anyone",
+    "byUser": "Deleted by {username}",
+    "emptyTitle": "Nothing deleted",
+    "emptyText": "When an admin deletes a photo or a video, it waits here for you."
   }
 }

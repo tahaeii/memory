@@ -1,5 +1,6 @@
 'use client';
 
+import { t } from '@i18n';
 import type { PasscodeStatusDto, UserDto } from '@/entities/user';
 import { useStoredFlag } from '@/shared/lib/use-stored-flag';
 
@@ -12,9 +13,8 @@ interface Reminder {
 function remindersFor(account: UserDto, passcode: PasscodeStatusDto | null): Reminder[] {
   const reminders: Reminder[] = [];
   if (account.passwordChangedAt === null)
-    reminders.push({ id: 'password', text: 'You are still using the password you were given.' });
-  if (passcode?.updatedAt === null)
-    reminders.push({ id: 'passcode', text: 'The friends passcode is still the initial one.' });
+    reminders.push({ id: 'password', text: t('admin.reminders.password') });
+  if (passcode?.updatedAt === null) reminders.push({ id: 'passcode', text: t('admin.reminders.passcode') });
   return reminders;
 }
 

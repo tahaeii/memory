@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { plural, t } from '@i18n';
 import type { EventDto } from '@/entities/event';
 import {
   LoadState,
@@ -14,7 +15,6 @@ import {
 import { useSession } from '@/entities/session';
 import { deleteWording, MediaAdminActions, SelectionBar, useMediaMutations } from '@/features/manage-media';
 import { MediaViewer } from '@/features/media-viewer';
-import { formatCount } from '@/shared/lib/format';
 import { useSelection } from '@/shared/lib/use-selection';
 import { Button } from '@/shared/ui/Button';
 import { ConfirmDialog } from '@/shared/ui/ConfirmDialog';
@@ -30,15 +30,15 @@ interface AdminLibraryProps {
 }
 
 const KIND_OPTIONS: Array<SelectOption<'' | MediaKind>> = [
-  { value: '', label: 'Photos and videos' },
-  { value: 'photo', label: 'Photos only' },
-  { value: 'video', label: 'Videos only' },
+  { value: '', label: t('admin.library.allTypes') },
+  { value: 'photo', label: t('admin.library.photosOnly') },
+  { value: 'video', label: t('admin.library.videosOnly') },
 ];
 
 const VISIBILITY_OPTIONS: Array<SelectOption<'' | Visibility>> = [
-  { value: '', label: 'Public and private' },
-  { value: 'public', label: 'Public only' },
-  { value: 'private', label: 'Private only' },
+  { value: '', label: t('admin.library.allAccess') },
+  { value: 'public', label: t('admin.library.publicOnly') },
+  { value: 'private', label: t('admin.library.privateOnly') },
 ];
 
 /** Every item in a square grid with multi-select, bulk actions and the viewer. */
@@ -69,18 +69,18 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
     <div className='pb-24'>
       <div className='mb-5 flex flex-wrap items-center gap-3'>
         <Select
-          label='Filter by event'
+          label={t('admin.library.filterEvent')}
           size='sm'
           className='w-full sm:w-52'
           value={eventSlug}
           onChange={setEventSlug}
           options={[
-            { value: '', label: 'All events' },
+            { value: '', label: t('admin.library.allEvents') },
             ...events.map((event) => ({ value: event.slug, label: event.title })),
           ]}
         />
         <Select
-          label='Filter by type'
+          label={t('admin.library.filterType')}
           size='sm'
           className='w-full sm:w-44'
           value={kind}
@@ -89,7 +89,7 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
         />
         {privateAccess && (
           <Select
-            label='Filter by access'
+            label={t('admin.library.filterAccess')}
             size='sm'
             className='w-full sm:w-44'
             value={visibility}
@@ -97,16 +97,16 @@ export function AdminLibrary({ initial, events, version, onChanged }: AdminLibra
             options={VISIBILITY_OPTIONS}
           />
         )}
-        <span className='text-muted text-sm'>{formatCount(total)} items</span>
+        <span className='text-muted text-sm tabular-nums'>{plural('admin.library.items', total)}</span>
         <div className='ml-auto flex gap-2'>
           <Button variant='secondary' size='sm' onClick={selection.selectAll}>
-            Select loaded
+            {t('admin.library.selectLoaded')}
           </Button>
         </div>
       </div>
 
       {items.length === 0 && !loading ? (
-        <EmptyState title='Nothing here'>Upload photos or videos, or change the filters.</EmptyState>
+        <EmptyState title={t('admin.library.emptyTitle')}>{t('admin.library.emptyText')}</EmptyState>
       ) : (
         <SelectableGrid
           items={items}

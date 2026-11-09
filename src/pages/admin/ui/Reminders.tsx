@@ -1,5 +1,6 @@
 'use client';
 
+import { t } from '@i18n';
 import type { PasscodeStatusDto, UserDto } from '@/entities/user';
 import { Collapse } from '@/shared/ui/Collapse';
 import { Notice } from '@/shared/ui/Notice';
@@ -19,7 +20,7 @@ export function Reminders({ account, passcode, onOpenSettings }: RemindersProps)
       <Notice tone='warning' className='mt-6' onDismiss={dismiss}>
         {reminders.map((reminder) => reminder.text).join(' ')}{' '}
         <button type='button' onClick={onOpenSettings} className='font-semibold underline underline-offset-2'>
-          Change {reminders.length > 1 ? 'them' : 'it'} in Settings
+          {reminders.length > 1 ? t('admin.reminders.changeMany') : t('admin.reminders.changeOne')}
         </button>
       </Notice>
     </Collapse>

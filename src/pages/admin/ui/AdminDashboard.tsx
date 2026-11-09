@@ -4,6 +4,8 @@ import { useCallback, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Upload } from 'lucide-react';
+import { t } from '@i18n';
+import { rich } from '@i18n/rich';
 import type { EventDto } from '@/entities/event';
 import type { LibrarySummaryDto, MediaPageDto } from '@/entities/media';
 import { roleLabel } from '@/entities/session';
@@ -83,18 +85,21 @@ export function AdminDashboard({
     <div>
       <div className='flex flex-wrap items-end justify-between gap-x-6 gap-y-4'>
         <div>
-          <h1 className='type-title'>Dashboard</h1>
+          <h1 className='type-title'>{t('admin.title')}</h1>
           <p className='text-muted mt-2'>
-            Signed in as <span className='text-fg font-medium'>{account.username}</span>,{' '}
-            {roleLabel[account.role].toLowerCase()}.
+            {rich(
+              'admin.signedInAs',
+              { b: (text) => <span className='text-fg font-medium'>{text}</span> },
+              { username: account.username, role: roleLabel[account.role].toLowerCase() },
+            )}
           </p>
         </div>
         <div className='flex flex-wrap gap-2'>
           <Link href='/gallery' className={buttonStyles('secondary', 'md')}>
-            View the gallery
+            {t('admin.viewGallery')}
           </Link>
           <Button onClick={() => open('upload')}>
-            <Upload className='size-4' /> Upload
+            <Upload className='size-4' /> {t('admin.upload')}
           </Button>
         </div>
       </div>
@@ -117,30 +122,30 @@ export function AdminDashboard({
         <div className='min-w-0 flex-1'>
           <Section id='library' current={current}>
             <Panel
-              title='Library'
-              description='Select items to change who can see them, move them to an event or delete them.'>
+              title={t('admin.sections.library.title')}
+              description={t('admin.sections.library.description')}>
               <AdminLibrary initial={firstPage} events={events} version={version} onChanged={changed} />
             </Panel>
           </Section>
           <Section id='upload' current={current}>
             <Panel
-              title='Upload'
-              description='Photos are ready at once. Videos are converted for the web on the server, one at a time.'>
+              title={t('admin.sections.upload.title')}
+              description={t('admin.sections.upload.description')}>
               <UploadPanel events={events} privateAccess={account.privateAccess} onFinished={changed} />
             </Panel>
           </Section>
           <Section id='events' current={current}>
             <Panel
-              title='Events'
-              description='Group photos and videos by occasion. Deleting an event keeps its photos.'>
+              title={t('admin.sections.events.title')}
+              description={t('admin.sections.events.description')}>
               <EventsManager events={events} onChanged={changed} />
             </Panel>
           </Section>
           {deletedPage && users && (
             <Section id='deleted' current={current}>
               <Panel
-                title='Deleted by admins'
-                description='Hidden from everyone, including the admin who deleted them, until you restore them. Deleting them here removes them from the server for good.'>
+                title={t('admin.sections.deleted.title')}
+                description={t('admin.sections.deleted.description')}>
                 <DeletedLibrary initial={deletedPage} users={users} version={version} onChanged={changed} />
               </Panel>
             </Section>
@@ -148,8 +153,8 @@ export function AdminDashboard({
           {users && (
             <Section id='admins' current={current}>
               <Panel
-                title='Admins'
-                description='Accounts that can upload and organise. Only you can manage them.'>
+                title={t('admin.sections.admins.title')}
+                description={t('admin.sections.admins.description')}>
                 <UsersManager users={users} onChanged={refresh} />
               </Panel>
             </Section>
@@ -157,8 +162,8 @@ export function AdminDashboard({
           {users && (
             <Section id='branding' current={current}>
               <Panel
-                title='Branding'
-                description='The name, logo, colours and texts every visitor sees, and how the home page opens.'>
+                title={t('admin.sections.branding.title')}
+                description={t('admin.sections.branding.description')}>
                 <BrandingForm />
               </Panel>
             </Section>
