@@ -20,7 +20,7 @@ export function UsersManager({ users, onChanged }: UsersManagerProps) {
   const [resetting, setResetting] = useState<UserDto | null>(null);
 
   return (
-    <div className='grid items-start gap-6 lg:grid-cols-[minmax(0,22rem)_1fr]'>
+    <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]'>
       <CreateUserForm onCreated={onChanged} />
 
       <div className='space-y-3'>
