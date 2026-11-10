@@ -1,0 +1,10 @@
+# Text files are stored and checked out with LF line endings on every system, Windows included,
+# so Prettier never sees a difference between machines.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff2 binary

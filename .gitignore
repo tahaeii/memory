@@ -14,3 +14,13 @@ data/
 *.key
 
 AGENTS.md
+
+# Editors: only the shared formatting settings are kept.
+.idea/*
+!.idea/prettier.xml
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.zed/*
+!.zed/settings.json
+.DS_Store

@@ -70,7 +70,7 @@ own signing secret, and accounts are created on `/setup` and in the dashboard.
 | ----------------------- | ------------------------- | ------------------------------------------------------------------------------------------------- |
 | `DATA_DIR`              | `./data`                  | Data folder. Relative paths start from the app folder.                                            |
 | `FRIENDS_ENABLED`       | `true`                    | `false` removes the friends area: no passcode, no unlock page, private items for admins only.     |
-| `SITE_NAME`             | `Memory`                 | Starting name. The super admin changes it in Dashboard › Branding.                                |
+| `SITE_NAME`             | `Memory`                  | Starting name. The super admin changes it in Dashboard › Branding.                                |
 | `SITE_ORGANIZATION`     | `Your organisation`       | Starting organisation name (footer, home page).                                                   |
 | `SITE_TAGLINE`          | `Photo and video archive` | Starting small line above the home page heading.                                                  |
 | `SITE_DESCRIPTION`      | a sentence                | Starting text under the home page heading.                                                        |

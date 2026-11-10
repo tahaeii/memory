@@ -2,6 +2,8 @@ FROM node:24-bookworm-slim
 
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+# No git hooks inside the image.
+ENV HUSKY=0
 
 # Install exactly what package-lock.json lists (cached until the dependencies change).
 COPY package.json package-lock.json ./

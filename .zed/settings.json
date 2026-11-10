@@ -1,0 +1,6 @@
+{
+  "format_on_save": "on",
+  "formatter": "prettier",
+  "ensure_final_newline_on_save": true,
+  "remove_trailing_whitespace_on_save": true
+}
