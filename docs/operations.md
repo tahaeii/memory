@@ -54,9 +54,10 @@ it holds the private photos.
 ## First start
 
 1. Start the app with an empty data folder.
-2. Read the setup code from the log: `docker compose logs memory | grep '\[setup\]'`
-3. Open `/setup`, enter the code, name the archive, and choose the super admin's username and password and,
-   when the friends area is on, the friends passcode.
+2. Open the site. Until the first account exists, every page leads to `/setup`.
+3. Read the setup code from the log: `docker compose logs memory | grep '\[setup\]'`
+4. Enter the code, name the archive, and choose the super admin's username and password and, when the friends
+   area is on, the friends passcode. The form says what is missing under each field.
 
 The code proves that whoever does the setup can read the server log. A new code is printed at every start
 until the setup is done; after that `/setup` is closed and sign-in happens at `/admin/login`.

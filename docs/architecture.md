@@ -6,7 +6,8 @@ files. This page says where things live and why.
 
 ```
 app/         Routes only: pages and API handlers that call into src/ and server/
-contracts/   Types shared by the server and the browser (DTOs, limits, defaults)
+contracts/   Types and zod schemas shared by the server and the browser
+i18n/        Every text a person can read, as JSON, and the functions that read it
 server/      Everything that runs on the server only
 src/         The interface, in Feature-Sliced layers
 scripts/     Sample data generator
@@ -46,9 +47,37 @@ A slice exposes what others may use through its `index.ts`.
 
 Every control is drawn by the app, so it looks and moves the same in every browser and follows the theme and
 the brand colours: `Select` (ARIA select-only combobox), `DatePicker`, `ColorPicker`, `Modal`,
-`ConfirmDialog`, `Popover`, `Switch`, `Notice`, `VideoPlayer`. They share a few hooks from `shared/lib`:
-`usePopover`, `useDismiss`, `usePresence` (keeps something mounted while it animates out) and
-`useAsyncAction`.
+`ConfirmDialog`, `Popover`, `Switch`, `Notice`, `FloatingBar`, `VideoPlayer`. They share a few hooks from
+`shared/lib`: `usePopover`, `useDismiss`, `usePresence` (keeps something mounted while it animates out),
+`useIndicator` (one marker that slides between navigation items) and `useAsyncAction`.
+
+## Texts: `i18n/`
+
+No component or API route contains a sentence. Texts live in `i18n/en/*.json`, one file per area (`gallery`,
+`viewer`, `admin`, `errors`, `validation`, …), and are read by key:
+
+```ts
+import { plural, t } from '@i18n';
+import { rich } from '@i18n/rich';
+
+t('gallery.title'); // "Gallery"
+t('validation.password.min', { min: 8 }); // "Use at least 8 characters."
+plural('common.media.photos', 1204); // "1,204 photos"
+rich('admin.signedInAs', { b: (text) => <b>{text}</b> }, { username, role });
+```
+
+Keys are checked by TypeScript: a key that does not exist is a compile error. A count-dependent text is an
+object with `one` and `other`. A sentence with a marked part keeps the mark in the text (`<b>…</b>`), so it
+stays one sentence for a translator. Adding a language means adding a folder next to `en` and choosing the
+folder in `i18n/index.ts`. Server log lines are not texts for visitors and stay in the code.
+
+## Forms and validation
+
+A rule is written once, as a zod schema in `contracts/schemas`, and used twice: by the API route
+(`parseWith(schema, body)`) and by the form. `useForm` (`shared/lib/form`) holds the values, runs the schema,
+and gives each field its message. The submit button is never disabled for missing input: pressing it shows
+what is wrong under each field and focuses the first one; a message leaves as soon as the field is fixed.
+Messages fold in and out (`FieldError`, `NoticeSlot`) so nothing below them jumps.
 
 ## Design tokens: `src/shared/styles`
 
@@ -58,6 +87,7 @@ styles/
   tokens/typography.css   typefaces and the type scale
   tokens/shape.css        corner radii and elevation
   tokens/motion.css       durations and easing curves
+  tokens/layout.css       header height, hero height, section spacing (from the screen's height)
   animations.css          keyframes and the animate-* utilities, the theme switch
   patterns.css            backdrops for empty areas
   base.css, utilities.css
@@ -76,14 +106,26 @@ cross-fade instead, and "reduce motion" switches at once.
 ### Brand colours
 
 An organisation chooses two colours. `shared/lib/brand-theme` derives every shade from them in OKLCH (hover,
-pressed, soft backgrounds, link text, a lighter fill for the dark theme) and checks text contrast against WCAG
-AA. The result is a small stylesheet of token overrides that the root layout puts in `<head>`. Values are
-validated as `#rrggbb` on the server before they are stored.
+pressed, soft backgrounds, link text) and checks text contrast against WCAG AA. A colour that would vanish
+into the page is moved just far enough to be seen: light colours get darker in the light theme, dark ones
+lighter in the dark theme, and black or white become ink (dark on light, light on dark). The bundled logo
+keeps one colour in both themes. The result is a small stylesheet of token overrides that the root layout puts
+in `<head>`. Values are validated as `#rrggbb` on the server before they are stored.
 
 ### Motion
 
-Four durations and four curves (`tokens/motion.css`). Things that open and close pair an "in" with an "out"
-animation selected by `data-state`. One reduced-motion rule at the end of `animations.css` covers everything.
+Four durations and five curves (`tokens/motion.css`). Colours, shadows and small lifts under the pointer use
+the soft curve; things that enter use the decelerating one. Things that open and close pair an "in" with an
+"out" animation selected by `data-state`. Photos grow slowly under the pointer (`media-zoom`), pages fade in
+on navigation (`app/template.tsx`), and one reduced-motion rule at the end of `animations.css` covers
+everything.
+
+### Layout
+
+Heights follow the visitor's screen (`tokens/layout.css`): a hero fills the first screen under the header
+(`min-h-hero`), single-block pages such as sign-in are centred in it (`min-h-page`), and the space between
+sections grows with the window (`pt-section`). The unit is `svh`, so nothing moves when a phone's browser bars
+slide away.
 
 ## The server: `server/`
 
@@ -101,8 +143,9 @@ server/
   lib/        atomic JSON file store, ids, semaphores
 ```
 
-Each domain has a repository (reads and writes its JSON file), a service (the rules) and zod schemas (what a
-request may contain). Route handlers in `app/api` are thin: check who is asking, validate, call a service.
+Each domain has a repository (reads and writes its JSON file) and a service (the rules). What a request may
+contain is a zod schema in `contracts/schemas`, shared with the forms. Route handlers in `app/api` are thin:
+check who is asking, validate, call a service.
 
 **Storage.** `JsonFile` keeps a document in memory, applies changes one at a time on a copy and writes it with
 a rename, so a crash never leaves a half-written file. This is why a single process is required.

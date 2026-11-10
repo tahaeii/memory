@@ -5,8 +5,6 @@
 Company events, gatherings and everyday moments, organised by date and by event, behind your own domain. One
 Node.js process, no database to install, and your name, logo and colours on every page.
 
-_Memory (یادگار) is Persian for a keepsake._
-
 ![The home page in the dark theme](docs/screenshots/home-dark.webp)
 
 | Gallery by month                                | Viewer with details                             |
@@ -19,7 +17,7 @@ _Memory (یادگار) is Persian for a keepsake._
 
 **For visitors**
 
-- A home page that opens in one of seven styles, the latest event, the newest photos and all events.
+- A home page that opens in one of four styles, with the newest photos and every event below it.
 - A gallery with a month-by-month timeline and filters for year, event and type.
 - A full-screen viewer with zoom, swipe, keyboard keys, a filmstrip and a details panel.
 - A light and a dark theme, remembered per browser.
@@ -47,14 +45,15 @@ _Memory (یادگار) is Persian for a keepsake._
 ### Docker
 
 ```bash
-git clone https://github.com/<your-username>/memory.git
+git clone https://github.com/tahaeii/memory.git
 cd memory
 docker compose up -d
 docker compose logs memory | grep '\[setup\]'
 ```
 
-Open <http://localhost:3000/setup>, enter the setup code from the log, then choose the archive name and the
-first account. Photos and accounts are kept in the `memory-data` volume.
+Open <http://localhost:3000>. A new installation takes you to the setup page: enter the setup code from the
+log, then choose the archive name and the first account. Photos and accounts are kept in the `memory-data`
+volume.
 
 ### Node.js
 
@@ -78,7 +77,7 @@ Sign in as the super admin and open **Dashboard › Branding**:
 | Name, texts   | Header, browser tab, home page heading, footer.                                  |
 | Logo          | Header, sign-in pages and the browser icon. Re-encoded as a plain PNG on upload. |
 | Brand colours | Buttons, links, selection, badges and focus rings, in both themes.               |
-| Home page     | One of seven opening styles, each with a private preview before you save.        |
+| Home page     | One of four opening styles, each with a private preview before you save.         |
 
 The same values can be given as environment variables (`SITE_NAME`, `BRAND_PRIMARY_COLOR`, …) when one image
 is deployed for several organisations. See [.env.example](.env.example).
@@ -87,15 +86,16 @@ is deployed for several organisations. See [.env.example](.env.example).
 
 - [Running it in production](docs/operations.md): the data folder, settings, reverse proxy, backups,
   troubleshooting.
-- [Architecture](docs/architecture.md): how the code is organised, design tokens, motion and theming.
+- [Architecture](docs/architecture.md): how the code is organised, design tokens, motion, theming and where
+  every text lives.
 - [Security](SECURITY.md): who may do what, and how to report a problem.
 - [Contributing](CONTRIBUTING.md).
 
 ## Built with
 
-Next.js (App Router) and React, TypeScript, Tailwind CSS, sharp for images and ffmpeg for video. The interface
-components (select, date picker, colour picker, dialogs, video player) are written for this project and have
-no UI library behind them.
+Next.js (App Router) and React, TypeScript, Tailwind CSS, zod for validation, sharp for images and ffmpeg for
+video. The interface components (select, date picker, colour picker, dialogs, video player) are written for
+this project and have no UI library behind them. Every text is in `i18n/en/*.json`, ready to be translated.
 
 ## Licence
 
