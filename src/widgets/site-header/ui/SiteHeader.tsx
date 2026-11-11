@@ -25,6 +25,8 @@ export function SiteHeader() {
   const { role } = useSession();
   const site = useSite();
   const pathname = usePathname() ?? '/';
+  // During the first-run setup nothing else can be opened yet, so the header shows only the logo.
+  const settingUp = pathname === '/setup';
   // The home link matches only the home page; the others also match what is under them.
   const current =
     links.find((link) => (link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)))?.href ??
@@ -38,40 +40,42 @@ export function SiteHeader() {
           <Link href='/' aria-label={t('common.nav.homeLabel', { name: site.name })} className='shrink-0'>
             <Logo name={site.name} src={site.logoUrl} className='[&>span]:hidden sm:[&>span]:inline' />
           </Link>
-          <nav
-            ref={containerRef}
-            aria-label={t('common.nav.label')}
-            className='group/nav relative flex items-center gap-4 sm:gap-6'>
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={link.href === current ? 'page' : undefined}
-                data-current={link.href === current}
-                className={cn(
-                  'relative h-16 items-center text-sm font-medium transition-colors duration-300',
-                  link.wideOnly ? 'hidden min-[26rem]:flex' : 'flex',
-                  link.href === current
-                    ? // Until the sliding marker is placed (before scripts run) the link carries its own.
-                      'text-fg after:bg-primary after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-full group-data-[indicator=placed]/nav:after:hidden'
-                    : 'text-muted hover:text-fg',
-                )}>
-                {link.label}
-              </Link>
-            ))}
-            {/* The marker under the current page slides to the page that is opened. */}
-            <span
-              ref={indicatorRef}
-              aria-hidden
-              className='pointer-events-none absolute top-0 left-0 flex items-end opacity-0 ease-out data-[slide=true]:transition-[translate,width,opacity] data-[slide=true]:duration-500'>
-              <span className='bg-primary h-0.5 w-full rounded-full' />
-            </span>
-          </nav>
+          {!settingUp && (
+            <nav
+              ref={containerRef}
+              aria-label={t('common.nav.label')}
+              className='group/nav relative flex items-center gap-4 sm:gap-6'>
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={link.href === current ? 'page' : undefined}
+                  data-current={link.href === current}
+                  className={cn(
+                    'relative h-16 items-center text-sm font-medium transition-colors duration-300',
+                    link.wideOnly ? 'hidden min-[26rem]:flex' : 'flex',
+                    link.href === current
+                      ? // Until the sliding marker is placed (before scripts run) the link carries its own.
+                        'text-fg after:bg-primary after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-full group-data-[indicator=placed]/nav:after:hidden'
+                      : 'text-muted hover:text-fg',
+                  )}>
+                  {link.label}
+                </Link>
+              ))}
+              {/* The marker under the current page slides to the page that is opened. */}
+              <span
+                ref={indicatorRef}
+                aria-hidden
+                className='pointer-events-none absolute top-0 left-0 flex items-end opacity-0 ease-out data-[slide=true]:transition-[translate,width,opacity] data-[slide=true]:duration-500'>
+                <span className='bg-primary h-0.5 w-full rounded-full' />
+              </span>
+            </nav>
+          )}
         </div>
 
         <div className='flex items-center gap-1.5'>
           <ThemeToggle />
-          {role === 'guest' && site.friendsEnabled && (
+          {!settingUp && role === 'guest' && site.friendsEnabled && (
             <Link href='/unlock' className={buttonStyles('secondary', 'sm')}>
               <Lock className='size-4' />
               <span className='hidden sm:inline'>{t('common.nav.privateAccess')}</span>
