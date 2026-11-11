@@ -9,7 +9,7 @@ export function MinimalHero({ site, summary }: HeroProps) {
     <section className='border-line-soft min-h-hero relative isolate grid items-center overflow-hidden border-b'>
       <Backdrop />
       <Container className='py-14 text-center'>
-        <LogoMark src={site.logoUrl} className='animate-enter mx-auto mb-8 size-16 rounded-2xl' />
+        <LogoMark src={site.logoUrl} className='animate-enter mx-auto mb-8 size-16' />
         <HeroText site={site} summary={summary} align='center' />
       </Container>
     </section>

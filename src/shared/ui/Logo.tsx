@@ -51,7 +51,7 @@ export function LogoMark({ src, className, alt = '' }: LogoMarkProps) {
 export function Logo({ name, src, className }: { name: string; src: string; className?: string }) {
   return (
     <span className={cn('inline-flex min-w-0 items-center gap-2.5', className)}>
-      <LogoMark src={src} className='size-8 rounded-lg' />
+      <LogoMark src={src} className='size-8 rounded-none!' />
       <span className='text-fg truncate text-[16px] font-semibold tracking-tight'>{name}</span>
     </span>
   );

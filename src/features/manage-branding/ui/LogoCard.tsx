@@ -23,7 +23,7 @@ export function LogoCard({ logoUrl, custom, busy, onUpload, onRemove }: LogoCard
     <div className='border-line-soft bg-canvas rounded-xl border p-4 sm:p-5'>
       <p className='text-sm font-semibold'>{t('branding.logo.title')}</p>
       <div className='border-line bg-surface mt-3 grid place-items-center rounded-lg border p-6'>
-        <LogoMark src={logoUrl} alt={t('branding.logo.alt')} className='size-20 rounded-2xl' />
+        <LogoMark src={logoUrl} alt={t('branding.logo.alt')} className='size-20' />
       </div>
       <input
         ref={fileRef}
